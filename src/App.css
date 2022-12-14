@@ -6,3 +6,7 @@ body,
 .App {
   height: 100%;
 }
+.App .canvas {
+  height: 100%;
+  width: 100%;
+}

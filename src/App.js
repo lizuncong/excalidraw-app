@@ -1,10 +1,9 @@
-import { Excalidraw } from '@excalidraw/excalidraw'
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <Excalidraw />
+      <canvas className='canvas'>绘制canvas</canvas>
     </div>
   );
 }
