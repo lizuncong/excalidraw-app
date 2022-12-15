@@ -7,6 +7,8 @@ body,
   height: 100%;
 }
 .App .canvas {
-  height: 100%;
-  width: 100%;
+  /* width: 600px;
+  height: 400px; */
+  box-sizing: border-box;
+  border: 1px solid black;
 }
