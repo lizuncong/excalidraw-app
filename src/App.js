@@ -36,13 +36,19 @@ function App() {
     const onMouseDown = (e) => {
       // console.log('mouse.down', e)
       const canvasPosition = getCanvasPosition(e, canvasInfo.offset, canvasInfo.scale); // 画布坐标
-      const circleRef = ifInCircle(canvasPosition);
-      if (circleRef) {
-        canvasInfo.dragTarget = circleRef;
-        canvasInfo.status = statusConfig.DRAG_START;
-        canvasInfo.lastEvtPos = canvasPosition;
-        canvasInfo.offsetEvtPos = canvasPosition;
+      if (e.buttom === 0) {
+        const circleRef = ifInCircle(canvasPosition);
+        if (circleRef) {
+          canvasInfo.dragTarget = circleRef;
+          canvasInfo.status = statusConfig.DRAG_START;
+          canvasInfo.lastEvtPos = canvasPosition;
+          canvasInfo.offsetEvtPos = canvasPosition;
+        }
+      } else if (e.button === 2) {
+        canvasInfo.status = statusConfig.MOVE_START
       }
+
+
     };
     const onMouseMove = (e) => {
       const canvasPosition = getCanvasPosition(e, canvasInfo.offset, canvasInfo.scale);
