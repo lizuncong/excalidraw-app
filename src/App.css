@@ -2,13 +2,15 @@ html,
 body,
 #root {
   height: 100%;
+  overflow: hidden;
 }
 .App {
   height: 100%;
+  padding: 20px;
 }
 .App .canvas {
-  /* width: 600px;
-  height: 400px; */
+  width: 600px;
+  height: 400px;
   box-sizing: border-box;
   border: 1px solid black;
 }
