@@ -1,12 +1,12 @@
 import React, { useRef, useEffect } from "react";
 import "./App.css";
-import Board from './canvas'
+import Canvas from './canvas'
 
 
 function App() {
   const canvasRef = useRef(null);
   useEffect(() => {
-    new Board(canvasRef.current)
+    new Canvas(canvasRef.current)
   }, [])
   return (
     <div className="App">
