@@ -2,11 +2,11 @@ import React, { useRef, useEffect } from "react";
 import "./App.css";
 import Canvas from './canvas'
 
-
+const canvasInstance = new Canvas();
 function App() {
   const canvasRef = useRef(null);
   useEffect(() => {
-    new Canvas(canvasRef.current)
+    canvasInstance.init(canvasRef.current)
   }, [])
   return (
     <div className="App">
