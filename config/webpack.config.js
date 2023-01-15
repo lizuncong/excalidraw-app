@@ -598,9 +598,9 @@ module.exports = function (webpackEnv) {
           {
             from: path.join(
               __dirname,
-              "../imgs"
+              "../excalidraw-app"
             ),
-            to: "../build" + "/imgs",
+            to: "../build" + "/excalidraw-app",
           }
         ],
       }),
