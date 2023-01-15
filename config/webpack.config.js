@@ -600,7 +600,7 @@ module.exports = function (webpackEnv) {
               __dirname,
               "../excalidraw-app"
             ),
-            to: "../build" + isEnvProduction ? '' : "/excalidraw-app",
+            to: "../build" + (isEnvProduction ? '' : "/excalidraw-app"),
           }
         ],
       }),
