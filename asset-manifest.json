@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.54da06f7.css",
-    "main.js": "/static/js/main.2c5f0ffe.js",
+    "main.js": "/static/js/main.b47d2d5b.js",
     "Shape.css": "/static/css/Shape.d7243929.chunk.css",
     "Shape.js": "/static/js/Shape.b51c0c94.chunk.js",
     "Style.js": "/static/js/Style.d0845d48.chunk.js",
@@ -10,13 +10,13 @@
     "static/media/canvas图形绘制基础.md": "/static/media/canvas图形绘制基础.02e48d9d5d57b18fa77b.md",
     "index.html": "/index.html",
     "main.54da06f7.css.map": "/static/css/main.54da06f7.css.map",
-    "main.2c5f0ffe.js.map": "/static/js/main.2c5f0ffe.js.map",
+    "main.b47d2d5b.js.map": "/static/js/main.b47d2d5b.js.map",
     "Shape.d7243929.chunk.css.map": "/static/css/Shape.d7243929.chunk.css.map",
     "Shape.b51c0c94.chunk.js.map": "/static/js/Shape.b51c0c94.chunk.js.map",
     "Style.d0845d48.chunk.js.map": "/static/js/Style.d0845d48.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.54da06f7.css",
-    "static/js/main.2c5f0ffe.js"
+    "static/js/main.b47d2d5b.js"
   ]
 }
