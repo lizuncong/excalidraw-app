@@ -29,7 +29,6 @@ function App() {
           defaultOpenKeys={["canvas_base"]}
           selectedKeys={[location.pathname]}
           mode="inline"
-          theme="dark"
           items={MENUS}
         />
       </div>
