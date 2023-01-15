@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/static/css/main.54da06f7.css",
-    "main.js": "/static/js/main.a7522d2f.js",
+    "main.js": "/static/js/main.679043ec.js",
     "Shape.css": "/static/css/Shape.d7243929.chunk.css",
-    "Shape.js": "/static/js/Shape.ecb0f3b5.chunk.js",
+    "Shape.js": "/static/js/Shape.c69a628b.chunk.js",
     "Style.js": "/static/js/Style.d0845d48.chunk.js",
     "../build/beginpath-01.jpg": "/../build/beginpath-01.jpg",
     "../build/beginpath-02.jpg": "/../build/beginpath-02.jpg",
     "static/media/canvas图形绘制基础.md": "/static/media/canvas图形绘制基础.61ac7b555fdd79e12ac4.md",
     "index.html": "/index.html",
     "main.54da06f7.css.map": "/static/css/main.54da06f7.css.map",
-    "main.a7522d2f.js.map": "/static/js/main.a7522d2f.js.map",
+    "main.679043ec.js.map": "/static/js/main.679043ec.js.map",
     "Shape.d7243929.chunk.css.map": "/static/css/Shape.d7243929.chunk.css.map",
-    "Shape.ecb0f3b5.chunk.js.map": "/static/js/Shape.ecb0f3b5.chunk.js.map",
+    "Shape.c69a628b.chunk.js.map": "/static/js/Shape.c69a628b.chunk.js.map",
     "Style.d0845d48.chunk.js.map": "/static/js/Style.d0845d48.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.54da06f7.css",
-    "static/js/main.a7522d2f.js"
+    "static/js/main.679043ec.js"
   ]
 }
