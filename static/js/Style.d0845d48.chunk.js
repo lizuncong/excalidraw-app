@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkexcalidraw_app=self.webpackChunkexcalidraw_app||[]).push([[541],{60:function(a,e,c){c.r(e);c(2791);var n=c(184);e.default=function(){return(0,n.jsx)("div",{children:"canvas\u6837\u5f0f\u548c\u989c\u8272"})}}}]);
+//# sourceMappingURL=Style.d0845d48.chunk.js.map
