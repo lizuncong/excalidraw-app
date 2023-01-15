@@ -1,5 +1,5 @@
 import React from "react";
-import { createBrowserRouter } from "react-router-dom";
+import { createHashRouter } from "react-router-dom";
 import App from "../App";
 
 const Shapes = React.lazy(() =>
@@ -10,7 +10,7 @@ const Style = React.lazy(() =>
   import(/* webpackChunkName: "Style" */ "@/pages/style")
 );
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "/",
     element: <App />,
