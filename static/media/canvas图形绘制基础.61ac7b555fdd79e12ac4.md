@@ -88,7 +88,7 @@ canvas 提供了三种方法绘制矩形：
 
 `draw`方法每次绘制一条直线，当我们点击清空画布按钮时，会先调用 clearRect 清空画布，然后启动定时器 2 秒后开始绘制。**按我们的理解，定时器重新绘制时，应该是只绘制一条直线。但实际情况并非如此**，多次点击按钮，页面效果如下：
 
-![image](../imgs/beginpath-01.jpg)
+![image](../excalidraw-app/beginpath-01.jpg)
 
 这是因为当我们每次调用 draw 时，都会重新绘制一条新的直线，并添加到路径列表中，在下一次绘制时，列表中的路径都会被绘制。因此我们在下一次绘制时，需要调用 beginPath 清空重置之前的路径列表，如下：
 
@@ -106,7 +106,7 @@ function draw() {
 
 每次 draw 都调用 beginPath 清空重置路径列表，效果如下：
 
-![image](../imgs/beginpath-02.jpg)
+![image](../excalidraw-app/beginpath-02.jpg)
 
 可以看到效果和我们预期一样
 
