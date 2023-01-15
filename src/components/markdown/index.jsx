@@ -17,7 +17,7 @@ function Shapes({ src }) {
       .then((text) => {
         setMdText(text);
       });
-  }, []);
+  }, [src]);
   return (
     <div className="markdown-body">
       <ReactMarkdown
