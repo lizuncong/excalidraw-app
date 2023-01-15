@@ -19,7 +19,7 @@ export const drawAxis = (ctx, { scrollX, scrollY }) => {
   const tickLength = 15; // 刻度线长度
   const canvas = ctx.canvas;
   ctx.translate(scrollX, scrollY);
-  ctx.beginPath();
+  // ctx.beginPath();
   ctx.lineWidth = 2;
   for (let i = 0; i < canvas.width / rectH; i++) {
     // 绘制纵轴刻度
@@ -34,7 +34,7 @@ export const drawAxis = (ctx, { scrollX, scrollY }) => {
     ctx.fillText(i, i * rectW, 8);
   }
   ctx.stroke();
-  ctx.closePath();
+  // ctx.closePath();
 
   ctx.restore();
 };

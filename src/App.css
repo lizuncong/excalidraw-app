@@ -7,9 +7,16 @@ body,
 
 .App {
   display: flex;
-  flex-direction: column;
   height: 100%;
-  padding: 10px;
+  background-color: white;
+}
+.App .left {
+  width: 250px;
+}
+.App .right {
+  flex: 1;
+  padding: 12px;
+  overflow: auto;
 }
 
 .App .canvas {
@@ -17,3 +24,4 @@ body,
   box-sizing: border-box;
   border: 1px solid black;
 }
+
