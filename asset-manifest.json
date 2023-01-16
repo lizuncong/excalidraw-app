@@ -1,22 +1,26 @@
 {
   "files": {
-    "main.css": "/static/css/main.54da06f7.css",
-    "main.js": "/static/js/main.679043ec.js",
+    "main.css": "/static/css/main.375a0132.css",
+    "main.js": "/static/js/main.fbc18021.js",
     "Shape.css": "/static/css/Shape.d7243929.chunk.css",
     "Shape.js": "/static/js/Shape.c69a628b.chunk.js",
     "Style.js": "/static/js/Style.d0845d48.chunk.js",
+    "Canvas.css": "/static/css/Canvas.7a200740.chunk.css",
+    "Canvas.js": "/static/js/Canvas.ba03b97a.chunk.js",
     "../build/beginpath-01.jpg": "/../build/beginpath-01.jpg",
     "../build/beginpath-02.jpg": "/../build/beginpath-02.jpg",
     "static/media/canvas图形绘制基础.md": "/static/media/canvas图形绘制基础.61ac7b555fdd79e12ac4.md",
     "index.html": "/index.html",
-    "main.54da06f7.css.map": "/static/css/main.54da06f7.css.map",
-    "main.679043ec.js.map": "/static/js/main.679043ec.js.map",
+    "main.375a0132.css.map": "/static/css/main.375a0132.css.map",
+    "main.fbc18021.js.map": "/static/js/main.fbc18021.js.map",
     "Shape.d7243929.chunk.css.map": "/static/css/Shape.d7243929.chunk.css.map",
     "Shape.c69a628b.chunk.js.map": "/static/js/Shape.c69a628b.chunk.js.map",
-    "Style.d0845d48.chunk.js.map": "/static/js/Style.d0845d48.chunk.js.map"
+    "Style.d0845d48.chunk.js.map": "/static/js/Style.d0845d48.chunk.js.map",
+    "Canvas.7a200740.chunk.css.map": "/static/css/Canvas.7a200740.chunk.css.map",
+    "Canvas.ba03b97a.chunk.js.map": "/static/js/Canvas.ba03b97a.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.54da06f7.css",
-    "static/js/main.679043ec.js"
+    "static/css/main.375a0132.css",
+    "static/js/main.fbc18021.js"
   ]
 }
