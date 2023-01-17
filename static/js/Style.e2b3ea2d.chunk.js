@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkexcalidraw_app=self.webpackChunkexcalidraw_app||[]).push([[541],{60:function(e,t,r){r.r(t);var i=r(2791),a=r(184);t.default=function(){var e=(0,i.useRef)();return(0,i.useEffect)((function(){var t=e.current.getContext("2d");t.lineWidth=1,t.strokeStyle="red",t.strokeRect(50,50,100,100),t.lineWidth=10,t.strokeStyle="green",t.strokeRect(200,200,100,100)}),[]),(0,a.jsx)("div",{children:(0,a.jsx)("canvas",{style:{border:"1px solid black"},ref:e,width:"400",height:"400",id:"tutorial"})})}}}]);
+//# sourceMappingURL=Style.e2b3ea2d.chunk.js.map

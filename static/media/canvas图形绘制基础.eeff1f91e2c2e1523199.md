@@ -111,3 +111,22 @@ function draw() {
 可以看到效果和我们预期一样
 
 > 因此，一个良好的习惯时，每次开始绘制新的图形时，都调用 beginPath 重置路径列表。当然绘制矩形就不存在这个问题
+
+#### 样式和颜色
+
+绘制路径和绘制矩形的样式设置有些区别。
+
+绘制矩形时，当我们调用 ctx.strokeRect 或者 ctx.fillRect 时，
+
+```js
+function drawRect() {
+  ctx.lineWidth = 1;
+  ctx.strokeStyle = "red";
+  ctx.strokeRect(50, 50, 100, 100);
+  ctx.lineWidth = 10;
+  ctx.strokeStyle = "green";
+  ctx.strokeRect(200, 200, 100, 100);
+}
+```
+
+![image](../excalidraw-app/style-01.jpg)
