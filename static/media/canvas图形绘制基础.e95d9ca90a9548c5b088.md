@@ -116,7 +116,7 @@ function draw() {
 
 绘制路径和绘制矩形的样式设置有些区别。
 
-绘制矩形时，当我们调用 ctx.strokeRect 或者 ctx.fillRect 时，
+绘制矩形时，当我们调用 ctx.strokeRect 或者 ctx.fillRect 时，样式以调用 strokeRect 或者 fillRect 方法之前设置的为主，因此下面这段代码绘制的两个矩形颜色，线宽不同
 
 ```js
 function drawRect() {
@@ -130,3 +130,31 @@ function drawRect() {
 ```
 
 ![image](../excalidraw-app/style-01.jpg)
+
+但是，绘制路径时，情况就稍稍不同。
+
+```js
+function draw() {
+  ctx.lineWidth = 1;
+  ctx.strokeStyle = "red";
+  ctx.moveTo(5, 5);
+  ctx.lineTo(5, 140);
+  ctx.stroke();
+
+  ctx.lineWidth = 2;
+  ctx.strokeStyle = "yellow";
+  ctx.moveTo(19, 5);
+  ctx.lineTo(19, 140);
+  ctx.stroke();
+
+  ctx.lineWidth = 5;
+  ctx.strokeStyle = "blue";
+  ctx.moveTo(33, 5);
+  ctx.lineTo(33, 140);
+  ctx.stroke();
+}
+```
+
+上面的代码本意是希望能绘制三条颜色、线宽不同的线段，但实际效果如下：
+
+![image](../excalidraw-app/style-02.jpg)

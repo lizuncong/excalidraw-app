@@ -1,27 +1,28 @@
 {
   "files": {
     "main.css": "/static/css/main.375a0132.css",
-    "main.js": "/static/js/main.a50d80bb.js",
+    "main.js": "/static/js/main.d58272f7.js",
     "Shape.css": "/static/css/Shape.d7243929.chunk.css",
-    "Shape.js": "/static/js/Shape.a4638965.chunk.js",
-    "Style.js": "/static/js/Style.e2b3ea2d.chunk.js",
+    "Shape.js": "/static/js/Shape.64c27009.chunk.js",
+    "Style.js": "/static/js/Style.7adc62cb.chunk.js",
     "Canvas.css": "/static/css/Canvas.7a200740.chunk.css",
     "Canvas.js": "/static/js/Canvas.ba03b97a.chunk.js",
     "../build/beginpath-01.jpg": "/../build/beginpath-01.jpg",
     "../build/style-01.jpg": "/../build/style-01.jpg",
+    "../build/style-02.jpg": "/../build/style-02.jpg",
     "../build/beginpath-02.jpg": "/../build/beginpath-02.jpg",
-    "static/media/canvas图形绘制基础.md": "/static/media/canvas图形绘制基础.eeff1f91e2c2e1523199.md",
+    "static/media/canvas图形绘制基础.md": "/static/media/canvas图形绘制基础.e95d9ca90a9548c5b088.md",
     "index.html": "/index.html",
     "main.375a0132.css.map": "/static/css/main.375a0132.css.map",
-    "main.a50d80bb.js.map": "/static/js/main.a50d80bb.js.map",
+    "main.d58272f7.js.map": "/static/js/main.d58272f7.js.map",
     "Shape.d7243929.chunk.css.map": "/static/css/Shape.d7243929.chunk.css.map",
-    "Shape.a4638965.chunk.js.map": "/static/js/Shape.a4638965.chunk.js.map",
-    "Style.e2b3ea2d.chunk.js.map": "/static/js/Style.e2b3ea2d.chunk.js.map",
+    "Shape.64c27009.chunk.js.map": "/static/js/Shape.64c27009.chunk.js.map",
+    "Style.7adc62cb.chunk.js.map": "/static/js/Style.7adc62cb.chunk.js.map",
     "Canvas.7a200740.chunk.css.map": "/static/css/Canvas.7a200740.chunk.css.map",
     "Canvas.ba03b97a.chunk.js.map": "/static/js/Canvas.ba03b97a.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.375a0132.css",
-    "static/js/main.a50d80bb.js"
+    "static/js/main.d58272f7.js"
   ]
 }
