@@ -131,7 +131,7 @@ function drawRect() {
 
 ![image](../excalidraw-app/style-01.jpg)
 
-但是，绘制路径时，情况就稍稍不同。
+但是，绘制路径时，情况就稍稍不同。如果我们需要绘制不同样式或者颜色的路径，需要在绘制前调用 beginPath
 
 ```js
 function draw() {
@@ -158,3 +158,34 @@ function draw() {
 上面的代码本意是希望能绘制三条颜色、线宽不同的线段，但实际效果如下：
 
 ![image](../excalidraw-app/style-02.jpg)
+
+如果我们在 ctx.lineWidth = 5 前面调用 beginPath，如下：
+
+```js
+function draw() {
+  ctx.lineWidth = 1;
+  ctx.strokeStyle = "red";
+  ctx.moveTo(5, 5);
+  ctx.lineTo(5, 140);
+  ctx.stroke();
+
+  ctx.lineWidth = 2;
+  ctx.strokeStyle = "yellow";
+  ctx.moveTo(19, 5);
+  ctx.lineTo(19, 140);
+  ctx.stroke();
+
+  ctx.beginPath(); // 重新绘制新的路径
+  ctx.lineWidth = 5;
+  ctx.strokeStyle = "blue";
+  ctx.moveTo(33, 5);
+  ctx.lineTo(33, 140);
+  ctx.stroke();
+}
+```
+
+效果如下：
+
+![image](../excalidraw-app/style-03.jpg)
+
+> 从上面可以看出，如果我们需要绘制不同样式或者颜色的路径，需要调用 beginPath。如果没有调用 beginPath，那么所有路径的样式或者颜色都以最后一次设置的为主。这一点特别需要注意，所以我们在绘制路径(注意，矩形不受这个限制)，最好使用 beginPath
