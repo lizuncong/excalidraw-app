@@ -19,6 +19,7 @@ function Style() {
       ctx.lineTo(19, 140);
       ctx.stroke();
 
+      ctx.beginPath(); // 重新绘制新的路径
       ctx.lineWidth = 5;
       ctx.strokeStyle = "blue";
       ctx.moveTo(33, 5);
