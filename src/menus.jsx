@@ -10,7 +10,7 @@ const MENUS = [
         key: "/base/shape",
       },
       {
-        label: <NavLink to="/base/style">canvas样式和颜色</NavLink>,
+        label: <NavLink to="/base/style">canvas线宽</NavLink>,
         key: "/base/style",
       },
     ],

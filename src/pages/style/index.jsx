@@ -9,33 +9,18 @@ function Style() {
     function draw() {
       ctx.lineWidth = 1;
       ctx.strokeStyle = "red";
-      ctx.moveTo(5, 5);
-      ctx.lineTo(5, 140);
+      ctx.moveTo(5.5, 5);
+      ctx.lineTo(5.5, 140);
       ctx.stroke();
 
-      ctx.lineWidth = 2;
-      ctx.strokeStyle = "yellow";
-      ctx.moveTo(19, 5);
-      ctx.lineTo(19, 140);
+      ctx.beginPath();
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = "red";
+      ctx.moveTo(20, 5);
+      ctx.lineTo(20, 140);
       ctx.stroke();
-
-      ctx.beginPath(); // 重新绘制新的路径
-      ctx.lineWidth = 5;
-      ctx.strokeStyle = "blue";
-      ctx.moveTo(33, 5);
-      ctx.lineTo(33, 140);
-      ctx.stroke();
-    }
-    function drawRect() {
-      // ctx.lineWidth = 1;
-      // ctx.strokeStyle = 'red'
-      // ctx.strokeRect(50,50, 100,100)
-      // ctx.lineWidth = 10;
-      // ctx.strokeStyle = 'green'
-      // ctx.strokeRect(200, 200, 100,100)
     }
     draw();
-    drawRect();
   }, []);
   return (
     <div>
