@@ -1,6 +1,6 @@
 export const drawSelection = (context, { scrollX, scrollY }) => {
   context.save();
-  context.translate(scrollX, scrollY);
+  context.translate(20 + scrollX, 20 + scrollY);
   context.fillStyle = "rgba(0, 0, 200, 0.04)";
 
   context.fillRect(0, 0, 200, 200);
@@ -14,27 +14,56 @@ export const drawSelection = (context, { scrollX, scrollY }) => {
 export const drawAxis = (ctx, { scrollX, scrollY }) => {
   ctx.save();
 
-  const rectH = 30; // 纵轴刻度间距
-  const rectW = 30; // 横轴刻度间距
-  const tickLength = 15; // 刻度线长度
+  const rectH = 100; // 纵轴刻度间距
+  const rectW = 100; // 横轴刻度间距
+  const tickLength = 8; // 刻度线长度
   const canvas = ctx.canvas;
   ctx.translate(scrollX, scrollY);
+  ctx.strokeStyle = 'red'
+  ctx.fillStyle = 'red'
+  // 绘制横轴和纵轴
+  ctx.save();
+  ctx.beginPath();
+  ctx.setLineDash([10, 10]);
+  ctx.moveTo(0, -scrollY);
+  ctx.lineTo(0, canvas.height - scrollY);
+  ctx.moveTo(-scrollX, 0);
+  ctx.lineTo(canvas.width - scrollX, 0);
+  ctx.stroke();
+  ctx.restore();
+  // 绘制横轴和纵轴刻度
   ctx.beginPath();
   ctx.lineWidth = 2;
-  for (let i = 0; i < canvas.width / rectH; i++) {
+  ctx.textBaseline = "middle";
+  for (let i = 0; i < scrollY / rectH; i++) {
+    // 绘制纵轴刻度
+    ctx.moveTo(0, -i * rectH);
+    ctx.lineTo(tickLength, -i * rectH);
+    ctx.font = "20px Arial";
+    ctx.fillText(-i, -25, -i * rectH);
+  }
+  for (let i = 0; i < (canvas.height - scrollY) / rectH; i++) {
     // 绘制纵轴刻度
     ctx.moveTo(0, i * rectH);
     ctx.lineTo(tickLength, i * rectH);
     ctx.font = "20px Arial";
-    ctx.fillText(i, 0, i * rectH);
+    ctx.fillText(i, -25, i * rectH);
+  }
+  for (let i = 1; i < scrollX / rectW; i++) {
+    // 绘制横轴刻度
+    ctx.moveTo(-i * rectW, 0);
+    ctx.lineTo(-i * rectW, tickLength);
+    ctx.font = "20px Arial";
+    ctx.fillText(-i, -i * rectW - 10, -15);
+  }
+  for (let i = 1; i < (canvas.width - scrollX) / rectW; i++) {
     // 绘制横轴刻度
     ctx.moveTo(i * rectW, 0);
     ctx.lineTo(i * rectW, tickLength);
     ctx.font = "20px Arial";
-    ctx.fillText(i, i * rectW, 8);
+    ctx.fillText(i, i * rectW - 5, -15);
   }
   ctx.stroke();
-  // ctx.closePath();
 
   ctx.restore();
 };
