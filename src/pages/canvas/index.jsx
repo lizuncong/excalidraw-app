@@ -1,16 +1,28 @@
 import React, { memo, useRef, useEffect } from "react";
-// import { viewportCoordsToSceneCoords } from "./util";
+import { viewportCoordsToSceneCoords, distance } from "./util";
+import { dragNewElement } from "./element/dragElements";
+import { newElement } from "./element/newElement";
 import { renderCanvas } from "./renderer";
+import Scene from "./scene/scene";
 import "./index.less";
+const scene = new Scene();
+let appState = {
+  scrollX: 0,
+  scrollY: 0,
+  offsetLeft: 0,
+  offsetTop: 0,
+  draggingElement: null,
+  currentItemStrokeColor: "#000000",
+  currentItemBackgroundColor: "transparent",
+  currentItemFillStyle: "hachure",
+  currentItemStrokeWidth: 1,
+  currentItemStrokeStyle: "solid",
+  currentItemRoughness: 1,
+  currentItemOpacity: 100,
+};
 const Canvas = memo(() => {
   const canvasRef = useRef(null);
   const canvasContainer = useRef(null);
-  const canvasStateRef = useRef({
-    scrollX: 0,
-    scrollY: 0,
-    offsetLeft: 0,
-    offsetTop: 0,
-  });
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
@@ -18,9 +30,9 @@ const Canvas = memo(() => {
 
     canvas.width = offsetWidth * window.devicePixelRatio;
     canvas.height = offsetHeight * window.devicePixelRatio;
-    canvasStateRef.current.offsetLeft = offsetLeft;
-    canvasStateRef.current.offsetTop = offsetTop;
-    renderCanvas(ctx, canvasStateRef.current);
+    appState.offsetLeft = offsetLeft;
+    appState.offsetTop = offsetTop;
+    renderCanvas(ctx, appState);
   }, []);
   useEffect(() => {
     const wrap = canvasContainer.current;
@@ -37,41 +49,105 @@ const Canvas = memo(() => {
   }, []);
   const handleCanvasWheel = (event) => {
     const { deltaX, deltaY } = event;
-    canvasStateRef.current.scrollX = canvasStateRef.current.scrollX - deltaX;
-    canvasStateRef.current.scrollY = canvasStateRef.current.scrollY - deltaY;
+    appState.scrollX = appState.scrollX - deltaX;
+    appState.scrollY = appState.scrollY - deltaY;
 
-    renderCanvas(canvasRef.current.getContext("2d"), canvasStateRef.current);
+    // renderCanvas(canvasRef.current.getContext("2d"), appState);
 
-    console.log(
-      "wheel",
-      canvasStateRef.current.scrollX,
-      canvasStateRef.current.scrollY
+    console.log("wheel", appState.scrollX, appState.scrollY);
+  };
+
+  const handleCanvasPointerDown = (event) => {
+    const pointerDownState = initialPointerDownState(event);
+    createGenericElementOnPointerDown("rectangle", pointerDownState);
+    const onPointerMove =
+      onPointerMoveFromCanvasPointerDownHandler(pointerDownState);
+    const onPointerUp =
+      onPointerUpFromCanvasPointerDownHandler(pointerDownState);
+    window.addEventListener("pointermove", onPointerMove);
+    window.addEventListener("pointerup", onPointerUp);
+    pointerDownState.eventListeners.onMove = onPointerMove;
+    pointerDownState.eventListeners.onUp = onPointerUp;
+  };
+  const renderScene = () => {
+    console.log("elements....", scene.getElementsIncludingDeleted());
+  };
+  const createGenericElementOnPointerDown = (elementType, pointerDownState) => {
+    const element = newElement({
+      type: elementType,
+      x: pointerDownState.origin.x,
+      y: pointerDownState.origin.y,
+      strokeColor: appState.currentItemStrokeColor,
+      backgroundColor: appState.currentItemBackgroundColor,
+      fillStyle: appState.currentItemFillStyle,
+      strokeWidth: appState.currentItemStrokeWidth,
+      strokeStyle: appState.currentItemStrokeStyle,
+      roughness: appState.currentItemRoughness,
+      opacity: appState.currentItemOpacity,
+      roundness: null,
+      locked: false,
+    });
+    scene.replaceAllElements([...scene.getElementsIncludingDeleted(), element]);
+    appState.draggingElement = element;
+  };
+  const onPointerUpFromCanvasPointerDownHandler =
+    (pointerDownState) => (event) => {
+      window.removeEventListener(
+        "pointermove",
+        pointerDownState.eventListeners.onMove
+      );
+      window.removeEventListener(
+        "pointerup",
+        pointerDownState.eventListeners.onUp
+      );
+    };
+  const onPointerMoveFromCanvasPointerDownHandler =
+    (pointerDownState) => (event) => {
+      const pointerCoords = viewportCoordsToSceneCoords(event, appState);
+      pointerDownState.lastCoords.x = pointerCoords.x;
+      pointerDownState.lastCoords.y = pointerCoords.y;
+      maybeDragNewGenericElement(pointerDownState, event);
+      renderScene();
+    };
+  const maybeDragNewGenericElement = (pointerDownState, event) => {
+    const pointerCoords = pointerDownState.lastCoords;
+    const draggingElement = appState.draggingElement;
+    dragNewElement(
+      draggingElement,
+      "rectangle",
+      pointerDownState.origin.x,
+      pointerDownState.origin.y,
+      pointerCoords.x,
+      pointerCoords.y,
+      distance(pointerDownState.origin.x, pointerCoords.x),
+      distance(pointerDownState.origin.y, pointerCoords.y),
+      false,
+      false,
+      null
     );
   };
-  const handleWindowPointerMove = (event) => {
-    console.log("handleWindowPointerMove=========", event.target);
+  const initialPointerDownState = (event) => {
+    const origin = viewportCoordsToSceneCoords(event, appState);
+    return {
+      origin,
+      lastCoords: { ...origin },
+      eventListeners: {
+        onMove: null,
+        onUp: null,
+        onKeyUp: null,
+        onKeyDown: null,
+      },
+    };
   };
-  const handleCanvasPointerDown = (event) => {
-    // const pointerDownState = this.initialPointerDownState(event);
-    console.log("pointer down===", event);
-    window.addEventListener("pointermove", handleWindowPointerMove);
-  };
-
-  // const initialPointerDownState = (event) => {
-  //   const origin = viewportCoordsToSceneCoords(
-  //     { clientX: event.clientX, clientY: event.clientY },
-  //     canvasStateRef.current
-  //   );
-  // };
 
   return (
     <div ref={canvasContainer}>
       <canvas
         onWheel={handleCanvasWheel}
         onPointerDown={handleCanvasPointerDown}
-        onPointerUp={(e) => {
-          window.removeEventListener("pointermove", handleWindowPointerMove);
-        }}
+        // onPointerUp={(e) => {
+        //   window.removeEventListener("pointermove", handleWindowPointerMove);
+        // }}
         ref={canvasRef}
         className="canvas"
       >

@@ -6,3 +6,8 @@ export const viewportCoordsToSceneCoords = (
   const y = clientY - offsetTop - scrollY;
   return { x, y };
 };
+
+export const distance = (x, y) => Math.abs(x - y);
+let testIdBase = 0;
+
+export const randomId = () => `id${testIdBase++}`;
