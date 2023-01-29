@@ -2,7 +2,7 @@ import React, { memo, useRef, useEffect } from "react";
 import { viewportCoordsToSceneCoords, distance } from "./util";
 import { dragNewElement } from "./element/dragElements";
 import { newElement } from "./element/newElement";
-import { renderCanvas } from "./renderer";
+import { renderCanvas, renderScene } from "./renderer/renderScene";
 import Scene from "./scene/scene";
 import "./index.less";
 const scene = new Scene();
@@ -69,9 +69,6 @@ const Canvas = memo(() => {
     pointerDownState.eventListeners.onMove = onPointerMove;
     pointerDownState.eventListeners.onUp = onPointerUp;
   };
-  const renderScene = () => {
-    console.log("elements....", scene.getElementsIncludingDeleted());
-  };
   const createGenericElementOnPointerDown = (elementType, pointerDownState) => {
     const element = newElement({
       type: elementType,
@@ -107,7 +104,19 @@ const Canvas = memo(() => {
       pointerDownState.lastCoords.x = pointerCoords.x;
       pointerDownState.lastCoords.y = pointerCoords.y;
       maybeDragNewGenericElement(pointerDownState, event);
-      renderScene();
+      renderScene({
+        elements: scene.getElementsIncludingDeleted(),
+        appState: appState,
+        scale: window.devicePixelRatio,
+        canvas: canvasRef.current,
+        renderConfig: {
+          selectionColor: '#6965db',
+          scrollX: appState.scrollX,
+          scrollY: appState.scrollY,
+          viewBackgroundColor: '#ffffff',
+          zoom: 1,
+        },
+      });
     };
   const maybeDragNewGenericElement = (pointerDownState, event) => {
     const pointerCoords = pointerDownState.lastCoords;

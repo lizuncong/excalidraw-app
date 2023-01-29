@@ -1,16 +1,4 @@
-export const drawSelection = (context, { scrollX, scrollY }) => {
-  context.save();
-  context.translate(20 + scrollX, 20 + scrollY);
-  context.fillStyle = "rgba(0, 0, 200, 0.04)";
-
-  context.fillRect(0, 0, 200, 200);
-  context.lineWidth = 1;
-  context.strokeStyle = "rgb(105, 101, 219)";
-  context.strokeRect(0, 0, 200, 200);
-
-  context.restore();
-};
-
+import { renderElement } from './renderElement'
 export const drawAxis = (ctx, { scrollX, scrollY }) => {
   ctx.save();
 
@@ -19,8 +7,8 @@ export const drawAxis = (ctx, { scrollX, scrollY }) => {
   const tickLength = 8; // 刻度线长度
   const canvas = ctx.canvas;
   ctx.translate(scrollX, scrollY);
-  ctx.strokeStyle = 'red'
-  ctx.fillStyle = 'red'
+  ctx.strokeStyle = "red";
+  ctx.fillStyle = "red";
   // 绘制横轴和纵轴
   ctx.save();
   ctx.beginPath();
@@ -68,9 +56,45 @@ export const drawAxis = (ctx, { scrollX, scrollY }) => {
   ctx.restore();
 };
 
+export const renderScene = ({
+  elements,
+  appState,
+  scale,
+  canvas,
+  renderConfig,
+}) => {
+  console.log("renderscene...");
+  const context = canvas.getContext("2d");
+
+  context.setTransform(1, 0, 0, 1, 0, 0);
+  context.save();
+  context.scale(scale, scale);
+  // When doing calculations based on canvas width we should used normalized one
+  const normalizedCanvasWidth = canvas.width / scale;
+  const normalizedCanvasHeight = canvas.height / scale;
+  if (renderConfig.viewBackgroundColor) {
+    context.save();
+    context.fillStyle = renderConfig.viewBackgroundColor;
+    context.fillRect(0, 0, normalizedCanvasWidth, normalizedCanvasHeight);
+    context.restore();
+  }
+
+  // Apply zoom
+  context.save();
+  context.scale(renderConfig.zoom, renderConfig.zoom);
+
+  // render element
+  elements.forEach((element) => {
+    renderElement(element, context, renderConfig, appState);
+  });
+  // Reset zoom
+  context.restore();
+
+  context.restore();
+};
+
 export const renderCanvas = (ctx, renderConfig) => {
   const canvas = ctx.canvas;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawAxis(ctx, renderConfig);
-  drawSelection(ctx, renderConfig);
 };
