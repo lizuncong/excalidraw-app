@@ -63,7 +63,6 @@ export const renderScene = ({
   canvas,
   renderConfig,
 }) => {
-  console.log("renderscene...");
   const context = canvas.getContext("2d");
 
   context.setTransform(1, 0, 0, 1, 0, 0);
