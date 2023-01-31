@@ -52,7 +52,6 @@ const generateElementShape = (element) => {
 const generateElementWithCanvas = (element, renderConfig) => {
   const zoom = renderConfig.zoom || 1;
   const prevElementWithCanvas = elementWithCanvasCache.get(element);
-
   if (!prevElementWithCanvas) {
     const elementWithCanvas = generateElementCanvas(
       element,
@@ -60,18 +59,24 @@ const generateElementWithCanvas = (element, renderConfig) => {
       renderConfig
     );
 
-    elementWithCanvasCache.set(element, elementWithCanvas);
+    // elementWithCanvasCache.set(element, elementWithCanvas);
 
     return elementWithCanvas;
   }
   return prevElementWithCanvas;
 };
-
+const rightContainer = document.getElementsByClassName('right')[0]
+let previewCanvas = null
 const generateElementCanvas = (element, zoom, renderConfig) => {
   const canvas = document.createElement("canvas");
   const context = canvas.getContext("2d");
   const padding = getCanvasPadding(element);
-
+  if(previewCanvas){
+    rightContainer.removeChild(previewCanvas)
+  }
+  previewCanvas = canvas;
+  rightContainer.appendChild(previewCanvas)
+  
   let canvasOffsetX = 0;
   let canvasOffsetY = 0;
 
@@ -79,9 +84,9 @@ const generateElementCanvas = (element, zoom, renderConfig) => {
     element.width * window.devicePixelRatio * zoom + padding * zoom * 2;
   canvas.height =
     element.height * window.devicePixelRatio * zoom + padding * zoom * 2;
-
   context.save();
   context.translate(padding * zoom, padding * zoom);
+
   context.scale(window.devicePixelRatio * zoom, window.devicePixelRatio * zoom);
 
   drawElementOnCanvas(element, context, renderConfig);
@@ -104,7 +109,8 @@ const drawElementOnCanvas = (element, context, renderConfig) => {
       context.lineJoin = "round";
       context.lineCap = "round";
       context.strokeStyle = 'red'
-      context.strokeRect(20,20,150,100);
+      // context.strokeRect(20,20,50,50);
+      context.strokeRect(0,0,element.width,element.height);
       // rc.draw(getShapeForElement(element)!);
       break;
     }
@@ -122,7 +128,6 @@ const getCanvasPadding = (element) =>
 
 const drawElementFromCanvas = (elementWithCanvas, context, renderConfig) => {
   const element = elementWithCanvas.element;
-  console.log('elementWithCanvas...', elementWithCanvas)
   const padding = getCanvasPadding(element);
   let [x1, y1, x2, y2] = [
     element.x,
