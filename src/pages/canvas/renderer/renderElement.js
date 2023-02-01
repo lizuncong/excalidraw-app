@@ -80,7 +80,7 @@ const generateElementCanvas = (element, zoom, renderConfig) => {
   let canvasOffsetX = 0;
   let canvasOffsetY = 0;
 
-  canvas.width =
+  canvas.width = 
     element.width * window.devicePixelRatio * zoom + padding * zoom * 2;
   canvas.height =
     element.height * window.devicePixelRatio * zoom + padding * zoom * 2;

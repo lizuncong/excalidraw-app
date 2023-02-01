@@ -6,7 +6,8 @@ import { renderCanvas, renderScene } from "./renderer/renderScene";
 import Scene from "./scene/scene";
 import "./index.less";
 const scene = new Scene();
-let appState = {
+const temp = JSON.parse(localStorage.getItem('appState'))
+let appState = temp || {
   scrollX: 0,
   scrollY: 0,
   offsetLeft: 0,
@@ -32,7 +33,19 @@ const Canvas = memo(() => {
     canvas.height = offsetHeight * window.devicePixelRatio;
     appState.offsetLeft = offsetLeft;
     appState.offsetTop = offsetTop;
-    renderCanvas(ctx, appState);
+    renderScene({
+      elements: scene.getElementsIncludingDeleted(),
+      appState: appState,
+      scale: window.devicePixelRatio,
+      canvas: canvasRef.current,
+      renderConfig: {
+        selectionColor: "#6965db",
+        scrollX: appState.scrollX,
+        scrollY: appState.scrollY,
+        viewBackgroundColor: "#ffffff",
+        zoom: 1,
+      },
+    });
   }, []);
   useEffect(() => {
     const wrap = canvasContainer.current;
@@ -53,7 +66,19 @@ const Canvas = memo(() => {
     appState.scrollY = appState.scrollY - deltaY;
 
     // renderCanvas(canvasRef.current.getContext("2d"), appState);
-
+    renderScene({
+      elements: scene.getElementsIncludingDeleted(),
+      appState: appState,
+      scale: window.devicePixelRatio,
+      canvas: canvasRef.current,
+      renderConfig: {
+        selectionColor: "#6965db",
+        scrollX: appState.scrollX,
+        scrollY: appState.scrollY,
+        viewBackgroundColor: "#ffffff",
+        zoom: 1,
+      },
+    });
     console.log("wheel", appState.scrollX, appState.scrollY);
   };
 
@@ -110,10 +135,10 @@ const Canvas = memo(() => {
         scale: window.devicePixelRatio,
         canvas: canvasRef.current,
         renderConfig: {
-          selectionColor: '#6965db',
+          selectionColor: "#6965db",
           scrollX: appState.scrollX,
           scrollY: appState.scrollY,
-          viewBackgroundColor: '#ffffff',
+          viewBackgroundColor: "#ffffff",
           zoom: 1,
         },
       });

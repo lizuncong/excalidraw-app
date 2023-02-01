@@ -1,7 +1,6 @@
 import { renderElement } from './renderElement'
 export const drawAxis = (ctx, { scrollX, scrollY }) => {
   ctx.save();
-
   const rectH = 100; // 纵轴刻度间距
   const rectW = 100; // 横轴刻度间距
   const tickLength = 8; // 刻度线长度
@@ -65,22 +64,25 @@ export const renderScene = ({
 }) => {
   const context = canvas.getContext("2d");
 
-  context.setTransform(1, 0, 0, 1, 0, 0);
+  // context.setTransform(1, 0, 0, 1, 0, 0);
   context.save();
+  console.log('scale====', scale, renderConfig.zoom)
   context.scale(scale, scale);
   // When doing calculations based on canvas width we should used normalized one
   const normalizedCanvasWidth = canvas.width / scale;
   const normalizedCanvasHeight = canvas.height / scale;
-  if (renderConfig.viewBackgroundColor) {
-    context.save();
-    context.fillStyle = renderConfig.viewBackgroundColor;
-    context.fillRect(0, 0, normalizedCanvasWidth, normalizedCanvasHeight);
-    context.restore();
-  }
+  // if (renderConfig.viewBackgroundColor) {
+  //   context.save();
+  //   context.fillStyle = renderConfig.viewBackgroundColor;
+  //   context.fillRect(0, 0, normalizedCanvasWidth, normalizedCanvasHeight);
+  //   context.restore();
+  // }
+  context.clearRect(0, 0, normalizedCanvasWidth, normalizedCanvasHeight);
 
   // Apply zoom
   context.save();
   context.scale(renderConfig.zoom, renderConfig.zoom);
+  drawAxis(context, renderConfig);
 
   // render element
   elements.forEach((element) => {
@@ -90,10 +92,12 @@ export const renderScene = ({
   context.restore();
 
   context.restore();
+  localStorage.setItem('elements', JSON.stringify(elements))
+  localStorage.setItem('appState', JSON.stringify(appState))
 };
 
 export const renderCanvas = (ctx, renderConfig) => {
   const canvas = ctx.canvas;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  drawAxis(ctx, renderConfig);
+  // drawAxis(ctx, renderConfig);
 };
