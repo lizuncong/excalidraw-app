@@ -1,1 +1,0 @@
-{"version":3,"file":"static/css/Canvas.7a200740.chunk.css","mappings":"AAAA,QAGE,qBAAuB,CADvB,qBAAsB,CADtB,UAGF","sources":["pages/canvas/index.less"],"sourcesContent":[".canvas {\n  width: 100%;\n  box-sizing: border-box;\n  border: 1px solid black;\n}\n"],"names":[],"sourceRoot":""}

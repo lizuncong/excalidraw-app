@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <title>Canvas测试</title>
+    <style>
+      .refer {
+        width: 100px;
+        height: 100px;
+        background-color: red;
+      }
+      .border {
+        border-top: 1px solid red;
+        margin: 10px 0;
+      }
+      .canvas {
+        width: 600px;
+        height: 600px;
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="root">
+      <div class="refer">参照物</div>
+      <div class="border"></div>
+      <canvas id="canvas" class="canvas"> 绘制canvas </canvas>
+    </div>
+    <script>
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+
+      ctx.strokeStyle = "red";
+      ctx.lineWidth = 1
+      ctx.strokeRect(0, 0, 100, 100);
+    </script>
+  </body>
+</html>
+
+<!-- 
+    const { offsetWidth, offsetHeight, offsetLeft, offsetTop } = canvas;
+    console.log('offsetWidth===', offsetWidth, offsetHeight)
+    // canvas.width = offsetWidth * window.devicePixelRatio;
+    // canvas.height = offsetHeight * window.devicePixelRatio; -->
