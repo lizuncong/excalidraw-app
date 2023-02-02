@@ -13,6 +13,10 @@ const Style = React.lazy(() =>
 const Canvas = React.lazy(() =>
   import(/* webpackChunkName: "Canvas" */ "@/pages/canvas")
 );
+
+const Size = React.lazy(() =>
+  import(/* webpackChunkName: "Size" */ "@/pages/size")
+);
 const router = createHashRouter([
   {
     path: "/",
@@ -39,6 +43,14 @@ const router = createHashRouter([
         element: (
           <React.Suspense fallback={<div>loading...</div>}>
             <Style />
+          </React.Suspense>
+        ),
+      },
+      {
+        path: "/base/size",
+        element: (
+          <React.Suspense fallback={<div>loading...</div>}>
+            <Size />
           </React.Suspense>
         ),
       },

@@ -2,7 +2,7 @@ import React, { memo, useRef, useEffect } from "react";
 import { viewportCoordsToSceneCoords, distance } from "./util";
 import { dragNewElement } from "./element/dragElements";
 import { newElement } from "./element/newElement";
-import { renderCanvas, renderScene } from "./renderer/renderScene";
+import { renderScene } from "./renderer/renderScene";
 import Scene from "./scene/scene";
 import "./index.less";
 const scene = new Scene();
@@ -26,7 +26,6 @@ const Canvas = memo(() => {
   const canvasContainer = useRef(null);
   useEffect(() => {
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d");
     const { offsetWidth, offsetHeight, offsetLeft, offsetTop } = canvas;
 
     canvas.width = offsetWidth * window.devicePixelRatio;
@@ -176,6 +175,9 @@ const Canvas = memo(() => {
 
   return (
     <div ref={canvasContainer}>
+      <div className="refer">
+        参照物
+      </div>
       <canvas
         onWheel={handleCanvasWheel}
         onPointerDown={handleCanvasPointerDown}

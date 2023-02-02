@@ -13,9 +13,12 @@ const MENUS = [
         label: <NavLink to="/base/style">canvas线宽</NavLink>,
         key: "/base/style",
       },
+      {
+        label: <NavLink to="/base/size">彻底搞懂canvas尺寸</NavLink>,
+        key: "/base/size",
+      },
     ],
   },
 ];
 
-
-export default MENUS
+export default MENUS;
