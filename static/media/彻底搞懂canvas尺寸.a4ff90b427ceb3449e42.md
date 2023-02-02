@@ -121,3 +121,40 @@
 ### 分析
 
 canvas 默认尺寸是宽 300 高 150，这里我们设置的尺寸是宽高都是 600。因此 canvas 在水平方向拉伸 2 倍，垂直方向拉伸 4 倍。反应到绘图中，就是我们原本的`100px * 100px`的矩形，就变成了 `200px * 400px`的矩形
+
+### 如何正确设置 canvas 尺寸
+
+如果需要设置 canvas 尺寸，那么可以直接给 canvas 设置宽度和高度属性。这样绘制出来的图形不会变形
+
+```html
+<style>
+  .canvas {
+    width: 600px;
+    height: 600px;
+    border: 1px solid black;
+  }
+</style>
+<body>
+  <div id="root">
+    <div class="refer">参照物</div>
+    <div class="border"></div>
+    <canvas id="canvas" class="canvas"> 绘制canvas </canvas>
+  </div>
+  <script>
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+    const { offsetWidth, offsetHeight, offsetLeft, offsetTop } = canvas;
+    // 重点
+    canvas.width = offsetWidth;
+    canvas.height = offsetHeight;
+
+    ctx.strokeStyle = "red";
+    ctx.lineWidth = 1;
+    ctx.strokeRect(0.5, 0.5, 100, 100);
+  </script>
+</body>
+```
+
+效果如下：
+
+![image](../excalidraw-app/size-05.jpg)
