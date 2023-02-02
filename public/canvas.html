@@ -32,10 +32,20 @@
     <script>
       const canvas = document.getElementById("canvas");
       const ctx = canvas.getContext("2d");
-
+      const { offsetWidth, offsetHeight, offsetLeft, offsetTop } = canvas;
+      canvas.width = offsetWidth * window.devicePixelRatio;
+      canvas.height = offsetHeight * window.devicePixelRatio;
+      
       ctx.strokeStyle = "red";
       ctx.lineWidth = 1
-      ctx.strokeRect(0, 0, 100, 100);
+      ctx.strokeRect(0.5, 0.5, 100, 100);
+
+      // ctx.beginPath();
+      //   ctx.moveTo(0, 0);
+      //         ctx.lineWidth = 1
+
+      //   ctx.lineTo(300, 150);
+      //   ctx.stroke();
     </script>
   </body>
 </html>
