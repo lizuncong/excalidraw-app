@@ -4,18 +4,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <title>Canvas测试</title>
+    <title>Canvas绘制坐标轴</title>
     <style>
-      .refer {
-        width: 100px;
-        height: 100px;
-        background-color: red;
-      }
-      .border {
-        border-top: 1px solid red;
-        margin: 10px 0;
+      body {
+        margin: 0;
       }
       .canvas {
+        margin: 20px;
         width: 600px;
         height: 600px;
         border: 1px solid black;
@@ -25,29 +20,8 @@
 
   <body>
     <div id="root">
-      <div class="refer">参照物</div>
-      <div class="border"></div>
       <canvas id="canvas" class="canvas"> 绘制canvas </canvas>
     </div>
-    <script>
-      const canvas = document.getElementById("canvas");
-      const ctx = canvas.getContext("2d");
-      const { offsetWidth, offsetHeight } = canvas;
-
-      canvas.width = offsetWidth * window.devicePixelRatio;
-      canvas.height = offsetHeight * window.devicePixelRatio;
-      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
-
-      ctx.strokeStyle = "red";
-      ctx.lineWidth = 1;
-      ctx.strokeRect(0, 0, 100, 100);
-
-      ctx.beginPath();
-      ctx.moveTo(0, 0);
-      ctx.lineWidth = 1;
-
-      ctx.lineTo(300, 150);
-      ctx.stroke();
-    </script>
+    <script type="module" src="./lib/index.js"></script>
   </body>
 </html>
