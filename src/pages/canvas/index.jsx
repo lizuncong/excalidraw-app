@@ -64,7 +64,6 @@ const Canvas = memo(() => {
     appState.scrollX = appState.scrollX - deltaX;
     appState.scrollY = appState.scrollY - deltaY;
 
-    // renderCanvas(canvasRef.current.getContext("2d"), appState);
     renderScene({
       elements: scene.getElementsIncludingDeleted(),
       appState: appState,

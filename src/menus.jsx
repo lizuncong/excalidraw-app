@@ -19,6 +19,16 @@ const MENUS = [
       },
     ],
   },
+  {
+    label: "canvas进阶",
+    key: "canvas_advanced",
+    children: [
+      {
+        label: <NavLink to="/advanced/axis">canvas无限画布</NavLink>,
+        key: "/advanced/axis",
+      },
+    ],
+  },
 ];
 
 export default MENUS;

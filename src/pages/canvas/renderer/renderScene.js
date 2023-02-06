@@ -64,19 +64,11 @@ export const renderScene = ({
 }) => {
   const context = canvas.getContext("2d");
 
-  // context.setTransform(1, 0, 0, 1, 0, 0);
   context.save();
-  console.log('scale====', scale, renderConfig.zoom)
   context.scale(scale, scale);
-  // When doing calculations based on canvas width we should used normalized one
+  
   const normalizedCanvasWidth = canvas.width / scale;
   const normalizedCanvasHeight = canvas.height / scale;
-  // if (renderConfig.viewBackgroundColor) {
-  //   context.save();
-  //   context.fillStyle = renderConfig.viewBackgroundColor;
-  //   context.fillRect(0, 0, normalizedCanvasWidth, normalizedCanvasHeight);
-  //   context.restore();
-  // }
   context.clearRect(0, 0, normalizedCanvasWidth, normalizedCanvasHeight);
 
   // Apply zoom
@@ -96,8 +88,3 @@ export const renderScene = ({
   localStorage.setItem('appState', JSON.stringify(appState))
 };
 
-export const renderCanvas = (ctx, renderConfig) => {
-  const canvas = ctx.canvas;
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  // drawAxis(ctx, renderConfig);
-};
