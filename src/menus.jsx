@@ -24,8 +24,8 @@ const MENUS = [
     key: "canvas_advanced",
     children: [
       {
-        label: <NavLink to="/advanced/axis">canvas无限画布</NavLink>,
-        key: "/advanced/axis",
+        label: <NavLink to="/advanced/infinite">canvas无限画布</NavLink>,
+        key: "/advanced/infinite",
       },
     ],
   },

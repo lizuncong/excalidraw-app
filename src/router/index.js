@@ -17,6 +17,10 @@ const Canvas = React.lazy(() =>
 const Size = React.lazy(() =>
   import(/* webpackChunkName: "Size" */ "@/pages/size")
 );
+
+const InfiniteCavnas = React.lazy(() =>
+  import(/* webpackChunkName: "InfiniteCavnas" */ "@/pages/infinite-canvas")
+);
 const router = createHashRouter([
   {
     path: "/",
@@ -51,6 +55,14 @@ const router = createHashRouter([
         element: (
           <React.Suspense fallback={<div>loading...</div>}>
             <Size />
+          </React.Suspense>
+        ),
+      },
+      {
+        path: "/advanced/infinite",
+        element: (
+          <React.Suspense fallback={<div>loading...</div>}>
+            <InfiniteCavnas />
           </React.Suspense>
         ),
       },
