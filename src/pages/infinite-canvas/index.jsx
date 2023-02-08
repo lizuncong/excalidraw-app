@@ -6,13 +6,17 @@ import "./index.less";
 const appState = {
   offsetLeft: 0,
   offsetTop: 0,
+  scrollX: 0,
+  scrollY: 0,
+  draggingElement: null,
 };
+export const elements = [];
 const viewportCoordsToSceneCoords = (
   { clientX, clientY },
-  { offsetLeft, offsetTop }
+  { offsetLeft, offsetTop, scrollX, scrollY }
 ) => {
-  const x = clientX - offsetLeft;
-  const y = clientY - offsetTop;
+  const x = clientX - offsetLeft - scrollX;
+  const y = clientY - offsetTop - scrollY;
   return { x, y };
 };
 const Canvas = memo(() => {
@@ -28,35 +32,95 @@ const Canvas = memo(() => {
 
     appState.offsetLeft = offsetLeft;
     appState.offsetTop = offsetTop;
-    renderScene(canvas);
+    renderScene(canvas, appState);
+  }, []);
+  useEffect(() => {
+    const wrap = canvasContainer.current;
+    const handleWheel = (e) => {
+      e.preventDefault();
+    };
+    // 防止双指滑动时切换页面
+    wrap.addEventListener("wheel", handleWheel, {
+      passive: false,
+    });
+    return () => {
+      wrap.removeEventListener("wheel", handleWheel);
+    };
   }, []);
   const handleCanvasPointerDown = (event) => {
     const origin = viewportCoordsToSceneCoords(event, appState);
+    console.log("origin...", appState, origin);
     const pointerDownState = {
       origin,
       lastCoords: { ...origin },
+      eventListeners: {
+        onMove: null,
+        onUp: null,
+      },
     };
-    console.log('pointerDownState==',pointerDownState)
-    // createGenericElementOnPointerDown("rectangle", pointerDownState);
-    // const onPointerMove =
-    //   onPointerMoveFromCanvasPointerDownHandler(pointerDownState);
-    // const onPointerUp =
-    //   onPointerUpFromCanvasPointerDownHandler(pointerDownState);
-    // window.addEventListener("pointermove", onPointerMove);
-    // window.addEventListener("pointerup", onPointerUp);
-    // pointerDownState.eventListeners.onMove = onPointerMove;
-    // pointerDownState.eventListeners.onUp = onPointerUp;
+    const element = {
+      x: pointerDownState.origin.x,
+      y: pointerDownState.origin.y,
+      width: 0,
+      height: 0,
+      strokeColor: "#000000",
+      backgroundColor: "transparent",
+      fillStyle: "hachure",
+      strokeWidth: 1,
+      strokeStyle: "solid",
+    };
+    appState.draggingElement = element;
+    elements.push(element);
+    const onPointerMove =
+      onPointerMoveFromCanvasPointerDownHandler(pointerDownState);
+    const onPointerUp =
+      onPointerUpFromCanvasPointerDownHandler(pointerDownState);
+    window.addEventListener("pointermove", onPointerMove);
+    window.addEventListener("pointerup", onPointerUp);
+    pointerDownState.eventListeners.onMove = onPointerMove;
+    pointerDownState.eventListeners.onUp = onPointerUp;
+  };
+  const onPointerUpFromCanvasPointerDownHandler =
+    (pointerDownState) => (event) => {
+      window.removeEventListener(
+        "pointermove",
+        pointerDownState.eventListeners.onMove
+      );
+      window.removeEventListener(
+        "pointerup",
+        pointerDownState.eventListeners.onUp
+      );
+    };
+  const onPointerMoveFromCanvasPointerDownHandler =
+    (pointerDownState) => (event) => {
+      const pointerCoords = viewportCoordsToSceneCoords(event, appState);
+      pointerDownState.lastCoords.x = pointerCoords.x;
+      pointerDownState.lastCoords.y = pointerCoords.y;
+      // maybeDragNewGenericElement(pointerDownState, event);
+      appState.draggingElement.width =
+        pointerCoords.x - pointerDownState.origin.x;
+      appState.draggingElement.height =
+        pointerCoords.y - pointerDownState.origin.y;
+      renderScene(canvasRef.current, appState);
+    };
+  const handleCanvasWheel = (event) => {
+    const { deltaX, deltaY } = event;
+    appState.scrollX = appState.scrollX - deltaX;
+    appState.scrollY = appState.scrollY - deltaY;
+    console.log(`滚动距离，X：${appState.scrollX}, Y：${appState.scrollY}`);
+    renderScene(canvasRef.current, appState);
   };
   return (
     <div ref={canvasContainer}>
-      <MarkDown src={doc} />
       <canvas
         ref={canvasRef}
         className="canvas"
         onPointerDown={handleCanvasPointerDown}
+        onWheel={handleCanvasWheel}
       >
         绘制canvas
       </canvas>
+      <MarkDown src={doc} />
     </div>
   );
 });
