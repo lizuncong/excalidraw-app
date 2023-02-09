@@ -14,7 +14,7 @@ const MENUS = [
         key: "/base/style",
       },
       {
-        label: <NavLink to="/base/size">彻底搞懂canvas尺寸</NavLink>,
+        label: <NavLink to="/base/size">canvas尺寸及分辨率矫正</NavLink>,
         key: "/base/size",
       },
     ],

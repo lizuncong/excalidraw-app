@@ -111,15 +111,59 @@ const Canvas = memo(() => {
     renderScene(canvasRef.current, appState);
   };
   return (
-    <div ref={canvasContainer}>
-      <canvas
-        ref={canvasRef}
-        className="canvas"
-        onPointerDown={handleCanvasPointerDown}
-        onWheel={handleCanvasWheel}
-      >
-        绘制canvas
-      </canvas>
+    <div>
+      <div ref={canvasContainer}>
+        <canvas
+          ref={canvasRef}
+          className="canvas"
+          onPointerDown={handleCanvasPointerDown}
+          onWheel={handleCanvasWheel}
+        >
+          绘制canvas
+        </canvas>
+      </div>
+      <div>
+        <button
+          onClick={() => {
+            let minX = Infinity;
+            let maxX = -Infinity;
+            let minY = Infinity;
+            let maxY = -Infinity;
+
+            elements.forEach((element) => {
+              const [x1, y1, x2, y2] = [
+                element.x,
+                element.y,
+                element.x + element.width,
+                element.y + element.height,
+              ];
+              minX = Math.min(minX, x1);
+              minY = Math.min(minY, y1);
+              maxX = Math.max(maxX, x2);
+              maxY = Math.max(maxY, y2);
+            });
+
+            const canvas = document.createElement("canvas");
+            canvas.width = (maxX - minX + 20) * window.devicePixelRatio;
+            canvas.height = (maxY - minY + 20) * window.devicePixelRatio;
+            const context = canvas.getContext('2d')
+            context.scale(window.devicePixelRatio, window.devicePixelRatio)
+            renderScene(canvas, {
+              ...appState,
+              scrollX: -minX + 10,
+              scrollY: -minY + 10,
+            });
+            console.log('导出', elements);
+            var a = document.createElement("a");
+            a.href = canvas.toDataURL();
+            a.download = "canvas.png";
+            a.click();
+          }}
+        >
+          导出PNG
+        </button>
+      </div>
+      <div className="tip">温馨提示：可以在上面的画板中绘制矩形哦！！</div>
       <MarkDown src={doc} />
     </div>
   );
