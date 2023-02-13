@@ -17,6 +17,10 @@ const MENUS = [
         label: <NavLink to="/base/size">canvas尺寸及分辨率矫正</NavLink>,
         key: "/base/size",
       },
+      {
+        label: <NavLink to="/base/maxsize">canvas最大尺寸限制</NavLink>,
+        key: "/base/maxsize",
+      },
     ],
   },
   {
