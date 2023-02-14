@@ -154,4 +154,41 @@ useEffect(() => {
 如果 sum 加一个像素，即`268496895`，canvas 就没法正常绘制了
 ![image](../excalidraw-app/max-size-11.jpg)
 
+## 如何判断 canvas 超出了最大绘制面积？
+
+可以使用下面的方法判断给定的宽高是否超出了 canvas 的最大绘制限制尺寸
+
+```js
+const isCanvasExceedsMaximumSize = (width, height) => {
+  const testCvs = document.createElement("canvas");
+  testCvs.width = width;
+  testCvs.height = height;
+  const testCtx = testCvs.getContext("2d");
+  testCtx.fillRect(width - 1, height - 1, 1, 1);
+
+  const cropCvs = document.createElement("canvas");
+  cropCvs.width = 1;
+  cropCvs.height = 1;
+  const cropCtx = cropCvs.getContext("2d");
+  cropCtx.drawImage(testCvs, width - 1, height - 1, 1, 1, 0, 0, 1, 1);
+
+  const isTestPass = cropCtx && cropCtx.getImageData(0, 0, 1, 1).data[3] !== 0;
+
+  if (isTestPass) {
+    console.log(`canvas绘制正常，宽度：${width}，高度：${height}`);
+  } else {
+    console.error(
+      `canvas绘制超出最大尺寸限制，宽度：${width}，高度：${height}`
+    );
+  }
+  return isTestPass;
+};
+const sum = 268496894;
+const width = 65535;
+
+isCanvasExceedsMaximumSize(width, sum / width);
+
+isCanvasExceedsMaximumSize(width, (sum + 1) / width);
+```
+
 ## 如何确定 canvas 的最大高度、最大宽度、最大绘制面积？
