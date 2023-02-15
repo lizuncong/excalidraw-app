@@ -1,4 +1,4 @@
-## canvas 最大尺寸限制
+## 前言
 
 根据 [MDN](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/canvas#%E6%9C%80%E5%A4%A7%E7%9A%84%E7%94%BB%E5%B8%83%E5%B0%BA%E5%AF%B8)的说法，canvas 是有尺寸限制的。如下图所示
 
@@ -192,3 +192,33 @@ isCanvasExceedsMaximumSize(width, (sum + 1) / width);
 ```
 
 ## 如何确定 canvas 的最大高度、最大宽度、最大绘制面积？
+
+现在我们已经知道不同设备、不同浏览器 canvas 绘制，是有最大高度、最大宽度和最大绘制面积限制的。那么我们应该怎么获取 canvas 这些最大的绘制限制呢？
+
+一般来说，最大宽度和最大高度是一致的。因此，确定了最大宽度，也就确定了最大高度。
+
+这里，我们可以使用二分法获取最大宽度，从 65535 像素开始使用二分法尝试
+
+```js
+const getMaxWidth = () => {
+  let max = 65535;
+  const step = 1000;
+  let min = 1000;
+  count = 0;
+  while (min < max) {
+    count++;
+    if (count > 1000) {
+      // 加个阀值，防止死循环，返回0表示算法错误导致获取失败
+      return 0;
+    }
+    if (isCanvasExceedsMaximumSize(max, 1)) {
+      max = parseInt((min + max) / 2);
+    } else {
+      min = max;
+      max = max + step;
+    }
+  }
+  console.log(`尝试了${count}次终于找到了最大宽度`);
+  return max;
+};
+```
