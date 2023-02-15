@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.375a0132.css",
-    "main.js": "/static/js/main.3d50b640.js",
+    "main.js": "/static/js/main.17522963.js",
     "Shape.css": "/static/css/Shape.f6006728.chunk.css",
     "Shape.js": "/static/js/Shape.517534a5.chunk.js",
     "Style.css": "/static/css/Style.f6006728.chunk.css",
@@ -10,8 +10,8 @@
     "Canvas.js": "/static/js/Canvas.4a8bc6f0.chunk.js",
     "Size.css": "/static/css/Size.f6006728.chunk.css",
     "Size.js": "/static/js/Size.865b26a7.chunk.js",
-    "MaxSize.css": "/static/css/MaxSize.dedb5346.chunk.css",
-    "MaxSize.js": "/static/js/MaxSize.958292f8.chunk.js",
+    "MaxSize.css": "/static/css/MaxSize.753ddf05.chunk.css",
+    "MaxSize.js": "/static/js/MaxSize.b284a07a.chunk.js",
     "InfiniteCavnas.css": "/static/css/InfiniteCavnas.c8c9fb95.chunk.css",
     "InfiniteCavnas.js": "/static/js/InfiniteCavnas.64a2e98b.chunk.js",
     "static/css/316.0a7f721d.chunk.css": "/static/css/316.0a7f721d.chunk.css",
@@ -51,12 +51,12 @@
     "../build/width-01.jpg": "/../build/width-01.jpg",
     "static/media/绘制矩形及无限画布.md": "/static/media/绘制矩形及无限画布.00ed7c1731a6947cf40e.md",
     "static/media/彻底搞懂canvas尺寸.md": "/static/media/彻底搞懂canvas尺寸.0ce2093e9572b8425b07.md",
+    "static/media/canvas最大尺寸限制.md": "/static/media/canvas最大尺寸限制.74de79e1170fe30b5961.md",
     "static/media/canvas图形绘制基础.md": "/static/media/canvas图形绘制基础.64cca0ca3bc03437c488.md",
-    "static/media/canvas最大尺寸限制.md": "/static/media/canvas最大尺寸限制.7abaeedeacadcd31b909.md",
     "static/media/canvas线宽.md": "/static/media/canvas线宽.a2f33f774fd0530b836d.md",
     "index.html": "/index.html",
     "main.375a0132.css.map": "/static/css/main.375a0132.css.map",
-    "main.3d50b640.js.map": "/static/js/main.3d50b640.js.map",
+    "main.17522963.js.map": "/static/js/main.17522963.js.map",
     "Shape.f6006728.chunk.css.map": "/static/css/Shape.f6006728.chunk.css.map",
     "Shape.517534a5.chunk.js.map": "/static/js/Shape.517534a5.chunk.js.map",
     "Style.f6006728.chunk.css.map": "/static/css/Style.f6006728.chunk.css.map",
@@ -65,8 +65,8 @@
     "Canvas.4a8bc6f0.chunk.js.map": "/static/js/Canvas.4a8bc6f0.chunk.js.map",
     "Size.f6006728.chunk.css.map": "/static/css/Size.f6006728.chunk.css.map",
     "Size.865b26a7.chunk.js.map": "/static/js/Size.865b26a7.chunk.js.map",
-    "MaxSize.dedb5346.chunk.css.map": "/static/css/MaxSize.dedb5346.chunk.css.map",
-    "MaxSize.958292f8.chunk.js.map": "/static/js/MaxSize.958292f8.chunk.js.map",
+    "MaxSize.753ddf05.chunk.css.map": "/static/css/MaxSize.753ddf05.chunk.css.map",
+    "MaxSize.b284a07a.chunk.js.map": "/static/js/MaxSize.b284a07a.chunk.js.map",
     "InfiniteCavnas.c8c9fb95.chunk.css.map": "/static/css/InfiniteCavnas.c8c9fb95.chunk.css.map",
     "InfiniteCavnas.64a2e98b.chunk.js.map": "/static/js/InfiniteCavnas.64a2e98b.chunk.js.map",
     "316.0a7f721d.chunk.css.map": "/static/css/316.0a7f721d.chunk.css.map",
@@ -74,6 +74,6 @@
   },
   "entrypoints": [
     "static/css/main.375a0132.css",
-    "static/js/main.3d50b640.js"
+    "static/js/main.17522963.js"
   ]
 }
