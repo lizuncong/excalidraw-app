@@ -2,9 +2,9 @@ import React, { useRef, useState, useEffect } from "react";
 import MarkDown from "@/components/markdown";
 import doc from "../../../doc/canvas最大尺寸限制.md";
 import "./index.less";
-
+import { getMaxArea } from "./util";
 let count = 0;
-const isCanvasExceedsMaximumSize = (width, height) => {
+export const isCanvasExceedsMaximumSize = (width, height) => {
   const testCvs = document.createElement("canvas");
   testCvs.width = width;
   testCvs.height = height;
@@ -43,45 +43,28 @@ const getMaxWidth = () => {
   return max;
 };
 const maxWidth = getMaxWidth();
-
-let areaCount = 0;
-const getMaxArea = () => {
-  let max = maxWidth * maxWidth;
-  const step = maxWidth;
-  let min = maxWidth;
-  while (min < max) {
-    areaCount++;
-    if (areaCount > 1000) {
-      // 加个阀值，防止死循环，返回0表示算法错误导致获取失败
-      return 0;
-    }
-    if (isCanvasExceedsMaximumSize(maxWidth, max / maxWidth)) {
-      max = parseInt((min + max) / 2);
-    } else {
-      min = max;
-      max = max + step;
-    }
-    console.log('max area...')
-  }
-  console.log(`最大面积：尝试了${areaCount}次`);
-  return max;
-};
-const maxArea = getMaxArea();
-
 function Index() {
   const canvasRef = useRef(null);
   const [width, setWidth] = useState(maxWidth);
   const [height, setHeight] = useState(1);
+  const [areaRes, setAreaRes] = useState({ max: "--", areaCount: "--" });
+
   const draw = () => {
+    const startTime = new Date().getTime();
     const canvas = canvasRef.current;
     canvas.width = width;
     canvas.height = height;
     const ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "red";
-    ctx.fillRect(0, 0, 300, 300);
+    ctx.fillRect(0, 0, 300 + Math.random() * 1000, 300);
+
+    console.log(`绘制耗时：${new Date().getTime() - startTime}毫秒`);
   };
   useEffect(() => {
+    getMaxArea(maxWidth).then((res) => {
+      setAreaRes(res);
+    });
   }, []);
   return (
     <>
@@ -89,7 +72,7 @@ function Index() {
         最大宽度：{maxWidth}，最大高度：{maxWidth}，算法查找次数：{count}
       </div>
       <div>
-        最大面积：{maxArea}，算法查找次数：{areaCount}
+        最大面积：{areaRes.max}，算法查找次数：{areaRes.areaCount}
       </div>
       <div className="row">
         宽度：
