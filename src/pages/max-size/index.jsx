@@ -24,19 +24,21 @@ export const isCanvasExceedsMaximumSize = (width, height) => {
 
 const getMaxWidth = () => {
   let max = 65535;
-  const step = 1000;
   let min = 1000;
+  let maxW = Infinity;
   while (min < max) {
     count++;
     if (count > 1000) {
       // 加个阀值，防止死循环，返回0表示算法错误导致获取失败
       return 0;
     }
+    console.log('find width...', maxW, max, min)
     if (isCanvasExceedsMaximumSize(max, 1)) {
+      maxW = Math.min(max, maxW)
       max = parseInt((min + max) / 2);
     } else {
       min = max;
-      max = max + step;
+      max = Math.min(max * 2, maxW);
     }
   }
   console.log(`最大宽度：尝试了${count}次`);
