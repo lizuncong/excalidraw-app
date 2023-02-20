@@ -31,6 +31,10 @@ const MENUS = [
         label: <NavLink to="/advanced/infinite">canvas无限画布</NavLink>,
         key: "/advanced/infinite",
       },
+      {
+        label: <NavLink to="/advanced/free-draw">自由绘制</NavLink>,
+        key: "/advanced/free-draw",
+      },
     ],
   },
 ];

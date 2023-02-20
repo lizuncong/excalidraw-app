@@ -25,6 +25,10 @@ const MaxSize = React.lazy(() =>
 const InfiniteCavnas = React.lazy(() =>
   import(/* webpackChunkName: "InfiniteCavnas" */ "@/pages/infinite-canvas")
 );
+
+const FreeDraw = React.lazy(() =>
+  import(/* webpackChunkName: "FreeDraw" */ "@/pages/free-draw")
+);
 const router = createHashRouter([
   {
     path: "/",
@@ -75,6 +79,14 @@ const router = createHashRouter([
         element: (
           <React.Suspense fallback={<div>loading...</div>}>
             <InfiniteCavnas />
+          </React.Suspense>
+        ),
+      },
+      {
+        path: "/advanced/free-draw",
+        element: (
+          <React.Suspense fallback={<div>loading...</div>}>
+            <FreeDraw />
           </React.Suspense>
         ),
       },
