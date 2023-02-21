@@ -1,7 +1,7 @@
 import React, { memo, useRef, useEffect } from "react";
 import { viewportCoordsToSceneCoords } from "@/util";
 import MarkDown from "@/components/markdown";
-import doc from "../../../doc/canvas进阶/自由绘制.md";
+import doc from "@doc/canvas进阶/点稀释.md";
 import "./index.less";
 import renderScene from "./renderScene";
 
@@ -83,6 +83,8 @@ const Canvas = memo(() => {
     };
 
   const onPointerUpFromCanvasPointerDownHandler = (pointerDownState) => () => {
+    console.log('appState...', appState)
+    console.log('elements...', elements)
     window.removeEventListener(
       "pointermove",
       pointerDownState.eventListeners.onMove

@@ -24,16 +24,26 @@ const MENUS = [
     ],
   },
   {
+    label: "自由书写",
+    key: "free-draw",
+    children: [
+      {
+        label: <NavLink to="/free-draw/base">基础</NavLink>,
+        key: "/free-draw/base",
+      },
+       {
+        label: <NavLink to="/free-draw/dilution">点稀释</NavLink>,
+        key: "/free-draw/dilution",
+      },
+    ],
+  },
+  {
     label: "canvas进阶",
     key: "canvas_advanced",
     children: [
       {
         label: <NavLink to="/advanced/infinite">canvas无限画布</NavLink>,
         key: "/advanced/infinite",
-      },
-      {
-        label: <NavLink to="/advanced/free-draw">自由绘制</NavLink>,
-        key: "/advanced/free-draw",
       },
     ],
   },

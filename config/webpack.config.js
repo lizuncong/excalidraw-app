@@ -1,5 +1,3 @@
-"use strict";
-
 const fs = require("fs");
 const path = require("path");
 const webpack = require("webpack");
@@ -221,7 +219,7 @@ module.exports = function (webpackEnv) {
       // webpack uses `publicPath` to determine where the app is being served from.
       // It requires a trailing slash, or the file assets will get an incorrect path.
       // We inferred the "public path" (such as / or /my-project) from homepage.
-      publicPath: isEnvProduction ? '/excalidraw-app/' : paths.publicUrlOrPath,
+      publicPath: isEnvProduction ? "/excalidraw-app/" : paths.publicUrlOrPath,
       // Point sourcemap entries to original disk location (format as URL on Windows)
       devtoolModuleFilenameTemplate: isEnvProduction
         ? (info) =>
@@ -323,6 +321,7 @@ module.exports = function (webpackEnv) {
         }),
         ...(modules.webpackAliases || {}),
         "@": path.resolve(__dirname, "../src"),
+        "@doc": path.resolve(__dirname, "../doc"),
       },
       plugins: [
         // Prevents users from importing files from outside of src/ (or node_modules/).
@@ -596,12 +595,9 @@ module.exports = function (webpackEnv) {
       new CopyPlugin({
         patterns: [
           {
-            from: path.join(
-              __dirname,
-              "../excalidraw-app"
-            ),
-            to: "../build" + (isEnvProduction ? '' : "/excalidraw-app"),
-          }
+            from: path.join(__dirname, "../excalidraw-app"),
+            to: "../build" + (isEnvProduction ? "" : "/excalidraw-app"),
+          },
         ],
       }),
       // Inlines the webpack runtime script. This script is too small to warrant

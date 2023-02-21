@@ -27,7 +27,10 @@ const InfiniteCavnas = React.lazy(() =>
 );
 
 const FreeDraw = React.lazy(() =>
-  import(/* webpackChunkName: "FreeDraw" */ "@/pages/free-draw")
+  import(/* webpackChunkName: "FreeDraw" */ "@/pages/free-draw/base")
+);
+const Dilution = React.lazy(() =>
+  import(/* webpackChunkName: "Dilution" */ "@/pages/free-draw/dilution")
 );
 const router = createHashRouter([
   {
@@ -83,10 +86,18 @@ const router = createHashRouter([
         ),
       },
       {
-        path: "/advanced/free-draw",
+        path: "/free-draw/base",
         element: (
           <React.Suspense fallback={<div>loading...</div>}>
             <FreeDraw />
+          </React.Suspense>
+        ),
+      },
+      {
+        path: "/free-draw/dilution",
+        element: (
+          <React.Suspense fallback={<div>loading...</div>}>
+            <Dilution />
           </React.Suspense>
         ),
       },

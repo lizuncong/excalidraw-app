@@ -188,6 +188,7 @@ const Canvas = memo(() => {
       >
         绘制canvas
       </canvas>
+      <div id="placeholder"></div>
     </div>
   );
 });

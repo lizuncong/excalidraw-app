@@ -1,11 +1,10 @@
 import { elements } from "./index";
 
 const renderElements = (ctx, appState) => {
-  console.log('appState...', appState)
   elements.forEach((ele) => {
     ctx.save();
     ctx.beginPath();
-    ctx.lineWidth = 5;
+    ctx.lineWidth = 3;
     ctx.strokeStyle = "blue";
 
     ele.points.forEach((point, index) => {

@@ -65,12 +65,15 @@ const generateElementWithCanvas = (element, renderConfig) => {
   }
   return prevElementWithCanvas;
 };
-const rightContainer = document.getElementsByClassName('right')[0]
+let rightContainer = document.getElementById('placeholder')
 let previewCanvas = null
 const generateElementCanvas = (element, zoom, renderConfig) => {
   const canvas = document.createElement("canvas");
   const context = canvas.getContext("2d");
   const padding = getCanvasPadding(element);
+  if(!rightContainer){
+    rightContainer = document.getElementById('placeholder')
+  }
   if(previewCanvas){
     rightContainer.removeChild(previewCanvas)
   }
