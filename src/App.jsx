@@ -1,15 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { Menu } from "antd";
-import MENUS from './menus'
+import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
+import MENUS from "./menus";
 import "./App.css";
 
-
 function App() {
-  const location = useLocation()
+  const location = useLocation();
+  const [show, setShow] = useState(false);
   return (
     <div className="App">
-      <div className="left">
+      <div className={["left", show && "show"].join(" ")}>
         <Menu
           style={{ height: "100%", overflow: "auto" }}
           defaultOpenKeys={["canvas_base"]}
@@ -19,11 +20,17 @@ function App() {
         />
       </div>
       <div className="right">
-        <Outlet />
+        <header>
+          <span onClick={() => setShow(!show)}>
+            {show ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+          </span>
+        </header>
+        <div className="page-container">
+          <Outlet />
+        </div>
       </div>
     </div>
   );
 }
-
 
 export default App;
