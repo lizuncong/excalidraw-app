@@ -4,7 +4,7 @@ import MarkDown from "@/components/markdown";
 import doc from "@doc/canvas进阶/点稀释.md";
 import "./index.less";
 import renderScene from "./renderScene";
-
+import { withBatchedUpdatesThrottled } from './util'
 export const elements = [];
 const appState = {
   offsetLeft: 0,
@@ -75,12 +75,12 @@ const Canvas = memo(() => {
     pointerDownState.eventListeners.onUp = onPointerUp;
   };
   const onPointerMoveFromCanvasPointerDownHandler =
-    (pointerDownState) => (event) => {
+    (pointerDownState) => withBatchedUpdatesThrottled((event) => {
       const pointerCoords = viewportCoordsToSceneCoords(event, appState);
 
       appState.draggingElement.points.push([pointerCoords.x, pointerCoords.y]);
       renderScene(canvasRef.current, appState);
-    };
+    });
 
   const onPointerUpFromCanvasPointerDownHandler = (pointerDownState) => () => {
     console.log('appState...', appState)
