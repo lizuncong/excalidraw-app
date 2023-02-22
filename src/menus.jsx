@@ -31,9 +31,13 @@ const MENUS = [
         label: <NavLink to="/free-draw/base">基础</NavLink>,
         key: "/free-draw/base",
       },
-       {
+      {
         label: <NavLink to="/free-draw/dilution">点稀释</NavLink>,
         key: "/free-draw/dilution",
+      },
+      {
+        label: <NavLink to="/free-draw/draw-image">离屏渲染</NavLink>,
+        key: "/free-draw/draw-image",
       },
     ],
   },

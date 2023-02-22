@@ -24,6 +24,7 @@ const renderScene = (canvas, appState) => {
   const context = canvas.getContext("2d");
   context.clearRect(0, 0, canvas.width, canvas.height);
   renderElements(context, appState);
+  localStorage.setItem("free-draw-elements", JSON.stringify(elements));
 };
 
 export default renderScene;

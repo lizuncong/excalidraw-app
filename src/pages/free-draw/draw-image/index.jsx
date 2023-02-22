@@ -105,6 +105,7 @@ const Canvas = memo(() => {
           绘制canvas
         </canvas>
       </div>
+      <div id="offscreen"></div>
       <MarkDown src={doc} />
     </div>
   );

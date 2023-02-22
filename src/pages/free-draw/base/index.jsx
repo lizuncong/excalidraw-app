@@ -5,7 +5,7 @@ import doc from "@doc/canvas进阶/自由绘制.md";
 import "./index.less";
 import renderScene from "./renderScene";
 
-export const elements = [];
+export const elements = JSON.parse(localStorage.getItem("free-draw-elements")) || [];
 const appState = {
   offsetLeft: 0,
   offsetTop: 0,
@@ -83,8 +83,8 @@ const Canvas = memo(() => {
     };
 
   const onPointerUpFromCanvasPointerDownHandler = (pointerDownState) => () => {
-    console.log('appState...', appState)
-    console.log('elements...', elements)
+    console.log("appState...", appState);
+    console.log("elements...", elements.map(ele => ele.points.length));
     window.removeEventListener(
       "pointermove",
       pointerDownState.eventListeners.onMove
