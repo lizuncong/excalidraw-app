@@ -2,7 +2,6 @@ export const viewportCoordsToSceneCoords = (
   { clientX, clientY },
   { offsetLeft, offsetTop, scrollX, scrollY }
 ) => {
-  console.log("clientx...", clientX, offsetLeft, scrollX);
   const x = clientX - offsetLeft - scrollX;
   const y = clientY - offsetTop - scrollY;
   return { x, y };

@@ -9,11 +9,11 @@ const renderElements = (ctx, appState) => {
 
     const offscreenContainer = document.getElementById("offscreen");
 
-    // if (previewCanvas) {
-    //   offscreenContainer.removeChild(previewCanvas);
-    // }
-    // previewCanvas = canvas;
-    // offscreenContainer.appendChild(previewCanvas);
+    if (previewCanvas) {
+      offscreenContainer.removeChild(previewCanvas);
+    }
+    previewCanvas = canvas;
+    offscreenContainer.appendChild(previewCanvas);
 
     let [x1, y1, x2, y2] = getElementAbsoluteCoords({
       ...ele,
@@ -26,7 +26,6 @@ const renderElements = (ctx, appState) => {
     const padding = 20;
     canvas.width = distance(x1, x2) * window.devicePixelRatio + padding * 2;
     canvas.height = distance(y1, y2) * window.devicePixelRatio + padding * 2;
-    console.log("canvas...", x1, x2, distance(x1, x2), canvas.width, canvas.height);
     canvasOffsetX =
       ele.x > x1 ? distance(ele.x, x1) * window.devicePixelRatio : 0;
 
@@ -40,7 +39,6 @@ const renderElements = (ctx, appState) => {
 
     context.lineWidth = 3;
     context.strokeStyle = ele.strokeStyle;
-    console.log("ele...", ele.points);
     ele.points.forEach((point, index) => {
       let [x, y] = point;
       x = x - ele.x;
