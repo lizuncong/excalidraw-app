@@ -1,5 +1,5 @@
 import React, { memo, useRef, useEffect } from "react";
-import { viewportCoordsToSceneCoords } from "@/util";
+import { viewportCoordsToSceneCoords, rgb } from "@/util";
 import MarkDown from "@/components/markdown";
 import doc from "@doc/canvas进阶/点稀释.md";
 import "./index.less";
@@ -55,12 +55,12 @@ const Canvas = memo(() => {
     const element = {
       x: pointerDownState.origin.x,
       y: pointerDownState.origin.y,
-      points: [],
+      points: [[pointerDownState.origin.x, pointerDownState.origin.y]],
       strokeColor: "#000000",
       backgroundColor: "transparent",
       fillStyle: "hachure",
       strokeWidth: 1,
-      strokeStyle: "solid",
+      strokeStyle: rgb(),
     };
     appState.draggingElement = element;
     elements.push(element);

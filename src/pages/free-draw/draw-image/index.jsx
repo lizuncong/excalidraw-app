@@ -1,11 +1,12 @@
 import React, { memo, useRef, useEffect } from "react";
-import { viewportCoordsToSceneCoords } from "@/util";
+import { viewportCoordsToSceneCoords, rgb } from "@/util";
 import MarkDown from "@/components/markdown";
 import doc from "@doc/canvas进阶/点稀释.md";
 import "./index.less";
 import renderScene from "./renderScene";
-import { withBatchedUpdatesThrottled } from './util'
-export const elements = JSON.parse(localStorage.getItem("free-draw-elements")) || [];
+import { withBatchedUpdatesThrottled } from "./util";
+export const elements =
+  JSON.parse(localStorage.getItem("free-draw-elements")) || [];
 const appState = {
   offsetLeft: 0,
   offsetTop: 0,
@@ -55,12 +56,12 @@ const Canvas = memo(() => {
     const element = {
       x: pointerDownState.origin.x,
       y: pointerDownState.origin.y,
-      points: [],
+      points: [[pointerDownState.origin.x,  pointerDownState.origin.y]],
       strokeColor: "#000000",
       backgroundColor: "transparent",
       fillStyle: "hachure",
       strokeWidth: 1,
-      strokeStyle: "solid",
+      strokeStyle: rgb(),
     };
     appState.draggingElement = element;
     elements.push(element);
@@ -74,17 +75,22 @@ const Canvas = memo(() => {
     pointerDownState.eventListeners.onMove = onPointerMove;
     pointerDownState.eventListeners.onUp = onPointerUp;
   };
-  const onPointerMoveFromCanvasPointerDownHandler =
-    (pointerDownState) => withBatchedUpdatesThrottled((event) => {
+  const onPointerMoveFromCanvasPointerDownHandler = (pointerDownState) =>
+    withBatchedUpdatesThrottled((event) => {
       const pointerCoords = viewportCoordsToSceneCoords(event, appState);
-
+      // const draggingElement = appState.draggingElement;
+      // const dx = pointerCoords.x - draggingElement.x;
+      // const dy = pointerCoords.y - draggingElement.y;
       appState.draggingElement.points.push([pointerCoords.x, pointerCoords.y]);
       renderScene(canvasRef.current, appState);
     });
 
   const onPointerUpFromCanvasPointerDownHandler = (pointerDownState) => () => {
-    console.log('appState...', appState)
-    console.log("elements...", elements.map(ele => ele.points.length));
+    console.log("appState...", appState);
+    console.log(
+      "elements...",
+      elements.map((ele) => ele.points.length)
+    );
     window.removeEventListener(
       "pointermove",
       pointerDownState.eventListeners.onMove

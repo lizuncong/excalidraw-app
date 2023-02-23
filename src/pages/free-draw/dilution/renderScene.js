@@ -5,7 +5,7 @@ const renderElements = (ctx, appState) => {
     ctx.save();
     ctx.beginPath();
     ctx.lineWidth = 3;
-    ctx.strokeStyle = "blue";
+    ctx.strokeStyle = ele.strokeStyle;
 
     ele.points.forEach((point, index) => {
       if (!index) {

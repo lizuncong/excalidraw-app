@@ -1,47 +1,77 @@
 import { elements } from "./index";
-import { getBoundsFromPoints } from "./util";
+import { getElementAbsoluteCoords, distance } from "./util";
 let previewCanvas = null;
 const renderElements = (ctx, appState) => {
   elements.forEach((ele) => {
+    // 离屏canvas绘制
     const canvas = document.createElement("canvas");
     const context = canvas.getContext("2d");
 
-    const [minX, minY, maxX, maxY] = getBoundsFromPoints(ele.points);
-
     const offscreenContainer = document.getElementById("offscreen");
 
-    if (previewCanvas) {
-      offscreenContainer.removeChild(previewCanvas);
-    }
-    previewCanvas = canvas;
-    offscreenContainer.appendChild(previewCanvas);
+    // if (previewCanvas) {
+    //   offscreenContainer.removeChild(previewCanvas);
+    // }
+    // previewCanvas = canvas;
+    // offscreenContainer.appendChild(previewCanvas);
 
+    let [x1, y1, x2, y2] = getElementAbsoluteCoords({
+      ...ele,
+      points: ele.points.map(p => {
+        return [p[0] - ele.x, p[1] - ele.y]
+      })
+    });
+    let canvasOffsetX = 0;
+    let canvasOffsetY = 0;
+    const padding = 20;
+    canvas.width = distance(x1, x2) * window.devicePixelRatio + padding * 2;
+    canvas.height = distance(y1, y2) * window.devicePixelRatio + padding * 2;
+    console.log("canvas...", x1, x2, distance(x1, x2), canvas.width, canvas.height);
+    canvasOffsetX =
+      ele.x > x1 ? distance(ele.x, x1) * window.devicePixelRatio : 0;
 
-    console.log(maxX - minX, maxY - minY);
-    canvas.width = (maxX - minX) * window.devicePixelRatio;
-    canvas.height = (maxY - minY) * window.devicePixelRatio;
+    canvasOffsetY =
+      ele.y > y1 ? distance(ele.y, y1) * window.devicePixelRatio : 0;
 
+    context.translate(canvasOffsetX, canvasOffsetY);
     context.save();
-    context.beginPath();
+    context.translate(padding, padding);
     context.scale(window.devicePixelRatio, window.devicePixelRatio);
 
+    context.lineWidth = 3;
+    context.strokeStyle = ele.strokeStyle;
+    console.log("ele...", ele.points);
     ele.points.forEach((point, index) => {
-      const [x, y] = point;
+      let [x, y] = point;
+      x = x - ele.x;
+      y = y - ele.y;
       if (!index) {
-        context.moveTo(x - minX, y - minY);
+        context.moveTo(x, y);
       } else {
-        context.lineTo(x - minX, y - minY);
+        context.lineTo(x, y);
       }
     });
+
     context.stroke();
+
     context.restore();
 
-    ctx.save();
+    // 真正绘制
+    x1 = Math.floor(x1);
+    x2 = Math.ceil(x2);
+    y1 = Math.floor(y1);
+    y2 = Math.ceil(y2);
+    const cx = ((x1 + x2) / 2 + appState.scrollX) * window.devicePixelRatio;
+    const cy = ((y1 + y2) / 2 + appState.scrollY) * window.devicePixelRatio;
 
-    context.drawImage(
+    ctx.save();
+    ctx.scale(1 / window.devicePixelRatio, 1 / window.devicePixelRatio);
+    ctx.translate(cx, cy);
+
+    ctx.drawImage(
       canvas,
-      (-(maxX - minX) / 2) * window.devicePixelRatio,
-      (-(maxY - minY) / 2) * window.devicePixelRatio,
+      (-(x2 - x1) / 2) * window.devicePixelRatio - padding,
+      (-(y2 - y1) / 2) * window.devicePixelRatio - padding,
       canvas.width,
       canvas.height
     );
