@@ -3,7 +3,7 @@ import { viewportCoordsToSceneCoords, rgb } from "@/util";
 import MarkDown from "@/components/markdown";
 import doc from "@doc/canvas进阶/点稀释.md";
 import "./index.less";
-import renderScene from "./renderScene";
+import renderScene, { deleteElementCache } from "./renderScene";
 import { withBatchedUpdatesThrottled } from "./util";
 export const elements =
   JSON.parse(localStorage.getItem("free-draw-elements")) || [];
@@ -56,7 +56,7 @@ const Canvas = memo(() => {
     const element = {
       x: pointerDownState.origin.x,
       y: pointerDownState.origin.y,
-      points: [[pointerDownState.origin.x,  pointerDownState.origin.y]],
+      points: [[pointerDownState.origin.x, pointerDownState.origin.y]],
       strokeColor: "#000000",
       backgroundColor: "transparent",
       fillStyle: "hachure",
@@ -64,6 +64,7 @@ const Canvas = memo(() => {
       strokeStyle: rgb(),
     };
     appState.draggingElement = element;
+    deleteElementCache(element);
     elements.push(element);
 
     const onPointerMove =
@@ -82,6 +83,8 @@ const Canvas = memo(() => {
       // const dx = pointerCoords.x - draggingElement.x;
       // const dy = pointerCoords.y - draggingElement.y;
       appState.draggingElement.points.push([pointerCoords.x, pointerCoords.y]);
+      deleteElementCache(appState.draggingElement);
+
       renderScene(canvasRef.current, appState);
     });
 
@@ -111,7 +114,7 @@ const Canvas = memo(() => {
           绘制canvas
         </canvas>
       </div>
-      <div id="offscreen"></div>
+      {/* <div id="offscreen"></div> */}
       <MarkDown src={doc} />
     </div>
   );
