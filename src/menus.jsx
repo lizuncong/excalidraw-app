@@ -43,6 +43,10 @@ const MENUS = [
         label: <NavLink to="/free-draw/draw-image">离屏渲染</NavLink>,
         key: "/free-draw/draw-image",
       },
+      {
+        label: <NavLink to="/free-draw/multiple-canvas">多层画布</NavLink>,
+        key: "/free-draw/multiple-canvas",
+      },
     ],
   },
   {

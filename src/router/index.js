@@ -39,6 +39,9 @@ const DrawImage = React.lazy(() =>
 const Excalidraw = React.lazy(() =>
   import(/* webpackChunkName: "Excalidraw" */ "@/pages/free-draw/excalidraw")
 );
+const MultipleCanvas = React.lazy(() =>
+  import(/* webpackChunkName: "MultipleCanvas" */ "@/pages/free-draw/multiple-layered")
+);
 const router = createHashRouter([
   {
     path: "/",
@@ -121,6 +124,14 @@ const router = createHashRouter([
         element: (
           <React.Suspense fallback={<div>loading...</div>}>
             <DrawImage />
+          </React.Suspense>
+        ),
+      },
+      {
+        path: "/free-draw/multiple-canvas",
+        element: (
+          <React.Suspense fallback={<div>loading...</div>}>
+            <MultipleCanvas />
           </React.Suspense>
         ),
       },
