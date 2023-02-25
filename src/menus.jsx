@@ -28,6 +28,10 @@ const MENUS = [
     key: "free-draw",
     children: [
       {
+        label: <NavLink to="/free-draw/excalidraw">excalidraw</NavLink>,
+        key: "/free-draw/excalidraw",
+      },
+      {
         label: <NavLink to="/free-draw/base">基础</NavLink>,
         key: "/free-draw/base",
       },

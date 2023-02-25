@@ -1292,10 +1292,10 @@
     minimatch "^3.1.2"
     strip-json-comments "^3.1.1"
 
-"@excalidraw/excalidraw@^0.13.0":
-  version "0.13.0"
-  resolved "https://registry.npmmirror.com/@excalidraw/excalidraw/-/excalidraw-0.13.0.tgz#db17041be09d7e9da72e3ae6cd3a2e1ceb5d2ff9"
-  integrity sha512-TTi1hiUczfIj/kLQshh1EHUrXziEa5cwLF74TrlFQWwW9jhJIF73HplmqEMrfwwqt7CrypXRZtMzH1hhmZ3vbg==
+"@excalidraw/excalidraw@^0.14.2":
+  version "0.14.2"
+  resolved "https://registry.npmmirror.com/@excalidraw/excalidraw/-/excalidraw-0.14.2.tgz#150cb4b7a1bf0d11cd64295936c930e7e0db8375"
+  integrity sha512-8LdjpTBWEK5waDWB7Bt/G9YBI4j0OxkstUhvaDGz7dwQGfzF6FW5CXBoYHNEoX0qmb+Fg/NPOlZ7FrKsrSVCqg==
 
 "@humanwhocodes/config-array@^0.11.6":
   version "0.11.7"

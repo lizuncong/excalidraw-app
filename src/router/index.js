@@ -36,6 +36,9 @@ const Dilution = React.lazy(() =>
 const DrawImage = React.lazy(() =>
   import(/* webpackChunkName: "DrawImage" */ "@/pages/free-draw/draw-image")
 );
+const Excalidraw = React.lazy(() =>
+  import(/* webpackChunkName: "Excalidraw" */ "@/pages/free-draw/excalidraw")
+);
 const router = createHashRouter([
   {
     path: "/",
@@ -86,6 +89,14 @@ const router = createHashRouter([
         element: (
           <React.Suspense fallback={<div>loading...</div>}>
             <InfiniteCavnas />
+          </React.Suspense>
+        ),
+      },
+      {
+        path: "/free-draw/excalidraw",
+        element: (
+          <React.Suspense fallback={<div>loading...</div>}>
+            <Excalidraw />
           </React.Suspense>
         ),
       },

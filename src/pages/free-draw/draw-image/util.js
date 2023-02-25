@@ -79,3 +79,60 @@ export const getElementAbsoluteCoords = (element) => {
 };
 
 export const distance = (x, y) => Math.abs(x - y);
+
+export const getSizeFromPoints = (points) => {
+  const xs = points.map((point) => point[0]);
+  const ys = points.map((point) => point[1]);
+  return {
+    width: Math.max(...xs) - Math.min(...xs),
+    height: Math.max(...ys) - Math.min(...ys),
+  };
+};
+
+let testIdBase = 0;
+export const randomId = () => `id${testIdBase++}`;
+export const randomInteger = () => Math.floor(Math.random() * 2 ** 31);
+
+export const generateExcalidrawElements = () => {
+  const freeDrawElements =
+    JSON.parse(localStorage.getItem("free-draw-elements")) || [];
+  const result = freeDrawElements.map((ele) => {
+    const points = ele.points.map((p) => {
+      return [p[0] - ele.x, p[1] - ele.y];
+    });
+    const {width, height} = getSizeFromPoints(points);
+    return {
+      id: randomId(),
+      type: "freedraw",
+      x: ele.x,
+      y: ele.y,
+      width: width,
+      height: height,
+      angle: 0,
+      strokeColor: ele.strokeStyle,
+      backgroundColor: "transparent",
+      fillStyle: "hachure",
+      strokeWidth: 1,
+      strokeStyle: "solid",
+      roughness: 1,
+      opacity: 100,
+      groupIds: [],
+      roundness: null,
+      seed: randomInteger(),
+      version: 1,
+      versionNonce: 0,
+      isDeleted: false,
+      boundElements: null,
+      updated: Date.now(),
+      link: null,
+      locked: false,
+      points: points,
+      pressures: [],
+      simulatePressure: true,
+      lastCommittedPoint: points[points.length -1 ],
+    };
+  });
+  return result
+};
+
+window.__generateExcalidrawElements = generateExcalidrawElements;
