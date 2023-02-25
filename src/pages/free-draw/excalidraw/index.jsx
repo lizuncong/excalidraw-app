@@ -25,7 +25,7 @@ const Index = memo(() => {
     initialStatePromiseRef.current.promise.resolve(initialData);
   }, []);
   return (
-    <div className="free-draw">
+    <div className="excalidraw">
       <div className="container">
         <Excalidraw
           initialData={initialStatePromiseRef.current.promise}

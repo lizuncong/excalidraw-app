@@ -95,7 +95,7 @@ const Canvas = memo(() => {
     );
   };
   return (
-    <div className="free-draw">
+    <div className="dilution">
       <div className="container" ref={canvasContainer}>
         <canvas
           ref={canvasRef}

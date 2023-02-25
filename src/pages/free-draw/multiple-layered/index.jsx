@@ -121,8 +121,8 @@ const Canvas = memo(() => {
     );
   };
   return (
-    <div className="free-draw">
-      <div className="container" ref={canvasContainer}>
+    <div className="multiple-layer">
+      <div className="container wrap" ref={canvasContainer}>
         <canvas ref={staticCanvasRef} className="canvas">
           静态canvas
         </canvas>
