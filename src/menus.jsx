@@ -28,23 +28,23 @@ const MENUS = [
     key: "free-draw",
     children: [
       {
-        label: <NavLink to="/free-draw/excalidraw">excalidraw</NavLink>,
+        label: <NavLink to="/free-draw/excalidraw">开源的excalidraw</NavLink>,
         key: "/free-draw/excalidraw",
       },
       {
-        label: <NavLink to="/free-draw/base">基础</NavLink>,
+        label: <NavLink to="/free-draw/base">书写基础(没有任何优化)</NavLink>,
         key: "/free-draw/base",
       },
       {
-        label: <NavLink to="/free-draw/dilution">点稀释</NavLink>,
+        label: <NavLink to="/free-draw/dilution">优化一：点稀释</NavLink>,
         key: "/free-draw/dilution",
       },
       {
-        label: <NavLink to="/free-draw/draw-image">离屏渲染</NavLink>,
+        label: <NavLink to="/free-draw/draw-image">优化二：离屏渲染</NavLink>,
         key: "/free-draw/draw-image",
       },
       {
-        label: <NavLink to="/free-draw/multiple-canvas">多层画布</NavLink>,
+        label: <NavLink to="/free-draw/multiple-canvas">优化三：多层画布</NavLink>,
         key: "/free-draw/multiple-canvas",
       },
     ],
