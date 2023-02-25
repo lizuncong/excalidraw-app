@@ -80,10 +80,10 @@ const renderElements = (ctx, appState) => {
     const padding = 20;
 
     // 真正绘制
-    x1 = Math.floor(x1);
-    x2 = Math.ceil(x2);
-    y1 = Math.floor(y1);
-    y2 = Math.ceil(y2);
+    // x1 = Math.floor(x1);
+    // x2 = Math.ceil(x2);
+    // y1 = Math.floor(y1);
+    // y2 = Math.ceil(y2);
     const cx = ((x1 + x2) / 2 + appState.scrollX) * window.devicePixelRatio;
     const cy = ((y1 + y2) / 2 + appState.scrollY) * window.devicePixelRatio;
 

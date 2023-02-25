@@ -36,11 +36,11 @@ const Canvas = memo(() => {
     setCanvasSize(staticCanvasRef.current);
     // 设置appState
     const { x, y } = canvas.getBoundingClientRect();
-    const offsetTop = Math.ceil(y);
-    const offsetLeft = Math.ceil(x);
+    // const offsetTop = Math.ceil(y);
+    // const offsetLeft = Math.ceil(x);
 
-    appState.offsetLeft = offsetLeft;
-    appState.offsetTop = offsetTop;
+    appState.offsetLeft = x; //offsetLeft;
+    appState.offsetTop = y; //offsetTop;
     // 绘制静态canvas
     renderScene(staticCanvasRef.current, appState);
 
