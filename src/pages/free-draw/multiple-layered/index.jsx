@@ -107,6 +107,9 @@ const Canvas = memo(() => {
     );
     deleteElementCache(appState.draggingElement);
     elements.push(appState.draggingElement);
+    const canvas = canvasRef.current;
+    const context = canvas.getContext("2d");
+    context.clearRect(0, 0, canvas.width, canvas.height);
     renderScene(staticCanvasRef.current, appState);
     window.removeEventListener(
       "pointermove",
