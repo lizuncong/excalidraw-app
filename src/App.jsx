@@ -5,6 +5,9 @@ import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 import MENUS from "./menus";
 import "./App.css";
 
+window.EXCALIDRAW_ASSET_PATH = "/";
+
+
 function App() {
   const location = useLocation();
   const [show, setShow] = useState(false);
