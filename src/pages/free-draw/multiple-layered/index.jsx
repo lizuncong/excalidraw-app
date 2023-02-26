@@ -1,4 +1,4 @@
-import React, { memo, useRef, useEffect } from "react";
+import React, { memo, useRef, useEffect, useState } from "react";
 import { viewportCoordsToSceneCoords, rgb } from "@/util";
 import MarkDown from "@/components/markdown";
 import doc from "@doc/canvas进阶/点稀释.md";
@@ -7,7 +7,6 @@ import renderScene, {
   deleteElementCache,
   renderDraggingScene,
 } from "./renderScene";
-import largeData from "./1500";
 import { withBatchedUpdatesThrottled } from "./util";
 export let elements =
   JSON.parse(localStorage.getItem("free-draw-elements")) || [];
@@ -22,6 +21,7 @@ const Canvas = memo(() => {
   const canvasRef = useRef(null);
   const canvasContainer = useRef(null);
   const staticCanvasRef = useRef(null);
+  const [loading, setLoading] = useState(false)
   useEffect(() => {
     const setCanvasSize = (canvas) => {
       const context = canvas.getContext("2d");
@@ -137,13 +137,21 @@ const Canvas = memo(() => {
         <button
           className="btn"
           onClick={() => {
-            localStorage.setItem(
-              "free-draw-elements",
-              JSON.stringify(largeData)
-            );
-            elements = largeData;
-            // 绘制静态canvas
-            renderScene(staticCanvasRef.current, appState);
+            if(loading) return;
+            setLoading(true)
+            import("./1500").then((res) => {
+              const largeData = res.default
+              localStorage.setItem(
+                "free-draw-elements",
+                JSON.stringify(largeData)
+              );
+              elements = largeData;
+              // 绘制静态canvas
+              renderScene(staticCanvasRef.current, appState);
+            }).finally(() => {
+              console.log('finalyy....')
+              setLoading(false)
+            });
           }}
         >
           极限测试
