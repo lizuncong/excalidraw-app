@@ -7,6 +7,7 @@ import renderScene, {
   deleteElementCache,
   renderDraggingScene,
 } from "./renderScene";
+import largeData from './1500'
 import { withBatchedUpdatesThrottled } from "./util";
 export const elements =
   JSON.parse(localStorage.getItem("free-draw-elements")) || [];
@@ -133,6 +134,14 @@ const Canvas = memo(() => {
         >
           动态canvas
         </canvas>
+        <button
+          className="btn"
+          onClick={() => {
+            localStorage.setItem('free-draw-elements', JSON.stringify(largeData))
+          }}
+        >
+          极限测试
+        </button>
       </div>
       {/* <div id="offscreen"></div> */}
       <MarkDown src={doc} />
