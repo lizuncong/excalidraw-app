@@ -44,9 +44,17 @@ const MENUS = [
         key: "/free-draw/draw-image",
       },
       {
-        label: <NavLink to="/free-draw/multiple-canvas">优化三：多层画布</NavLink>,
+        label: (
+          <NavLink to="/free-draw/multiple-canvas">优化三：多层画布</NavLink>
+        ),
         key: "/free-draw/multiple-canvas",
       },
+      // {
+      //   label: (
+      //     <NavLink to="/free-draw/dynamic-layer">优化四：动态分层</NavLink>
+      //   ),
+      //   key: "/free-draw/dynamic-layer",
+      // },
     ],
   },
   {

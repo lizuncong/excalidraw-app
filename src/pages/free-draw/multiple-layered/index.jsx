@@ -21,7 +21,7 @@ const Canvas = memo(() => {
   const canvasRef = useRef(null);
   const canvasContainer = useRef(null);
   const staticCanvasRef = useRef(null);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     const setCanvasSize = (canvas) => {
       const context = canvas.getContext("2d");
@@ -57,6 +57,11 @@ const Canvas = memo(() => {
     return () => {
       wrap.removeEventListener("wheel", handleWheel);
     };
+  }, []);
+  useEffect(() => {
+    import("./1500").then((res) => {
+      // console.log("懒加载....");
+    });
   }, []);
   const handleCanvasPointerDown = (event) => {
     const origin = viewportCoordsToSceneCoords(event, appState);
@@ -101,13 +106,13 @@ const Canvas = memo(() => {
     });
 
   const onPointerUpFromCanvasPointerDownHandler = (pointerDownState) => () => {
+    deleteElementCache(appState.draggingElement);
+    elements.push(appState.draggingElement);
     console.log("appState...", appState);
     console.log(
       "elements...",
       elements.map((ele) => ele.points.length)
     );
-    deleteElementCache(appState.draggingElement);
-    elements.push(appState.draggingElement);
     const canvas = canvasRef.current;
     const context = canvas.getContext("2d");
     context.clearRect(0, 0, canvas.width, canvas.height);
@@ -135,23 +140,35 @@ const Canvas = memo(() => {
           动态canvas
         </canvas>
         <button
+          className="btn clear"
+          onClick={() => {
+            localStorage.setItem("free-draw-elements", JSON.stringify([]));
+            elements = [];
+            // 绘制静态canvas
+            renderScene(staticCanvasRef.current, appState);
+          }}
+        >
+          清空localstorage
+        </button>
+        <button
           className="btn"
           onClick={() => {
-            if(loading) return;
-            setLoading(true)
-            import("./1500").then((res) => {
-              const largeData = res.default
-              localStorage.setItem(
-                "free-draw-elements",
-                JSON.stringify(largeData)
-              );
-              elements = largeData;
-              // 绘制静态canvas
-              renderScene(staticCanvasRef.current, appState);
-            }).finally(() => {
-              console.log('finalyy....')
-              setLoading(false)
-            });
+            if (loading) return;
+            setLoading(true);
+            import("./1500")
+              .then((res) => {
+                const largeData = res.default;
+                localStorage.setItem(
+                  "free-draw-elements",
+                  JSON.stringify(largeData)
+                );
+                elements = largeData;
+                // 绘制静态canvas
+                renderScene(staticCanvasRef.current, appState);
+              })
+              .finally(() => {
+                setLoading(false);
+              });
           }}
         >
           极限测试
