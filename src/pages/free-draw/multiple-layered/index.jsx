@@ -7,9 +7,9 @@ import renderScene, {
   deleteElementCache,
   renderDraggingScene,
 } from "./renderScene";
-import largeData from './1500'
+import largeData from "./1500";
 import { withBatchedUpdatesThrottled } from "./util";
-export const elements =
+export let elements =
   JSON.parse(localStorage.getItem("free-draw-elements")) || [];
 const appState = {
   offsetLeft: 0,
@@ -137,7 +137,13 @@ const Canvas = memo(() => {
         <button
           className="btn"
           onClick={() => {
-            localStorage.setItem('free-draw-elements', JSON.stringify(largeData))
+            localStorage.setItem(
+              "free-draw-elements",
+              JSON.stringify(largeData)
+            );
+            elements = largeData;
+            // 绘制静态canvas
+            renderScene(staticCanvasRef.current, appState);
           }}
         >
           极限测试
