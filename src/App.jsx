@@ -5,7 +5,8 @@ import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 import MENUS from "./menus";
 import "./App.css";
 
-window.EXCALIDRAW_ASSET_PATH = "/";
+console.log('process.evne', process.env)
+window.EXCALIDRAW_ASSET_PATH = process.env.NODE_ENV === "development" ? "/" : '/excalidraw-app/';
 
 
 function App() {
