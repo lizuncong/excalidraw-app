@@ -1,0 +1,30 @@
+## 预研项
+
+- 如何和安卓书写笔迹圆滑算法保持一致
+- 如何和安卓笔锋算法保持一致
+- 图形拖拽时如何保证能跟得上手速
+
+## 影响 Canvas 性能的因素
+
+- 绘制文本的开销是比较昂贵的
+- 离屏渲染时，离屏 canvas 的尺寸要尽可能和正在绘制的图形尺寸一致。否则调用 drawImage 将离屏 canvas 绘制到目标 canvas 时，离屏 canvas 尺寸太大也会导致性能变差
+- 尽可能少的改变 canvas 的状态，比如颜色。由于 canvas 元素是用[状态机实现](https://web.dev/canvas-performance/#avoid-unnecessary-canvas-state-changes)的，改变 canvas 状态开销昂贵
+- 尽可能少的使用 shadowBlur
+
+## 工具
+
+- [chrome://gpu/](chrome://gpu/)。硬件加速报告，可以查看所有有硬件加速的元素。比如 canvas
+
+## 参考资料
+
+- [canvas 基础](http://diveintohtml5.info/canvas.html)
+
+- [https://web.dev/canvas-performance/](https://web.dev/canvas-performance/)。canvas 性能圣经
+
+- [OffscreenCanvas — Speed up Your Canvas Operations with a Web Worker](https://developer.chrome.com/blog/offscreen-canvas/)
+
+- [Optimizing your JavaScript game for Firefox OS](https://hacks.mozilla.org/2013/05/optimizing-your-javascript-game-for-firefox-os/)
+
+- [MDN: Optimizing canvas](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Optimizing_canvas)
+
+- [https://github.com/excalidraw/excalidraw/issues/5192](https://github.com/excalidraw/excalidraw/issues/5192)
