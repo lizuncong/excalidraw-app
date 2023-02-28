@@ -49,6 +49,11 @@ const DynamicLayer = React.lazy(() =>
     /* webpackChunkName: "DynamicLayer" */ "@/pages/free-draw/dynamic-layer"
   )
 );
+const Translate = React.lazy(() =>
+  import(
+    /* webpackChunkName: "Translate" */ "@/pages/free-draw/translate"
+  )
+);
 const router = createHashRouter([
   {
     path: "/",
@@ -147,6 +152,14 @@ const router = createHashRouter([
         element: (
           <React.Suspense fallback={<div>loading...</div>}>
             <DynamicLayer />
+          </React.Suspense>
+        ),
+      },
+      {
+        path: "/free-draw/translate",
+        element: (
+          <React.Suspense fallback={<div>loading...</div>}>
+            <Translate />
           </React.Suspense>
         ),
       },

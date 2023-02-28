@@ -11,6 +11,19 @@
 - 尽可能少的改变 canvas 的状态，比如颜色。由于 canvas 元素是用[状态机实现](https://web.dev/canvas-performance/#avoid-unnecessary-canvas-state-changes)的，改变 canvas 状态开销昂贵
 - 尽可能少的使用 shadowBlur
 
+## 常见的 Canvas 性能优化手段
+
+- 离屏 canvas + 缓存 + drawImage。每个元素都保存一份离屏的 canvas 缓存，下次绘制时将离屏 canvas 使用 drawImage 绘制到可见的 canvas 上
+- offscreenCanvas
+- 只绘制可视区域内的元素。
+- 尝试使用 css 实现平移、缩放
+- 等等。可以看参考资料收集的手段
+
+## 待完善
+
+- 自由书写-平移。目前还没完善，有 bug，同时需要考虑结合无限画布实现
+- 平移缩放性能
+
 ## 工具
 
 - [chrome://gpu/](chrome://gpu/)。硬件加速报告，可以查看所有有硬件加速的元素。比如 canvas
