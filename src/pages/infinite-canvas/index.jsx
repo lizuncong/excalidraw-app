@@ -22,17 +22,28 @@ const viewportCoordsToSceneCoords = (
 const Canvas = memo(() => {
   const canvasRef = useRef(null);
   const canvasContainer = useRef(null);
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    const context = canvas.getContext("2d");
-    const { offsetWidth, offsetHeight, offsetLeft, offsetTop } = canvas;
-    canvas.width = offsetWidth * window.devicePixelRatio;
-    canvas.height = offsetHeight * window.devicePixelRatio;
-    context.scale(window.devicePixelRatio, window.devicePixelRatio);
 
-    appState.offsetLeft = offsetLeft;
-    appState.offsetTop = offsetTop;
-    renderScene(canvas, appState);
+  useEffect(() => {
+    const render = () => {
+      const canvas = canvasRef.current;
+      const context = canvas.getContext("2d");
+      const { offsetWidth, offsetHeight, offsetLeft, offsetTop } = canvas;
+      canvas.width = offsetWidth * window.devicePixelRatio;
+      canvas.height = offsetHeight * window.devicePixelRatio;
+      context.scale(window.devicePixelRatio, window.devicePixelRatio);
+
+      appState.offsetLeft = offsetLeft;
+      appState.offsetTop = offsetTop;
+      renderScene(canvas, appState);
+    };
+    render();
+    const resize = () => {
+      render();
+    };
+    window.addEventListener("resize", resize);
+    return () => {
+      window.removeEventListener("resize", resize);
+    };
   }, []);
   useEffect(() => {
     const wrap = canvasContainer.current;
@@ -146,14 +157,14 @@ const Canvas = memo(() => {
             const canvas = document.createElement("canvas");
             canvas.width = (maxX - minX + 20) * window.devicePixelRatio;
             canvas.height = (maxY - minY + 20) * window.devicePixelRatio;
-            const context = canvas.getContext('2d')
-            context.scale(window.devicePixelRatio, window.devicePixelRatio)
+            const context = canvas.getContext("2d");
+            context.scale(window.devicePixelRatio, window.devicePixelRatio);
             renderScene(canvas, {
               ...appState,
               scrollX: -minX + 10,
               scrollY: -minY + 10,
             });
-            console.log('导出', elements);
+            console.log("导出", elements);
             var a = document.createElement("a");
             a.href = canvas.toDataURL();
             a.download = "canvas.png";
