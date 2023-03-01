@@ -134,7 +134,7 @@ const Canvas = memo(() => {
         </canvas>
         <canvas
           ref={canvasRef}
-          className="canvas"
+          className="canvas draw"
           onPointerDown={handleCanvasPointerDown}
         >
           动态canvas
