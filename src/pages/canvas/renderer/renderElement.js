@@ -127,18 +127,17 @@ const drawElementFromCanvas = (elementWithCanvas, context, renderConfig) => {
   const element = elementWithCanvas.element;
   const padding = getCanvasPadding(element);
   let [x1, y1, x2, y2] = getElementAbsoluteCoords(element);
-  // if (element.type === "freedraw") {
-  //   [x1, y1, x2, y2] = getElementAbsoluteCoords({
-  //     ...element,
-  //     points: element.points.map((p) => {
-  //       return [p[0] - element.x, p[1] - element.y];
-  //     }),
-  //   });
-  // }
-  console.log("eleement-====", elementWithCanvas.canvas);
+  if (element.type === "freedraw") {
+    [x1, y1, x2, y2] = getElementAbsoluteCoords({
+      ...element,
+      points: element.points.map((p) => {
+        return [p[0] - element.x, p[1] - element.y];
+      }),
+    });
+  }
   const cx = ((x1 + x2) / 2 + renderConfig.scrollX) * window.devicePixelRatio;
   const cy = ((y1 + y2) / 2 + renderConfig.scrollY) * window.devicePixelRatio;
-  console.log('cx...', cx, cy)
+  console.log('cx...', elementWithCanvas)
   context.save();
   context.scale(1 / window.devicePixelRatio, 1 / window.devicePixelRatio);
 
