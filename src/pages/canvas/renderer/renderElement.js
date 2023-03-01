@@ -40,12 +40,7 @@ const generateElementCanvas = (element, zoom, renderConfig) => {
   let canvasOffsetX = 0;
   let canvasOffsetY = 0;
   if (element.type === "freedraw") {
-    let [x1, y1, x2, y2] = getElementAbsoluteCoords({
-      ...element,
-      points: element.points.map((p) => {
-        return [p[0] - element.x, p[1] - element.y];
-      }),
-    });
+    let [x1, y1, x2, y2] = getElementAbsoluteCoords(element);
     let canvasOffsetX = 0;
     let canvasOffsetY = 0;
     canvas.width = distance(x1, x2) * window.devicePixelRatio + padding * 2;
@@ -126,12 +121,7 @@ const drawElementFromCanvas = (elementWithCanvas, context, renderConfig) => {
   const padding = getCanvasPadding(element);
   let [x1, y1, x2, y2] = getElementAbsoluteCoords(element);
   if (element.type === "freedraw") {
-    [x1, y1, x2, y2] = getElementAbsoluteCoords({
-      ...element,
-      points: element.points.map((p) => {
-        return [p[0] - element.x, p[1] - element.y];
-      }),
-    });
+    [x1, y1, x2, y2] = getElementAbsoluteCoords(element);
   }
   const cx = ((x1 + x2) / 2 + renderConfig.scrollX) * window.devicePixelRatio;
   const cy = ((y1 + y2) / 2 + renderConfig.scrollY) * window.devicePixelRatio;
@@ -139,7 +129,6 @@ const drawElementFromCanvas = (elementWithCanvas, context, renderConfig) => {
   context.scale(1 / window.devicePixelRatio, 1 / window.devicePixelRatio);
 
   context.translate(cx, cy);
-  console.log("cx...", padding);
 
   context.drawImage(
     elementWithCanvas.canvas,

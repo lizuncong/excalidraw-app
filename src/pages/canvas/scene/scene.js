@@ -11,4 +11,6 @@ class Scene {
   }
 }
 
+export const scene = new Scene();
+
 export default Scene;

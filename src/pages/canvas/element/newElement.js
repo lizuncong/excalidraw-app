@@ -12,6 +12,7 @@ export const newElement = ({
   strokeStyle,
   width = 0,
   height = 0,
+  angle = 0,
   points = [],
 }) => {
   return {
@@ -26,6 +27,7 @@ export const newElement = ({
     fillStyle,
     strokeWidth,
     strokeStyle,
+    angle,
     isDeleted: false,
     points,
   };

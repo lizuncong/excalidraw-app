@@ -72,11 +72,17 @@ export const withBatchedUpdatesThrottled = (func) => {
   });
 };
 
-export const getBoundsFromPoints = (points) => {
+export const getBoundsFromPoints = (element) => {
   let minX = Infinity;
   let minY = Infinity;
   let maxX = -Infinity;
   let maxY = -Infinity;
+  let points = element.points;
+  if (element.type === "freedraw") {
+    points = element.points.map((p) => {
+      return [p[0] - element.x, p[1] - element.y];
+    });
+  }
   for (const [x, y] of points) {
     minX = Math.min(minX, x);
     minY = Math.min(minY, y);
@@ -87,9 +93,66 @@ export const getBoundsFromPoints = (points) => {
   return [minX, minY, maxX, maxY];
 };
 
+export const rotate = (x1, y1, x2, y2, angle) =>
+  // 𝑎′𝑥=(𝑎𝑥−𝑐𝑥)cos𝜃−(𝑎𝑦−𝑐𝑦)sin𝜃+𝑐𝑥
+  // 𝑎′𝑦=(𝑎𝑥−𝑐𝑥)sin𝜃+(𝑎𝑦−𝑐𝑦)cos𝜃+𝑐𝑦.
+  // https://math.stackexchange.com/questions/2204520/how-do-i-rotate-a-line-segment-in-a-specific-point-on-the-line
+  [
+    (x1 - x2) * Math.cos(angle) - (y1 - y2) * Math.sin(angle) + x2,
+    (x1 - x2) * Math.sin(angle) + (y1 - y2) * Math.cos(angle) + y2,
+  ];
+
+export const getElementBounds = (element) => {
+  let bounds;
+
+  const [x1, y1, x2, y2, cx, cy] = getElementAbsoluteCoords(element);
+
+  if (element.type === "freedraw") {
+    const [minX, minY, maxX, maxY] = getBoundsFromPoints(element);
+
+    return [
+      minX + element.x,
+      minY + element.y,
+      maxX + element.x,
+      maxY + element.y,
+    ];
+  } else {
+    const [x11, y11] = rotate(x1, y1, cx, cy, element.angle);
+    const [x12, y12] = rotate(x1, y2, cx, cy, element.angle);
+    const [x22, y22] = rotate(x2, y2, cx, cy, element.angle);
+    const [x21, y21] = rotate(x2, y1, cx, cy, element.angle);
+    const minX = Math.min(x11, x12, x22, x21);
+    const minY = Math.min(y11, y12, y22, y21);
+    const maxX = Math.max(x11, x12, x22, x21);
+    const maxY = Math.max(y11, y12, y22, y21);
+    bounds = [minX, minY, maxX, maxY];
+  }
+
+  return bounds;
+};
+export const getCommonBounds = (elements) => {
+  if (!elements.length) {
+    return [0, 0, 0, 0];
+  }
+
+  let minX = Infinity;
+  let maxX = -Infinity;
+  let minY = Infinity;
+  let maxY = -Infinity;
+
+  elements.forEach((element) => {
+    const [x1, y1, x2, y2] = getElementBounds(element);
+    minX = Math.min(minX, x1);
+    minY = Math.min(minY, y1);
+    maxX = Math.max(maxX, x2);
+    maxY = Math.max(maxY, y2);
+  });
+
+  return [minX, minY, maxX, maxY];
+};
 export const getElementAbsoluteCoords = (element) => {
   if (element.type === "freedraw") {
-    const [minX, minY, maxX, maxY] = getBoundsFromPoints(element.points);
+    const [minX, minY, maxX, maxY] = getBoundsFromPoints(element);
     const x1 = minX + element.x;
     const y1 = minY + element.y;
     const x2 = maxX + element.x;

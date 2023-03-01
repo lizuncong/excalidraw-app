@@ -5,11 +5,10 @@ import { createElement } from "./element/newElement";
 import { renderScene } from "./renderer/renderScene";
 import { deleteElementCache } from "./renderer/renderElement";
 import Tools from "./components/tools";
-import Scene from "./scene/scene";
+import { scene } from "./scene/scene";
 import "./index.less";
-const scene = new Scene();
 const temp = JSON.parse(localStorage.getItem("appState"));
-let appState = temp || {
+export let appState = temp || {
   scrollX: 0,
   scrollY: 0,
   offsetLeft: 0,
