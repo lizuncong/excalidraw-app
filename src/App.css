@@ -38,4 +38,5 @@ body,
 .right .page-container {
   flex: 1;
   overflow: overlay;
+  padding: 0 20px;
 }
