@@ -18,6 +18,9 @@ const SHAPES = [
 const Index = memo(({ activeTool, onActiveToolChange }) => {
   return (
     <>
+      <div className={styles.scale}>
+        缩放
+      </div>
       <div className={styles.tools}>
         <span
           className={[styles.item].join(" ")}
