@@ -1,42 +1,48 @@
-import React, { memo, useRef, useEffect } from "react";
+import React, { memo, useRef, useEffect, useState } from "react";
 import { viewportCoordsToSceneCoords, distance } from "./util";
-import { dragNewElement } from "./element/dragElements";
-import { newElement } from "./element/newElement";
+import { withBatchedUpdatesThrottled } from "@/util";
+import { createElement } from "./element/newElement";
 import { renderScene } from "./renderer/renderScene";
+import { deleteElementCache } from "./renderer/renderElement";
+import Tools from "./components/tools";
 import Scene from "./scene/scene";
 import "./index.less";
 const scene = new Scene();
-const temp = JSON.parse(localStorage.getItem('appState'))
+const temp = JSON.parse(localStorage.getItem("appState"));
 let appState = temp || {
   scrollX: 0,
   scrollY: 0,
   offsetLeft: 0,
   offsetTop: 0,
   draggingElement: null,
-  currentItemStrokeColor: "#000000",
-  currentItemBackgroundColor: "transparent",
-  currentItemFillStyle: "hachure",
-  currentItemStrokeWidth: 1,
-  currentItemStrokeStyle: "solid",
-  currentItemRoughness: 1,
-  currentItemOpacity: 100,
 };
 const Canvas = memo(() => {
   const canvasRef = useRef(null);
   const canvasContainer = useRef(null);
+  const staticCanvasRef = useRef(null);
+  const [activeTool, setActiveTool] = useState({ type: "" });
   useEffect(() => {
-    const canvas = canvasRef.current;
-    const { offsetWidth, offsetHeight, offsetLeft, offsetTop } = canvas;
+    const setCanvasSize = (canvas) => {
+      canvas.width = offsetWidth * window.devicePixelRatio;
+      canvas.height = offsetHeight * window.devicePixelRatio;
+    };
 
-    canvas.width = offsetWidth * window.devicePixelRatio;
-    canvas.height = offsetHeight * window.devicePixelRatio;
-    appState.offsetLeft = offsetLeft;
-    appState.offsetTop = offsetTop;
+    // canvas分辨率矫正
+    const canvas = canvasRef.current;
+    const { offsetWidth, offsetHeight } = canvas;
+    setCanvasSize(canvas);
+    setCanvasSize(staticCanvasRef.current);
+
+    const { x, y } = canvas.getBoundingClientRect();
+    appState.offsetLeft = x;
+    appState.offsetTop = y;
+
+    // 绘制静态canvas
     renderScene({
       elements: scene.getElementsIncludingDeleted(),
       appState: appState,
       scale: window.devicePixelRatio,
-      canvas: canvasRef.current,
+      canvas: staticCanvasRef.current,
       renderConfig: {
         selectionColor: "#6965db",
         scrollX: appState.scrollX,
@@ -64,11 +70,12 @@ const Canvas = memo(() => {
     appState.scrollX = appState.scrollX - deltaX;
     appState.scrollY = appState.scrollY - deltaY;
 
+    // 在滚动画布的过程中，只绘制底层的canvas
     renderScene({
       elements: scene.getElementsIncludingDeleted(),
       appState: appState,
       scale: window.devicePixelRatio,
-      canvas: canvasRef.current,
+      canvas: staticCanvasRef.current,
       renderConfig: {
         selectionColor: "#6965db",
         scrollX: appState.scrollX,
@@ -77,12 +84,18 @@ const Canvas = memo(() => {
         zoom: 1,
       },
     });
-    console.log("wheel", appState.scrollX, appState.scrollY);
   };
 
   const handleCanvasPointerDown = (event) => {
+    if (!activeTool.type) return;
     const pointerDownState = initialPointerDownState(event);
-    createGenericElementOnPointerDown("rectangle", pointerDownState);
+    const element = createElement({
+      elementType: activeTool.type,
+      pointerDownState,
+      appState,
+    });
+    appState.draggingElement = element;
+    deleteElementCache(element);
     const onPointerMove =
       onPointerMoveFromCanvasPointerDownHandler(pointerDownState);
     const onPointerUp =
@@ -92,43 +105,37 @@ const Canvas = memo(() => {
     pointerDownState.eventListeners.onMove = onPointerMove;
     pointerDownState.eventListeners.onUp = onPointerUp;
   };
-  const createGenericElementOnPointerDown = (elementType, pointerDownState) => {
-    const element = newElement({
-      type: elementType,
-      x: pointerDownState.origin.x,
-      y: pointerDownState.origin.y,
-      strokeColor: appState.currentItemStrokeColor,
-      backgroundColor: appState.currentItemBackgroundColor,
-      fillStyle: appState.currentItemFillStyle,
-      strokeWidth: appState.currentItemStrokeWidth,
-      strokeStyle: appState.currentItemStrokeStyle,
-      roughness: appState.currentItemRoughness,
-      opacity: appState.currentItemOpacity,
-      roundness: null,
-      locked: false,
-    });
-    scene.replaceAllElements([...scene.getElementsIncludingDeleted(), element]);
-    appState.draggingElement = element;
-  };
-  const onPointerUpFromCanvasPointerDownHandler =
-    (pointerDownState) => (event) => {
-      window.removeEventListener(
-        "pointermove",
-        pointerDownState.eventListeners.onMove
-      );
-      window.removeEventListener(
-        "pointerup",
-        pointerDownState.eventListeners.onUp
-      );
-    };
-  const onPointerMoveFromCanvasPointerDownHandler =
-    (pointerDownState) => (event) => {
+
+  const onPointerMoveFromCanvasPointerDownHandler = (pointerDownState) =>
+    withBatchedUpdatesThrottled((event) => {
       const pointerCoords = viewportCoordsToSceneCoords(event, appState);
       pointerDownState.lastCoords.x = pointerCoords.x;
       pointerDownState.lastCoords.y = pointerCoords.y;
-      maybeDragNewGenericElement(pointerDownState, event);
+      if (activeTool.type === "freedraw") {
+        console.log('fredda=====', appState.draggingElement)
+        appState.draggingElement.points.push([
+          pointerCoords.x,
+          pointerCoords.y,
+        ]);
+      } else {
+        const pointerCoords = pointerDownState.lastCoords;
+        const originX = pointerDownState.origin.x;
+        const originY = pointerDownState.origin.y;
+        const x = pointerCoords.x;
+        const y = pointerCoords.y;
+        const width = distance(pointerDownState.origin.x, pointerCoords.x);
+        const height = distance(pointerDownState.origin.y, pointerCoords.y);
+        let newX = x < originX ? originX - width : originX;
+        let newY = y < originY ? originY - height : originY;
+        appState.draggingElement.x = newX;
+        appState.draggingElement.y = newY;
+        appState.draggingElement.width = width;
+        appState.draggingElement.height = height;
+      }
+      deleteElementCache(appState.draggingElement);
+      // 在移动过程中，先在顶层canvas绘制
       renderScene({
-        elements: scene.getElementsIncludingDeleted(),
+        elements: [appState.draggingElement],
         appState: appState,
         scale: window.devicePixelRatio,
         canvas: canvasRef.current,
@@ -140,24 +147,45 @@ const Canvas = memo(() => {
           zoom: 1,
         },
       });
+    });
+
+  const onPointerUpFromCanvasPointerDownHandler =
+    (pointerDownState) => (event) => {
+      // deleteElementCache(appState.draggingElement);
+      scene.replaceAllElements([
+        ...scene.getElementsIncludingDeleted(),
+        appState.draggingElement,
+      ]);
+      console.log("pointer up appState...", appState);
+
+      // 鼠标抬起后，先清空顶层的cavans
+      const canvas = canvasRef.current;
+      const context = canvas.getContext("2d");
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      // 重绘底层canvas
+      renderScene({
+        elements: scene.getElementsIncludingDeleted(),
+        appState: appState,
+        scale: window.devicePixelRatio,
+        canvas: staticCanvasRef.current,
+        renderConfig: {
+          selectionColor: "#6965db",
+          scrollX: appState.scrollX,
+          scrollY: appState.scrollY,
+          viewBackgroundColor: "#ffffff",
+          zoom: 1,
+        },
+      });
+      window.removeEventListener(
+        "pointermove",
+        pointerDownState.eventListeners.onMove
+      );
+      window.removeEventListener(
+        "pointerup",
+        pointerDownState.eventListeners.onUp
+      );
     };
-  const maybeDragNewGenericElement = (pointerDownState, event) => {
-    const pointerCoords = pointerDownState.lastCoords;
-    const draggingElement = appState.draggingElement;
-    dragNewElement(
-      draggingElement,
-      "rectangle",
-      pointerDownState.origin.x,
-      pointerDownState.origin.y,
-      pointerCoords.x,
-      pointerCoords.y,
-      distance(pointerDownState.origin.x, pointerCoords.x),
-      distance(pointerDownState.origin.y, pointerCoords.y),
-      false,
-      false,
-      null
-    );
-  };
+
   const initialPointerDownState = (event) => {
     const origin = viewportCoordsToSceneCoords(event, appState);
     return {
@@ -174,20 +202,28 @@ const Canvas = memo(() => {
 
   return (
     <div ref={canvasContainer}>
-      <div className="refer">
+      {/* <div className="refer">
         参照物
+      </div> */}
+      <div className="container wrap">
+        <canvas ref={staticCanvasRef} className="canvas">
+          静态canvas
+        </canvas>
+        <canvas
+          ref={canvasRef}
+          className="canvas draw"
+          onWheel={handleCanvasWheel}
+          onPointerDown={handleCanvasPointerDown}
+        >
+          动态canvas
+        </canvas>
+        <Tools
+          activeTool={activeTool}
+          onActiveToolChange={(value) => {
+            setActiveTool(value);
+          }}
+        />
       </div>
-      <canvas
-        onWheel={handleCanvasWheel}
-        onPointerDown={handleCanvasPointerDown}
-        // onPointerUp={(e) => {
-        //   window.removeEventListener("pointermove", handleWindowPointerMove);
-        // }}
-        ref={canvasRef}
-        className="canvas"
-      >
-        绘制canvas
-      </canvas>
       <div id="placeholder"></div>
     </div>
   );

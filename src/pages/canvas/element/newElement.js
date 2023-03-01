@@ -1,4 +1,6 @@
-import { randomId } from '../util'
+import { randomId } from "../util";
+import { rgb } from "@/util";
+
 export const newElement = ({
   type,
   x,
@@ -8,41 +10,53 @@ export const newElement = ({
   fillStyle,
   strokeWidth,
   strokeStyle,
-  roughness,
-  opacity,
   width = 0,
   height = 0,
-  angle = 0,
-  groupIds = [],
-  roundness = null,
-  boundElements = null,
-  link = null,
-  locked,
-  ...rest
+  points = [],
 }) => {
-    return  {
+  return {
     id: randomId(),
     type,
     x,
     y,
     width,
     height,
-    angle,
     strokeColor,
     backgroundColor,
     fillStyle,
     strokeWidth,
     strokeStyle,
-    roughness,
-    opacity,
-    groupIds,
-    roundness,
-    version: rest.version || 1,
-    versionNonce: rest.versionNonce ?? 0,
     isDeleted: false,
-    boundElements,
-    updated: Date.now(),
-    link,
-    locked,
+    points,
   };
+};
+
+export const createElement = ({ elementType, pointerDownState, appState }) => {
+  let element;
+  if (elementType === "freedraw") {
+    element = newElement({
+      type: elementType,
+      x: pointerDownState.origin.x,
+      y: pointerDownState.origin.y,
+      points: [[pointerDownState.origin.x, pointerDownState.origin.y]],
+      strokeColor: appState.currentItemStrokeColor,
+      backgroundColor: appState.currentItemBackgroundColor,
+      fillStyle: appState.currentItemFillStyle,
+      strokeWidth: appState.currentItemStrokeWidth,
+      strokeStyle: rgb(),
+    });
+  } else {
+    element = newElement({
+      type: elementType,
+      x: pointerDownState.origin.x,
+      y: pointerDownState.origin.y,
+      strokeColor: appState.currentItemStrokeColor,
+      backgroundColor: appState.currentItemBackgroundColor,
+      fillStyle: appState.currentItemFillStyle,
+      strokeWidth: appState.currentItemStrokeWidth,
+      strokeStyle: rgb(),
+    });
+  }
+
+  return element;
 };
