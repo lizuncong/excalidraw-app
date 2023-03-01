@@ -112,7 +112,6 @@ const Canvas = memo(() => {
       pointerDownState.lastCoords.x = pointerCoords.x;
       pointerDownState.lastCoords.y = pointerCoords.y;
       if (activeTool.type === "freedraw") {
-        console.log('fredda=====', appState.draggingElement)
         appState.draggingElement.points.push([
           pointerCoords.x,
           pointerCoords.y,

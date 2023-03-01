@@ -8,7 +8,7 @@ export const newElement = ({
   strokeColor,
   backgroundColor,
   fillStyle,
-  strokeWidth,
+  strokeWidth = 3,
   strokeStyle,
   width = 0,
   height = 0,

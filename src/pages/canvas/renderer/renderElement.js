@@ -14,7 +14,6 @@ const generateElementWithCanvas = (element, renderConfig) => {
   const zoom = renderConfig.zoom || 1;
   const prevElementWithCanvas = elementWithCanvasCache.get(element);
   if (prevElementWithCanvas) {
-    console.log("复用之前的canvas========================");
     return prevElementWithCanvas;
   }
   const elementWithCanvas = generateElementCanvas(element, zoom, renderConfig);
@@ -49,7 +48,6 @@ const generateElementCanvas = (element, zoom, renderConfig) => {
     });
     let canvasOffsetX = 0;
     let canvasOffsetY = 0;
-    const padding = 20;
     canvas.width = distance(x1, x2) * window.devicePixelRatio + padding * 2;
     canvas.height = distance(y1, y2) * window.devicePixelRatio + padding * 2;
     canvasOffsetX =
@@ -57,7 +55,6 @@ const generateElementCanvas = (element, zoom, renderConfig) => {
 
     canvasOffsetY =
       element.y > y1 ? distance(element.y, y1) * window.devicePixelRatio : 0;
-
     context.translate(canvasOffsetX, canvasOffsetY);
   } else {
     canvas.width =
@@ -90,13 +87,14 @@ const drawElementOnCanvas = (element, context, renderConfig) => {
     case "rectangle": {
       context.lineJoin = "round";
       context.lineCap = "round";
+      context.lineWidth = element.strokeWidth;
       context.strokeStyle = element.strokeStyle;
       context.strokeRect(0, 0, element.width, element.height);
       break;
     }
     case "freedraw": {
       context.save();
-      context.lineWidth = 3;
+      context.lineWidth = element.strokeWidth;
       context.strokeStyle = element.strokeStyle;
       element.points.forEach((point, index) => {
         let [x, y] = point;
@@ -137,11 +135,11 @@ const drawElementFromCanvas = (elementWithCanvas, context, renderConfig) => {
   }
   const cx = ((x1 + x2) / 2 + renderConfig.scrollX) * window.devicePixelRatio;
   const cy = ((y1 + y2) / 2 + renderConfig.scrollY) * window.devicePixelRatio;
-  console.log('cx...', elementWithCanvas)
   context.save();
   context.scale(1 / window.devicePixelRatio, 1 / window.devicePixelRatio);
 
   context.translate(cx, cy);
+  console.log("cx...", padding);
 
   context.drawImage(
     elementWithCanvas.canvas,
