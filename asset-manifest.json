@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/static/css/main.00c4ecf4.css",
-    "main.js": "/static/js/main.769606dc.js",
+    "main.js": "/static/js/main.7a3a025c.js",
     "Shape.css": "/static/css/Shape.f6006728.chunk.css",
     "Shape.js": "/static/js/Shape.517534a5.chunk.js",
     "Style.css": "/static/css/Style.f6006728.chunk.css",
     "Style.js": "/static/js/Style.f4d2f89d.chunk.js",
     "Canvas.css": "/static/css/Canvas.1a42d2b6.chunk.css",
-    "Canvas.js": "/static/js/Canvas.ba9ee9f0.chunk.js",
+    "Canvas.js": "/static/js/Canvas.cace8ba2.chunk.js",
     "Size.css": "/static/css/Size.f6006728.chunk.css",
     "Size.js": "/static/js/Size.865b26a7.chunk.js",
     "MaxSize.css": "/static/css/MaxSize.753ddf05.chunk.css",
@@ -74,13 +74,13 @@
     "static/media/点稀释.md": "/static/media/点稀释.31d6cfe0d16ae931b73c.md",
     "static/media/自由绘制.md": "/static/media/自由绘制.31d6cfe0d16ae931b73c.md",
     "main.00c4ecf4.css.map": "/static/css/main.00c4ecf4.css.map",
-    "main.769606dc.js.map": "/static/js/main.769606dc.js.map",
+    "main.7a3a025c.js.map": "/static/js/main.7a3a025c.js.map",
     "Shape.f6006728.chunk.css.map": "/static/css/Shape.f6006728.chunk.css.map",
     "Shape.517534a5.chunk.js.map": "/static/js/Shape.517534a5.chunk.js.map",
     "Style.f6006728.chunk.css.map": "/static/css/Style.f6006728.chunk.css.map",
     "Style.f4d2f89d.chunk.js.map": "/static/js/Style.f4d2f89d.chunk.js.map",
     "Canvas.1a42d2b6.chunk.css.map": "/static/css/Canvas.1a42d2b6.chunk.css.map",
-    "Canvas.ba9ee9f0.chunk.js.map": "/static/js/Canvas.ba9ee9f0.chunk.js.map",
+    "Canvas.cace8ba2.chunk.js.map": "/static/js/Canvas.cace8ba2.chunk.js.map",
     "Size.f6006728.chunk.css.map": "/static/css/Size.f6006728.chunk.css.map",
     "Size.865b26a7.chunk.js.map": "/static/js/Size.865b26a7.chunk.js.map",
     "MaxSize.753ddf05.chunk.css.map": "/static/css/MaxSize.753ddf05.chunk.css.map",
@@ -108,6 +108,6 @@
   },
   "entrypoints": [
     "static/css/main.00c4ecf4.css",
-    "static/js/main.769606dc.js"
+    "static/js/main.7a3a025c.js"
   ]
 }
