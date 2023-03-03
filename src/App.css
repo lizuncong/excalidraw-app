@@ -4,7 +4,16 @@ body,
   height: 100%;
   overflow: hidden;
 }
-
+@font-face {
+  font-family: "Virgil";
+  src: url("./Virgil.woff2");
+}
+.virgil {
+  font-family: "Virgil";
+  position: fixed;
+  left: 0;
+  top: 0;
+}
 .App {
   position: relative;
   display: flex;

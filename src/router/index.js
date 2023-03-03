@@ -50,9 +50,10 @@ const DynamicLayer = React.lazy(() =>
   )
 );
 const Translate = React.lazy(() =>
-  import(
-    /* webpackChunkName: "Translate" */ "@/pages/free-draw/translate"
-  )
+  import(/* webpackChunkName: "Translate" */ "@/pages/free-draw/translate")
+);
+const CreateText = React.lazy(() =>
+  import(/* webpackChunkName: "CreateText" */ "@/pages/create-text")
 );
 const router = createHashRouter([
   {
@@ -104,6 +105,14 @@ const router = createHashRouter([
         element: (
           <React.Suspense fallback={<div>loading...</div>}>
             <InfiniteCavnas />
+          </React.Suspense>
+        ),
+      },
+      {
+        path: "/advanced/text",
+        element: (
+          <React.Suspense fallback={<div>loading...</div>}>
+            <CreateText />
           </React.Suspense>
         ),
       },

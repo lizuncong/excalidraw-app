@@ -70,6 +70,10 @@ const MENUS = [
         label: <NavLink to="/advanced/infinite">canvas无限画布</NavLink>,
         key: "/advanced/infinite",
       },
+      {
+        label: <NavLink to="/advanced/text">创建文本</NavLink>,
+        key: "/advanced/text",
+      },
     ],
   },
 ];
