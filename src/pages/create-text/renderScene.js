@@ -2,7 +2,7 @@ import { elements } from "./index";
 import { getElementAbsoluteCoords } from "@/util";
 import { getFontString } from "./element";
 import { elementKey } from "./constant";
-let previewCanvas = null;
+// let previewCanvas = null;
 const elementWithCanvasCache = new WeakMap();
 
 export const deleteElementCache = (element) => {
@@ -18,7 +18,7 @@ const generateCanvas = (ele) => {
   const canvas = document.createElement("canvas");
   const context = canvas.getContext("2d");
 
-  const offscreenContainer = document.getElementById("offscreen");
+  // const offscreenContainer = document.getElementById("offscreen");
 
   // if (previewCanvas) {
   //   offscreenContainer.removeChild(previewCanvas);
@@ -37,11 +37,12 @@ const generateCanvas = (ele) => {
   context.font = getFontString(ele);
   context.fillStyle = ele.strokeColor;
   context.textAlign = ele.textAlign;
-  context.fillText(
-    ele.text,
-    0,
-    18,
-  )
+  const lines = ele.text.split("\n");
+  const lineHeight = lines.length ? (ele.height / lines.length) - 1 : 18;
+  context.textBaseline = "bottom";
+  for (let index = 0; index < lines.length; index++) {
+    context.fillText(lines[index], 0, (index + 1) * lineHeight);
+  }
 
   context.restore();
 
@@ -63,7 +64,7 @@ const renderElements = (ctx, appState) => {
     ctx.save();
     ctx.scale(1 / window.devicePixelRatio, 1 / window.devicePixelRatio);
     ctx.translate(cx, cy);
-    console.log()
+    console.log();
     ctx.drawImage(
       canvas,
       (-(x2 - x1) / 2) * window.devicePixelRatio - padding,
@@ -80,31 +81,6 @@ const renderScene = (canvas, appState) => {
   context.clearRect(0, 0, canvas.width, canvas.height);
   renderElements(context, appState);
   localStorage.setItem(elementKey, JSON.stringify(elements));
-};
-
-const renderDraggingElement = (ctx, appState) => {
-  const element = appState.draggingElement;
-  ctx.save();
-  ctx.beginPath();
-  ctx.lineWidth = 3;
-  ctx.strokeStyle = element.strokeStyle;
-
-  element.points.forEach((point, index) => {
-    if (!index) {
-      ctx.moveTo(...element.points[0]);
-    } else {
-      ctx.lineTo(...point);
-    }
-  });
-
-  ctx.stroke();
-
-  ctx.restore();
-};
-export const renderDraggingScene = (canvas, appState) => {
-  const context = canvas.getContext("2d");
-  context.clearRect(0, 0, canvas.width, canvas.height);
-  renderDraggingElement(context, appState);
 };
 
 export default renderScene;

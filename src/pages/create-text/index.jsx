@@ -3,11 +3,7 @@ import { viewportCoordsToSceneCoords, rgb } from "@/util";
 import MarkDown from "@/components/markdown";
 import doc from "@doc/canvas进阶/点稀释.md";
 import "./index.less";
-import renderScene, {
-  deleteElementCache,
-  // renderDraggingScene,
-} from "./renderScene";
-// import { withBatchedUpdatesThrottled } from "@/util";
+import renderScene, { deleteElementCache } from "./renderScene";
 import { elementKey } from "./constant";
 import { newTextElement, getFontString } from "./element";
 export let elements = JSON.parse(localStorage.getItem(elementKey)) || [];
@@ -25,7 +21,6 @@ const Canvas = memo(() => {
   const canvasContainer = useRef(null);
   const staticCanvasRef = useRef(null);
   const textareaRef = useRef(null);
-  // const globalVar = useRef({});
   useEffect(() => {
     const setCanvasSize = (canvas) => {
       const context = canvas.getContext("2d");
@@ -64,70 +59,7 @@ const Canvas = memo(() => {
       wrap.removeEventListener("wheel", handleWheel);
     };
   }, []);
-  // const handleCanvasPointerDown = (event) => {
-  //   if(!globalVar.current.text) return
-  //   const origin = viewportCoordsToSceneCoords(event, appState);
 
-  //   const pointerDownState = {
-  //     origin,
-  //     lastCoords: { ...origin },
-  //     eventListeners: {
-  //       onMove: null,
-  //       onUp: null,
-  //     },
-  //   };
-  //   const element = {
-  //     x: pointerDownState.origin.x,
-  //     y: pointerDownState.origin.y,
-  //     points: [[pointerDownState.origin.x, pointerDownState.origin.y]],
-  //     strokeColor: "#000000",
-  //     backgroundColor: "transparent",
-  //     fillStyle: "hachure",
-  //     strokeWidth: 1,
-  //     strokeStyle: rgb(),
-  //   };
-  //   appState.draggingElement = element;
-  //   deleteElementCache(element);
-  //   // elements.push(element);
-
-  //   const onPointerMove =
-  //     onPointerMoveFromCanvasPointerDownHandler(pointerDownState);
-  //   const onPointerUp =
-  //     onPointerUpFromCanvasPointerDownHandler(pointerDownState);
-  //   window.addEventListener("pointermove", onPointerMove);
-  //   window.addEventListener("pointerup", onPointerUp);
-  //   pointerDownState.eventListeners.onMove = onPointerMove;
-  //   pointerDownState.eventListeners.onUp = onPointerUp;
-  // };
-  // const onPointerMoveFromCanvasPointerDownHandler = (pointerDownState) =>
-  //   withBatchedUpdatesThrottled((event) => {
-  //     const pointerCoords = viewportCoordsToSceneCoords(event, appState);
-  //     appState.draggingElement.points.push([pointerCoords.x, pointerCoords.y]);
-
-  //     renderDraggingScene(canvasRef.current, appState);
-  //   });
-
-  // const onPointerUpFromCanvasPointerDownHandler = (pointerDownState) => () => {
-  //   deleteElementCache(appState.draggingElement);
-  //   elements.push(appState.draggingElement);
-  //   console.log("appState...", appState);
-  //   console.log(
-  //     "elements...",
-  //     elements.map((ele) => ele.points.length)
-  //   );
-  //   const canvas = canvasRef.current;
-  //   const context = canvas.getContext("2d");
-  //   context.clearRect(0, 0, canvas.width, canvas.height);
-  //   renderScene(staticCanvasRef.current, appState);
-  //   window.removeEventListener(
-  //     "pointermove",
-  //     pointerDownState.eventListeners.onMove
-  //   );
-  //   window.removeEventListener(
-  //     "pointerup",
-  //     pointerDownState.eventListeners.onUp
-  //   );
-  // };
   const handleCanvasDoubleClick = (event) => {
     event.preventDefault();
     event.stopPropagation();
@@ -152,23 +84,28 @@ const Canvas = memo(() => {
     textarea.value = element.text;
     textarea.tabIndex = 0;
     textarea.focus();
-    Object.assign(textarea.style, {
+    const styleObj = {
       font: getFontString(element),
       left: `${sceneX}px`,
       top: `${sceneY}px`,
       opacity: 1,
-      width: `${appState.canvasWidth - sceneX}px`,
-      maxHeight: `${appState.canvasHeight - sceneY}px`,
+      // width: 'auto',
       color: element.strokeColor,
       fontSize: element.fontSize,
-    });
+    };
+    Object.assign(textarea.style, styleObj);
+    const copyTextarea = document.getElementById("copyText");
+    Object.assign(copyTextarea.style, styleObj);
     const handleBlur = (e) => {
       if (element.text) {
-        element.width = textarea.offsetWidth;
-        element.height = textarea.offsetHeight;
+        element.width = copyTextarea.offsetWidth;
+        element.height = copyTextarea.offsetHeight;
         deleteElementCache(appState.draggingElement);
         elements.push(appState.draggingElement);
         renderScene(staticCanvasRef.current, appState);
+        setTimeout(() => {
+          copyTextarea.innerText = "";
+        }, 200);
       }
       textarea.innerText = "";
       Object.assign(textarea.style, {
@@ -180,8 +117,21 @@ const Canvas = memo(() => {
       textarea.removeEventListener("blur", handleBlur);
       textarea.removeEventListener("input", handleInput);
     };
+    const maxWidth = appState.canvasWidth - sceneX;
+    textarea.style.width = `${maxWidth}px`;
     const handleInput = (e) => {
-      element.text = textarea.innerText;
+      const text = textarea.value;
+      copyTextarea.innerText = text;
+      // 为了让textarea高度自适应
+      textarea.style.height = textarea.scrollHeight + "px";
+      if (copyTextarea.offsetWidth > maxWidth) {
+        copyTextarea.innerText =
+          text.slice(0, text.length - 1) + "\n" + text.slice(text.length - 1);
+        textarea.value = copyTextarea.innerText;
+      }
+      // textarea.style.width = `${copyTextarea.offsetWidth}px`;
+
+      element.text = textarea.value;
     };
     textarea.addEventListener("blur", handleBlur);
     textarea.addEventListener("input", handleInput);
@@ -195,19 +145,20 @@ const Canvas = memo(() => {
         <canvas
           ref={canvasRef}
           className="canvas draw"
-          // onPointerDown={handleCanvasPointerDown}
           onDoubleClick={handleCanvasDoubleClick}
         >
           动态canvas
         </canvas>
-        <div
-          contentEditable={true}
-          className="textarea"
-          ref={textareaRef}
-        ></div>
+        <textarea className="textarea" ref={textareaRef}></textarea>
       </div>
       <div id="offscreen"></div>
       <MarkDown src={doc} />
+      <div
+        style={{ background: "grey" }}
+        id="copyText"
+        contentEditable={true}
+        className="textarea textarea_copy"
+      ></div>
     </div>
   );
 });
