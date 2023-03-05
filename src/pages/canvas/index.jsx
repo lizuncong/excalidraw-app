@@ -5,6 +5,7 @@ import { createElement } from "./element/newElement";
 import { renderScene } from "./renderer/renderScene";
 import { deleteElementCache } from "./renderer/renderElement";
 import Tools from "./components/tools";
+import TextArea from "./components/textarea";
 import { scene } from "./scene/scene";
 import "./index.less";
 const temp = JSON.parse(localStorage.getItem("appState"));
@@ -14,11 +15,14 @@ export let appState = temp || {
   offsetLeft: 0,
   offsetTop: 0,
   draggingElement: null,
+  canvasWidth: 0,
+  canvasHeight: 0,
 };
 const Canvas = memo(() => {
   const canvasRef = useRef(null);
   const canvasContainer = useRef(null);
   const staticCanvasRef = useRef(null);
+  const textareaRef = useRef(null);
   const [activeTool, setActiveTool] = useState({ type: "" });
   useEffect(() => {
     const setCanvasSize = (canvas) => {
@@ -35,6 +39,8 @@ const Canvas = memo(() => {
     const { x, y } = canvas.getBoundingClientRect();
     appState.offsetLeft = x;
     appState.offsetTop = y;
+    appState.canvasWidth = offsetWidth;
+    appState.canvasHeight = offsetHeight;
 
     // 绘制静态canvas
     renderScene({
@@ -198,6 +204,10 @@ const Canvas = memo(() => {
     };
   };
 
+  const handleCanvasDoubleClick = (event) => {
+    // 创建新的文本元素
+    textareaRef.current.startEditText(event);
+  };
   return (
     <div ref={canvasContainer}>
       {/* <div className="refer">
@@ -212,6 +222,7 @@ const Canvas = memo(() => {
           className="canvas draw"
           onWheel={handleCanvasWheel}
           onPointerDown={handleCanvasPointerDown}
+          onDoubleClick={handleCanvasDoubleClick}
         >
           动态canvas
         </canvas>
@@ -221,6 +232,7 @@ const Canvas = memo(() => {
             setActiveTool(value);
           }}
         />
+        <TextArea ref={textareaRef} staticCanvasRef={staticCanvasRef} />
       </div>
       <div id="placeholder"></div>
     </div>

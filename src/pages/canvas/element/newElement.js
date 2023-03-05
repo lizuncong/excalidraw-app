@@ -62,3 +62,24 @@ export const createElement = ({ elementType, pointerDownState, appState }) => {
 
   return element;
 };
+
+export const newTextElement = (opts) => {
+  const textElement = {
+    type: "text",
+    text: opts.text,
+    fontSize: opts.fontSize,
+    fontFamily: opts.fontFamily,
+    textAlign: opts.textAlign,
+    verticalAlign: opts.verticalAlign,
+    // x: opts.x - offsets.x,
+    // y: opts.y - offsets.y,
+    // width: metrics.width,
+    // height: metrics.height,
+    // baseline: metrics.baseline,
+    containerId: opts.containerId || null,
+    originalText: opts.text,
+    ...opts,
+  };
+
+  return textElement;
+};

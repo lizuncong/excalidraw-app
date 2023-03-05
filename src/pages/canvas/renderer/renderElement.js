@@ -1,4 +1,4 @@
-import { getElementAbsoluteCoords, distance } from "@/util";
+import { getElementAbsoluteCoords, distance, getFontString } from "@/util";
 export const renderElement = (element, context, renderConfig, appState) => {
   const elementWithCanvas = generateElementWithCanvas(element, renderConfig);
   drawElementFromCanvas(elementWithCanvas, context, renderConfig);
@@ -32,10 +32,10 @@ const generateElementCanvas = (element, zoom, renderConfig) => {
     rightContainer = document.getElementById("placeholder");
   }
   if (previewCanvas) {
-    rightContainer.removeChild(previewCanvas);
+    // rightContainer.removeChild(previewCanvas);
   }
   previewCanvas = canvas;
-  rightContainer.appendChild(previewCanvas);
+  // rightContainer.appendChild(previewCanvas);
 
   let canvasOffsetX = 0;
   let canvasOffsetY = 0;
@@ -87,6 +87,18 @@ const drawElementOnCanvas = (element, context, renderConfig) => {
       context.strokeRect(0, 0, element.width, element.height);
       break;
     }
+    case "text": {
+      context.font = getFontString(element);
+      context.fillStyle = element.strokeColor;
+      context.textAlign = element.textAlign;
+      const lines = element.text.split("\n");
+      const lineHeight = lines.length ? element.height / lines.length : 18;
+      context.textBaseline = "bottom";
+      for (let index = 0; index < lines.length; index++) {
+        context.fillText(lines[index], 0, (index + 1) * lineHeight);
+      }
+      break;
+    }
     case "freedraw": {
       context.save();
       context.lineWidth = element.strokeWidth;
@@ -127,7 +139,6 @@ const drawElementFromCanvas = (elementWithCanvas, context, renderConfig) => {
   const cy = ((y1 + y2) / 2 + renderConfig.scrollY) * window.devicePixelRatio;
   context.save();
   context.scale(1 / window.devicePixelRatio, 1 / window.devicePixelRatio);
-
   context.translate(cx, cy);
 
   context.drawImage(
