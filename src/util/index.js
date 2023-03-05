@@ -1,5 +1,13 @@
 import { unstable_batchedUpdates } from "react-dom";
 
+export const sceneCoordsToViewportCoords = (
+  { sceneX, sceneY },
+  { offsetLeft, offsetTop, scrollX, scrollY }
+) => {
+  const x = sceneX + scrollX + offsetLeft;
+  const y = sceneY + scrollY + offsetTop;
+  return { x, y };
+};
 export const viewportCoordsToSceneCoords = (
   { clientX, clientY },
   { offsetLeft, offsetTop, scrollX, scrollY }
@@ -227,7 +235,6 @@ export const generateExcalidrawElements = () => {
 };
 
 window.__generateExcalidrawElements = generateExcalidrawElements;
-
 
 export const getFontString = ({ fontSize, fontFamily }) => {
   return `${fontSize}px ${fontFamily}, Segoe UI Emoji`;

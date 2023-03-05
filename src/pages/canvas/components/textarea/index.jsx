@@ -41,10 +41,12 @@ const Index = forwardRef(({ staticCanvasRef }, ref) => {
       appState.draggingElement = element;
       const textarea = textareaRef.current;
       textarea.focus();
+      const left = event.clientX - appState.offsetLeft;
+      const top = event.clientY - appState.offsetTop
       const styleObj = {
         font: getFontString(element),
-        left: `${sceneX}px`,
-        top: `${sceneY}px`,
+        left: `${left}px`,
+        top: `${top}px`,
         opacity: 1,
         color: element.strokeColor,
         fontSize: element.fontSize,
@@ -53,7 +55,7 @@ const Index = forwardRef(({ staticCanvasRef }, ref) => {
       const copyTextarea = document.getElementById("copyText");
       Object.assign(copyTextarea.style, styleObj);
       // 输入框限制最大宽度，防止输入的文字超出画布宽度
-      const maxWidth = appState.canvasWidth - sceneX;
+      const maxWidth = appState.canvasWidth - left;
       textarea.style.maxWidth = `${maxWidth}px`;
       textarea.style.width = `${element.fontSize}px`;
       textarea.style.height = `${element.fontSize * 1.2}px`;
