@@ -38,7 +38,7 @@ const generateCanvas = (ele) => {
   context.fillStyle = ele.strokeColor;
   context.textAlign = ele.textAlign;
   const lines = ele.text.split("\n");
-  const lineHeight = lines.length ? (ele.height / lines.length) - 1 : 18;
+  const lineHeight = lines.length ? (ele.height / lines.length) : 18;
   context.textBaseline = "bottom";
   for (let index = 0; index < lines.length; index++) {
     context.fillText(lines[index], 0, (index + 1) * lineHeight);
