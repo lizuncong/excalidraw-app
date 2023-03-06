@@ -55,6 +55,9 @@ const Translate = React.lazy(() =>
 const CreateText = React.lazy(() =>
   import(/* webpackChunkName: "CreateText" */ "@/pages/create-text")
 );
+const Scale = React.lazy(() =>
+  import(/* webpackChunkName: "Scale" */ "@/pages/scale")
+);
 const router = createHashRouter([
   {
     path: "/",
@@ -105,6 +108,14 @@ const router = createHashRouter([
         element: (
           <React.Suspense fallback={<div>loading...</div>}>
             <InfiniteCavnas />
+          </React.Suspense>
+        ),
+      },
+      {
+        path: "/advanced/scale",
+        element: (
+          <React.Suspense fallback={<div>loading...</div>}>
+            <Scale />
           </React.Suspense>
         ),
       },
