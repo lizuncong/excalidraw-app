@@ -122,7 +122,7 @@ const Canvas = memo(() => {
     renderScene(canvasRef.current, appState);
   };
   return (
-    <div>
+    <div className="infinite-canvas">
       <div ref={canvasContainer}>
         <canvas
           ref={canvasRef}

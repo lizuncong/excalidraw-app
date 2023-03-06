@@ -97,7 +97,7 @@ function Index() {
           点击绘制canvas
         </button>
       </div>
-      <canvas ref={canvasRef} className="canvas">
+      <canvas ref={canvasRef} className="maxsize_canvas">
         绘制canvas
       </canvas>
       <MarkDown src={doc} />

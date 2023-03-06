@@ -17,6 +17,9 @@ body,
   height: 0;
   overflow: hidden;
 }
+.markdown-body {
+  padding: 0 !important;
+}
 .App {
   position: relative;
   display: flex;
