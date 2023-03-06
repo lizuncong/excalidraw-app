@@ -2,14 +2,17 @@ import React, { memo, useRef, useEffect } from "react";
 // import MarkDown from "@/components/markdown";
 // import doc from "../../../doc/canvas进阶/绘制矩形及无限画布.md";
 import renderScene from "./renderScene";
+import { getNormalizedZoom, getStateForZoom } from "./zoom";
 import "./index.less";
 const appState = {
+  zoom: { value: 1 },
   offsetLeft: 0,
   offsetTop: 0,
   scrollX: 0,
   scrollY: 0,
   draggingElement: null,
 };
+const ZOOM_STEP = 0.1;
 export const elements = [];
 const viewportCoordsToSceneCoords = (
   { clientX, clientY },
@@ -22,7 +25,7 @@ const viewportCoordsToSceneCoords = (
 const Canvas = memo(() => {
   const canvasRef = useRef(null);
   const canvasContainer = useRef(null);
-
+  const cursorPosition = useRef({});
   useEffect(() => {
     const render = () => {
       const canvas = canvasRef.current;
@@ -54,8 +57,16 @@ const Canvas = memo(() => {
     wrap.addEventListener("wheel", handleWheel, {
       passive: false,
     });
+    const updateCurrentCursorPosition = (event) => {
+      cursorPosition.current = {
+        cursorX: event.clientX,
+        cursorY: event.clientY,
+      };
+    };
+    document.addEventListener("mousemove", updateCurrentCursorPosition);
     return () => {
       wrap.removeEventListener("wheel", handleWheel);
+      document.removeEventListener("mousemove", updateCurrentCursorPosition);
     };
   }, []);
   const handleCanvasPointerDown = (event) => {
@@ -116,9 +127,41 @@ const Canvas = memo(() => {
     };
   const handleCanvasWheel = (event) => {
     const { deltaX, deltaY } = event;
+    // 关于缩放：双指放大时，deltaY是负数，缩小时，deltaY是正数
+    // note that event.ctrlKey is necessary to handle pinch zooming
+    if (event.metaKey || event.ctrlKey) {
+      const sign = Math.sign(deltaY); // 只有两种情况，要么+1，要么-1
+      const MAX_STEP = ZOOM_STEP * 100; // 10
+      const absDelta = Math.abs(deltaY);
+      let delta = deltaY;
+      // delta最大为10
+      if (absDelta > MAX_STEP) {
+        delta = MAX_STEP * sign;
+      }
+      let newZoom = appState.zoom.value - delta / 100;
+      // increase zoom steps the more zoomed-in we are (applies to >100% only)
+      newZoom +=
+        Math.log10(Math.max(1, appState.zoom.value)) *
+        -sign *
+        // reduced amplification for small deltas (small movements on a trackpad)
+        Math.min(1, absDelta / 20);
+      console.log("newZoom...", getNormalizedZoom(newZoom));
+
+      Object.assign(appState, {
+        ...getStateForZoom(
+          {
+            viewportX: cursorPosition.current.cursorX,
+            viewportY: cursorPosition.current.cursorY,
+            nextZoom: getNormalizedZoom(newZoom),
+          },
+          appState
+        ),
+      });
+      return;
+    }
+    //
     appState.scrollX = appState.scrollX - deltaX;
     appState.scrollY = appState.scrollY - deltaY;
-    console.log(`滚动距离，X：${appState.scrollX}, Y：${appState.scrollY}`);
     renderScene(canvasRef.current, appState);
   };
   return (
