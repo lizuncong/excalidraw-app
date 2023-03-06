@@ -57,7 +57,9 @@ const drawAxis = (ctx, { scrollX, scrollY }) => {
 const renderElements = (ctx, appState) => {
   elements.forEach((ele) => {
     ctx.save();
-    ctx.translate(ele.x + appState.scrollX , ele.y + appState.scrollY);
+    ctx.translate((ele.x + appState.scrollX) * appState.zoom.value , (ele.y + appState.scrollY) * appState.zoom.value);
+    console.log('zoom..', ele.x, ele.y, appState.scrollX, appState.scrollY, appState.zoom.value)
+    ctx.scale(appState.zoom.value, appState.zoom.value)
     ctx.strokeStyle = ele.strokeStyle;
     ctx.strokeColor = ele.strokeColor;
     ctx.strokeRect(0, 0, ele.width, ele.height);

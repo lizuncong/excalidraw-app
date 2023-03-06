@@ -16,10 +16,10 @@ const ZOOM_STEP = 0.1;
 export const elements = [];
 const viewportCoordsToSceneCoords = (
   { clientX, clientY },
-  { offsetLeft, offsetTop, scrollX, scrollY }
+  { zoom, offsetLeft, offsetTop, scrollX, scrollY }
 ) => {
-  const x = clientX - offsetLeft - scrollX;
-  const y = clientY - offsetTop - scrollY;
+  const x = (clientX - offsetLeft) / zoom.value - scrollX;
+  const y = (clientY - offsetTop) / zoom.value - scrollY;
   return { x, y };
 };
 const Canvas = memo(() => {
@@ -128,7 +128,7 @@ const Canvas = memo(() => {
   const handleCanvasWheel = (event) => {
     const { deltaX, deltaY } = event;
     // 关于缩放：双指放大时，deltaY是负数，缩小时，deltaY是正数
-    // note that event.ctrlKey is necessary to handle pinch zooming
+    // 缩放，本质上就是对某个点的坐标进行变换
     if (event.metaKey || event.ctrlKey) {
       const sign = Math.sign(deltaY); // 只有两种情况，要么+1，要么-1
       const MAX_STEP = ZOOM_STEP * 100; // 10
@@ -139,13 +139,10 @@ const Canvas = memo(() => {
         delta = MAX_STEP * sign;
       }
       let newZoom = appState.zoom.value - delta / 100;
-      // increase zoom steps the more zoomed-in we are (applies to >100% only)
       newZoom +=
         Math.log10(Math.max(1, appState.zoom.value)) *
         -sign *
-        // reduced amplification for small deltas (small movements on a trackpad)
         Math.min(1, absDelta / 20);
-      console.log("newZoom...", getNormalizedZoom(newZoom));
 
       Object.assign(appState, {
         ...getStateForZoom(
@@ -157,11 +154,14 @@ const Canvas = memo(() => {
           appState
         ),
       });
+      renderScene(canvasRef.current, appState);
+
       return;
     }
     //
-    appState.scrollX = appState.scrollX - deltaX;
-    appState.scrollY = appState.scrollY - deltaY;
+    console.log('hello...')
+    appState.scrollX = appState.scrollX - deltaX / appState.zoom.value;
+    appState.scrollY = appState.scrollY - deltaY / appState.zoom.value;
     renderScene(canvasRef.current, appState);
   };
   return (
