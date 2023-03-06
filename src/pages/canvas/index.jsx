@@ -23,6 +23,7 @@ const Canvas = memo(() => {
   const canvasContainer = useRef(null);
   const staticCanvasRef = useRef(null);
   const textareaRef = useRef(null);
+  const rafRef = useRef(null);
   const [activeTool, setActiveTool] = useState({ type: "" });
   useEffect(() => {
     const setCanvasSize = (canvas) => {
@@ -69,6 +70,26 @@ const Canvas = memo(() => {
     return () => {
       wrap.removeEventListener("wheel", handleWheel);
     };
+  }, []);
+  useEffect(() => {
+    let frame = 0;
+    let startTime = Date.now();
+
+    const loop = () => {
+      const currentTime = Date.now();
+      frame++;
+
+      if (currentTime > 1000 + startTime) {
+        const fps = Math.round((frame * 1000) / (currentTime - startTime));
+        rafRef.current.innerText = `FPS：${fps}`;
+        frame = 0;
+        startTime = currentTime;
+      }
+
+      requestAnimationFrame(loop);
+    };
+
+    loop();
   }, []);
   const handleCanvasWheel = (event) => {
     const { deltaX, deltaY } = event;
@@ -234,6 +255,7 @@ const Canvas = memo(() => {
         />
         <TextArea ref={textareaRef} staticCanvasRef={staticCanvasRef} />
       </div>
+      <div ref={rafRef}>FPS：--</div>
       <div id="placeholder"></div>
     </div>
   );
