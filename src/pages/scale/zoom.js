@@ -28,3 +28,23 @@ export const getStateForZoom = (
   };
 };
 
+
+// 原理可以看下面这个代码。
+// export const getStateForZoom = (
+//   { viewportX, viewportY, nextZoom },
+//   appState
+// ) => {
+//   const screenX = viewportX - appState.offsetLeft;
+//   const screenY = viewportY - appState.offsetTop;
+
+//   const currentZoom = appState.zoom.value;
+
+
+//   return {
+//     scrollX: appState.scrollX + screenX / nextZoom - screenX / currentZoom,
+//     scrollY: appState.scrollY + screenY / nextZoom - screenY / currentZoom,
+//     zoom: {
+//       value: nextZoom,
+//     }, 
+//   };
+// };
