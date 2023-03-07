@@ -26,6 +26,7 @@ const Canvas = memo(() => {
   const canvasRef = useRef(null);
   const canvasContainer = useRef(null);
   const cursorPosition = useRef({});
+  const scaleRef = useRef();
   useEffect(() => {
     const render = () => {
       const canvas = canvasRef.current;
@@ -143,23 +144,23 @@ const Canvas = memo(() => {
         Math.log10(Math.max(1, appState.zoom.value)) *
         -sign *
         Math.min(1, absDelta / 20);
-
+      const nextZoom = getNormalizedZoom(newZoom);
       Object.assign(appState, {
         ...getStateForZoom(
           {
             viewportX: cursorPosition.current.cursorX,
             viewportY: cursorPosition.current.cursorY,
-            nextZoom: getNormalizedZoom(newZoom),
+            nextZoom: nextZoom,
           },
           appState
         ),
       });
+      scaleRef.current.innerText = `${(nextZoom * 100).toFixed(0)}%`;
       renderScene(canvasRef.current, appState);
 
       return;
     }
     //
-    console.log('hello...')
     appState.scrollX = appState.scrollX - deltaX / appState.zoom.value;
     appState.scrollY = appState.scrollY - deltaY / appState.zoom.value;
     renderScene(canvasRef.current, appState);
@@ -217,6 +218,7 @@ const Canvas = memo(() => {
           导出PNG
         </button>
       </div>
+      <div ref={scaleRef}></div>
       {/* <div className="tip">温馨提示：可以在上面的画板中绘制矩形哦！！</div> */}
       {/* <MarkDown src={doc} /> */}
     </div>
