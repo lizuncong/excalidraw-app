@@ -149,7 +149,7 @@ const Index = forwardRef(({ staticCanvasRef }, ref) => {
                 scrollX: appState.scrollX,
                 scrollY: appState.scrollY,
                 viewBackgroundColor: "#ffffff",
-                zoom: 1,
+                zoom: appState.zoom,
               },
             });
             setTimeout(() => {

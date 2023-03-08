@@ -1,12 +1,10 @@
 import { renderElement } from "./renderElement";
 
 export const drawAxis = (ctx, { scrollX, scrollY, zoom }) => {
-  const zoomValue = zoom.value;
-  console.log("绘制坐标轴...", zoomValue);
   ctx.save();
-  const rectH = 100 * zoomValue; // 纵轴刻度间距
-  const rectW = 100 * zoomValue; // 横轴刻度间距
-  const tickLength = 8 * zoomValue; // 刻度线长度
+  const rectH = 100; // 纵轴刻度间距
+  const rectW = 100; // 横轴刻度间距
+  const tickLength = 8; // 刻度线长度
   const canvas = ctx.canvas;
   ctx.strokeStyle = "red";
   ctx.fillStyle = "red";
@@ -23,7 +21,11 @@ export const drawAxis = (ctx, { scrollX, scrollY, zoom }) => {
     ctx.font = "10px Arial";
     ctx.fillText(-i, 0, -i * rectH + 10);
   }
-  for (let i = 1; i < (canvas.height - scrollY) / rectH; i++) {
+  for (
+    let i = 1;
+    i < (canvas.height - scrollY * zoom.value) / (rectH * zoom.value);
+    i++
+  ) {
     // 绘制纵轴刻度
     ctx.moveTo(0, i * rectH);
     ctx.lineTo(tickLength, i * rectH);
@@ -41,7 +43,11 @@ export const drawAxis = (ctx, { scrollX, scrollY, zoom }) => {
     ctx.font = "10px Arial";
     ctx.fillText(-i, -i * rectW + 5, 5);
   }
-  for (let i = 1; i < (canvas.width - scrollX) / rectW; i++) {
+  for (
+    let i = 1;
+    i < (canvas.width - scrollX * zoom.value) / (rectW * zoom.value);
+    i++
+  ) {
     // 绘制横轴刻度
     ctx.moveTo(i * rectW, 0);
     ctx.lineTo(i * rectW, tickLength);
