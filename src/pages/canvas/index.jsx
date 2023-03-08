@@ -4,7 +4,7 @@ import { withBatchedUpdatesThrottled } from "@/util";
 import { createElement } from "./element/newElement";
 import { renderScene } from "./renderer/renderScene";
 import { deleteElementCache } from "./renderer/renderElement";
-import Tools from "./components/tools";
+import LayerUI from "./components/layer-ui";
 import TextArea from "./components/textarea";
 import { scene } from "./scene/scene";
 import "./index.less";
@@ -247,7 +247,7 @@ const Canvas = memo(() => {
         >
           动态canvas
         </canvas>
-        <Tools
+        <LayerUI
           activeTool={activeTool}
           onActiveToolChange={(value) => {
             setActiveTool(value);

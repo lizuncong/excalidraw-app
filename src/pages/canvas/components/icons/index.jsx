@@ -28,7 +28,7 @@ const tablerIconProps = {
   stroke: "currentColor",
   strokeLinecap: "round",
   strokeLinejoin: "round",
-}
+};
 export const RectangleIcon = createIcon(
   <g strokeWidth="1.5">
     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -63,7 +63,6 @@ export const FreedrawIcon = createIcon(
   }
 );
 
-
 export const ExportImageIcon = createIcon(
   <g strokeWidth="1.25">
     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -74,5 +73,23 @@ export const ExportImageIcon = createIcon(
     <path d="M19 16v6"></path>
     <path d="M22 19l-3 3l-3 -3"></path>
   </g>,
-  tablerIconProps,
+  tablerIconProps
+);
+
+const modifiedTablerIconProps = {
+  width: 20,
+  height: 20,
+  fill: "none",
+  stroke: "currentColor",
+  strokeLinecap: "round",
+  strokeLinejoin: "round",
+};
+export const ZoomInIcon = createIcon(
+  <path strokeWidth="1.25" d="M10 4.167v11.666M4.167 10h11.666" />,
+  modifiedTablerIconProps
+);
+
+export const ZoomOutIcon = createIcon(
+  <path d="M5 10h10" strokeWidth="1.25" />,
+  modifiedTablerIconProps
 );

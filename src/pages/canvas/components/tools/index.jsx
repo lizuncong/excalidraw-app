@@ -17,36 +17,31 @@ const SHAPES = [
 ];
 const Index = memo(({ activeTool, onActiveToolChange }) => {
   return (
-    <>
-      <div className={styles.scale}>
-        缩放
-      </div>
-      <div className={styles.tools}>
+    <div className={styles.tools}>
+      <span
+        className={[styles.item].join(" ")}
+        onClick={() => {
+          exportPng({
+            elements: scene.getElementsIncludingDeleted(),
+            appState,
+          });
+        }}
+      >
+        {ExportImageIcon}
+      </span>
+      {SHAPES.map((shape) => (
         <span
-          className={[styles.item].join(" ")}
-          onClick={() => {
-            exportPng({
-              elements: scene.getElementsIncludingDeleted(),
-              appState
-            });
-          }}
+          key={shape.type}
+          className={[
+            styles.item,
+            activeTool.type === shape.type && styles.selected,
+          ].join(" ")}
+          onClick={() => onActiveToolChange({ type: shape.type })}
         >
-          {ExportImageIcon}
+          {shape.icon}
         </span>
-        {SHAPES.map((shape) => (
-          <span
-            key={shape.type}
-            className={[
-              styles.item,
-              activeTool.type === shape.type && styles.selected,
-            ].join(" ")}
-            onClick={() => onActiveToolChange({ type: shape.type })}
-          >
-            {shape.icon}
-          </span>
-        ))}
-      </div>
-    </>
+      ))}
+    </div>
   );
 });
 
