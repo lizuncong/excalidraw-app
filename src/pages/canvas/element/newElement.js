@@ -1,4 +1,4 @@
-import { randomId } from "../util";
+import { randomId } from "@/util";
 import { rgb } from "@/util";
 
 export const newElement = ({

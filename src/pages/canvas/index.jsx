@@ -1,6 +1,9 @@
 import React, { memo, useRef, useEffect, useState } from "react";
-import { viewportCoordsToSceneCoords, distance } from "./util";
-import { withBatchedUpdatesThrottled } from "@/util";
+import { distance } from "@/util";
+import {
+  withBatchedUpdatesThrottled,
+  viewportCoordsToSceneCoords,
+} from "@/util";
 import { createElement } from "./element/newElement";
 import { renderScene } from "./renderer/renderScene";
 import { deleteElementCache } from "./renderer/renderElement";
@@ -226,6 +229,7 @@ const Canvas = memo(() => {
   };
 
   const handleCanvasDoubleClick = (event) => {
+    if (activeTool.type) return;
     // 创建新的文本元素
     textareaRef.current.startEditText(event);
   };

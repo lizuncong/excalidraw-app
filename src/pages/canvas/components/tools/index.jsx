@@ -29,18 +29,20 @@ const Index = memo(({ activeTool, onActiveToolChange }) => {
       >
         {ExportImageIcon}
       </span>
-      {SHAPES.map((shape) => (
-        <span
-          key={shape.type}
-          className={[
-            styles.item,
-            activeTool.type === shape.type && styles.selected,
-          ].join(" ")}
-          onClick={() => onActiveToolChange({ type: shape.type })}
-        >
-          {shape.icon}
-        </span>
-      ))}
+      {SHAPES.map((shape) => {
+        const isSelected = activeTool.type === shape.type;
+        return (
+          <span
+            key={shape.type}
+            className={[styles.item, isSelected && styles.selected].join(" ")}
+            onClick={() =>
+              onActiveToolChange({ type: isSelected ? "" : shape.type })
+            }
+          >
+            {shape.icon}
+          </span>
+        );
+      })}
     </div>
   );
 });
