@@ -5,6 +5,7 @@ import {
   viewportCoordsToSceneCoords,
 } from "@/util";
 import { getNormalizedZoom, getStateForZoom } from "@/util/zoom";
+import generateElements from "./generateElement";
 import { createElement } from "./element/newElement";
 import { renderScene } from "./renderer/renderScene";
 import {
@@ -38,6 +39,7 @@ const Canvas = memo(() => {
   const globalVarRef = useRef({});
   const [flag, refreshFlag] = useState(false);
   const [activeTool, setActiveTool] = useState({ type: "" });
+  const [testObj, setTestObj] = useState({ count: "", type: "rectangle" });
   const refresh = () => {
     refreshFlag(!flag);
   };
@@ -363,6 +365,22 @@ const Canvas = memo(() => {
         <TextArea ref={textareaRef} staticCanvasRef={staticCanvasRef} />
       </div>
       <div ref={rafRef}>FPS：--</div>
+      <div className="row">
+        <input
+          type="number"
+          value={testObj.count}
+          onChange={(e) => setTestObj({ ...testObj, count: e.target.value })}
+        />
+        <select
+          value={testObj.type}
+          onChange={(e) => setTestObj({ ...testObj, type: e.target.value })}
+        >
+          <option value="freedraw">freedraw</option>
+          <option value="rectangle">rectangle</option>
+          <option value="text">text</option>
+        </select>
+        <button onClick={() => generateElements()}>生成</button>
+      </div>
       <div id="placeholder"></div>
     </div>
   );
