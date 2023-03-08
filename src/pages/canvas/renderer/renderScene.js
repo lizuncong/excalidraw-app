@@ -1,11 +1,12 @@
 import { renderElement } from "./renderElement";
 
-
-export const drawAxis = (ctx, { scrollX, scrollY }) => {
+export const drawAxis = (ctx, { scrollX, scrollY, zoom }) => {
+  const zoomValue = zoom.value;
+  console.log("绘制坐标轴...", zoomValue);
   ctx.save();
-  const rectH = 100; // 纵轴刻度间距
-  const rectW = 100; // 横轴刻度间距
-  const tickLength = 8; // 刻度线长度
+  const rectH = 100 * zoomValue; // 纵轴刻度间距
+  const rectW = 100 * zoomValue; // 横轴刻度间距
+  const tickLength = 8 * zoomValue; // 刻度线长度
   const canvas = ctx.canvas;
   ctx.strokeStyle = "red";
   ctx.fillStyle = "red";
@@ -69,16 +70,14 @@ export const renderScene = ({
   const normalizedCanvasHeight = canvas.height / scale;
   context.clearRect(0, 0, normalizedCanvasWidth, normalizedCanvasHeight);
 
-  // Apply zoom
   context.save();
-  context.scale(renderConfig.zoom, renderConfig.zoom);
+  // 先放大
+  context.scale(renderConfig.zoom.value, renderConfig.zoom.value);
   drawAxis(context, renderConfig);
 
-  // render element
   elements.forEach((element) => {
     renderElement(element, context, renderConfig, appState);
   });
-  // Reset zoom
   context.restore();
 
   context.restore();

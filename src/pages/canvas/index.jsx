@@ -4,15 +4,20 @@ import {
   withBatchedUpdatesThrottled,
   viewportCoordsToSceneCoords,
 } from "@/util";
+import { getNormalizedZoom, getStateForZoom } from "@/util/zoom";
 import { createElement } from "./element/newElement";
 import { renderScene } from "./renderer/renderScene";
-import { deleteElementCache } from "./renderer/renderElement";
+import {
+  deleteElementCache,
+  clearElementCache,
+} from "./renderer/renderElement";
 import LayerUI from "./components/layer-ui";
 import TextArea from "./components/textarea";
 import { scene } from "./scene/scene";
 import "./index.less";
 const temp = JSON.parse(localStorage.getItem("appState"));
 export let appState = temp || {
+  zoom: { value: 1 },
   scrollX: 0,
   scrollY: 0,
   offsetLeft: 0,
@@ -21,13 +26,21 @@ export let appState = temp || {
   canvasWidth: 0,
   canvasHeight: 0,
 };
+const ZOOM_STEP = 0.1;
+
 const Canvas = memo(() => {
   const canvasRef = useRef(null);
   const canvasContainer = useRef(null);
   const staticCanvasRef = useRef(null);
+  const cursorPosition = useRef({});
   const textareaRef = useRef(null);
   const rafRef = useRef(null);
+  const globalVarRef = useRef({});
+  const [flag, refreshFlag] = useState(false);
   const [activeTool, setActiveTool] = useState({ type: "" });
+  const refresh = () => {
+    refreshFlag(!flag);
+  };
   useEffect(() => {
     const setCanvasSize = (canvas) => {
       canvas.width = offsetWidth * window.devicePixelRatio;
@@ -57,7 +70,7 @@ const Canvas = memo(() => {
         scrollX: appState.scrollX,
         scrollY: appState.scrollY,
         viewBackgroundColor: "#ffffff",
-        zoom: 1,
+        zoom: appState.zoom,
       },
     });
   }, []);
@@ -70,8 +83,16 @@ const Canvas = memo(() => {
     wrap.addEventListener("wheel", handleWheel, {
       passive: false,
     });
+    const updateCurrentCursorPosition = (event) => {
+      cursorPosition.current = {
+        cursorX: event.clientX,
+        cursorY: event.clientY,
+      };
+    };
+    document.addEventListener("mousemove", updateCurrentCursorPosition);
     return () => {
       wrap.removeEventListener("wheel", handleWheel);
+      document.removeEventListener("mousemove", updateCurrentCursorPosition);
     };
   }, []);
   useEffect(() => {
@@ -94,8 +115,74 @@ const Canvas = memo(() => {
 
     loop();
   }, []);
+  const reDrawAfterZoom = () => {
+    renderScene({
+      elements: scene.getElementsIncludingDeleted(),
+      appState: appState,
+      scale: window.devicePixelRatio,
+      canvas: staticCanvasRef.current,
+      renderConfig: {
+        selectionColor: "#6965db",
+        scrollX: appState.scrollX,
+        scrollY: appState.scrollY,
+        viewBackgroundColor: "#ffffff",
+        zoom: appState.zoom,
+      },
+    });
+    if (globalVarRef.current.zoomTimerId) {
+      clearTimeout(globalVarRef.current.zoomTimerId);
+    }
+    globalVarRef.current.zoomTimerId = setTimeout(() => {
+      clearElementCache();
+      renderScene({
+        elements: scene.getElementsIncludingDeleted(),
+        appState: appState,
+        scale: window.devicePixelRatio,
+        canvas: staticCanvasRef.current,
+        renderConfig: {
+          selectionColor: "#6965db",
+          scrollX: appState.scrollX,
+          scrollY: appState.scrollY,
+          viewBackgroundColor: "#ffffff",
+          zoom: appState.zoom,
+        },
+      });
+    }, 300);
+  };
   const handleCanvasWheel = (event) => {
     const { deltaX, deltaY } = event;
+    // 关于缩放：双指放大时，deltaY是负数，缩小时，deltaY是正数
+    // 缩放，本质上就是对某个点的坐标进行变换
+    if (event.metaKey || event.ctrlKey) {
+      const sign = Math.sign(deltaY); // 只有两种情况，要么+1，要么-1
+      const MAX_STEP = ZOOM_STEP * 100; // 10
+      const absDelta = Math.abs(deltaY);
+      let delta = deltaY;
+      // delta最大为10
+      if (absDelta > MAX_STEP) {
+        delta = MAX_STEP * sign;
+      }
+      let newZoom = appState.zoom.value - delta / 100;
+      newZoom +=
+        Math.log10(Math.max(1, appState.zoom.value)) *
+        -sign *
+        Math.min(1, absDelta / 20);
+      const nextZoom = getNormalizedZoom(newZoom);
+      Object.assign(appState, {
+        ...getStateForZoom(
+          {
+            viewportX: cursorPosition.current.cursorX,
+            viewportY: cursorPosition.current.cursorY,
+            nextZoom: nextZoom,
+          },
+          appState
+        ),
+      });
+      // renderScene(canvasRef.current, appState);
+      refresh();
+      reDrawAfterZoom();
+      return;
+    }
     appState.scrollX = appState.scrollX - deltaX;
     appState.scrollY = appState.scrollY - deltaY;
 
@@ -110,7 +197,7 @@ const Canvas = memo(() => {
         scrollX: appState.scrollX,
         scrollY: appState.scrollY,
         viewBackgroundColor: "#ffffff",
-        zoom: 1,
+        zoom: appState.zoom,
       },
     });
   };
@@ -172,7 +259,7 @@ const Canvas = memo(() => {
           scrollX: appState.scrollX,
           scrollY: appState.scrollY,
           viewBackgroundColor: "#ffffff",
-          zoom: 1,
+          zoom: appState.zoom,
         },
       });
     });
@@ -201,7 +288,7 @@ const Canvas = memo(() => {
           scrollX: appState.scrollX,
           scrollY: appState.scrollY,
           viewBackgroundColor: "#ffffff",
-          zoom: 1,
+          zoom: appState.zoom,
         },
       });
       window.removeEventListener(
@@ -253,6 +340,22 @@ const Canvas = memo(() => {
         </canvas>
         <LayerUI
           activeTool={activeTool}
+          onZoomChange={(zoomVal) => {
+            if (appState.zoom.value === zoomVal) return;
+            Object.assign(appState, {
+              ...getStateForZoom(
+                {
+                  viewportX: appState.canvasWidth / 2 + appState.offsetLeft,
+                  viewportY: appState.canvasHeight / 2 + appState.offsetTop,
+                  nextZoom: zoomVal,
+                },
+                appState
+              ),
+            });
+            refresh();
+            reDrawAfterZoom();
+          }}
+          appState={{ ...appState }}
           onActiveToolChange={(value) => {
             setActiveTool(value);
           }}

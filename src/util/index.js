@@ -10,10 +10,11 @@ export const sceneCoordsToViewportCoords = (
 };
 export const viewportCoordsToSceneCoords = (
   { clientX, clientY },
-  { offsetLeft, offsetTop, scrollX, scrollY }
+  { zoom, offsetLeft, offsetTop, scrollX, scrollY }
 ) => {
-  const x = clientX - offsetLeft - scrollX;
-  const y = clientY - offsetTop - scrollY;
+  const zoomValue = zoom ? zoom.value : 1;
+  const x = (clientX - offsetLeft) / zoomValue - scrollX;
+  const y = (clientY - offsetTop) / zoomValue - scrollY;
   return { x, y };
 };
 
