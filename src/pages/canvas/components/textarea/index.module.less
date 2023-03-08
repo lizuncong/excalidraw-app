@@ -8,7 +8,10 @@
   border: 0px;
   outline: 0px;
   resize: none;
+  left: 0;
+  top: 0;
   font-weight: 500 !important;
+  z-index: -1;
   // text-align: center;
   background: transparent;
   overflow: hidden;
@@ -18,6 +21,8 @@
   position: fixed;
   left: 0 !important;
   top: 0 !important;
+  opacity: 0;
+  z-index: -11;
 
   &::after {
     content: "";

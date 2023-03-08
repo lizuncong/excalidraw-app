@@ -42,7 +42,7 @@ const Index = forwardRef(({ staticCanvasRef }, ref) => {
       const textarea = textareaRef.current;
       textarea.focus();
       const left = event.clientX - appState.offsetLeft;
-      const top = event.clientY - appState.offsetTop
+      const top = event.clientY - appState.offsetTop;
       const styleObj = {
         font: getFontString(element),
         left: `${left}px`,
@@ -56,9 +56,15 @@ const Index = forwardRef(({ staticCanvasRef }, ref) => {
       Object.assign(copyTextarea.style, styleObj);
       // 输入框限制最大宽度，防止输入的文字超出画布宽度
       const maxWidth = appState.canvasWidth - left;
-      textarea.style.maxWidth = `${maxWidth}px`;
-      textarea.style.width = `${element.fontSize}px`;
-      textarea.style.height = `${element.fontSize * 1.2}px`;
+      // textarea.style.maxWidth = `${maxWidth}px`;
+      // textarea.style.width = `${element.fontSize}px`;
+      // textarea.style.height = `${element.fontSize * 1.2}px`;
+      Object.assign(textarea.style, {
+        zIndex: 1,
+        maxWidth: `${maxWidth}px`,
+        width: `${element.fontSize}px`,
+        height: `${element.fontSize * 1.2}px`,
+      });
     },
   }));
   return (
@@ -154,8 +160,7 @@ const Index = forwardRef(({ staticCanvasRef }, ref) => {
           Object.assign(textarea.style, {
             left: `0px`,
             top: `0px`,
-            width: "20px",
-            height: `30px`,
+            zIndex: -1,
             opacity: 0,
           });
         }}
