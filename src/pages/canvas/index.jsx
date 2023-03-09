@@ -5,7 +5,7 @@ import {
   viewportCoordsToSceneCoords,
 } from "@/util";
 import { getNormalizedZoom, getStateForZoom } from "@/util/zoom";
-import generateElements from "./generateElement";
+import generateElements, { animateElements } from "./generateElement";
 import { createElement } from "./element/newElement";
 import { renderScene } from "./renderer/renderScene";
 import {
@@ -40,6 +40,8 @@ const Canvas = memo(() => {
   const [flag, refreshFlag] = useState(false);
   const [activeTool, setActiveTool] = useState({ type: "" });
   const [testObj, setTestObj] = useState({ count: "", type: "rectangle" });
+  const [animate, setAnimate] = useState(false);
+  const animateRef = useRef();
   const refresh = () => {
     refreshFlag(!flag);
   };
@@ -366,8 +368,7 @@ const Canvas = memo(() => {
       </div>
       <div>
         <span ref={rafRef}>FPS：--</span>
-        <span className="total" id="canvas-total">
-        </span>
+        <span className="total" id="canvas-total"></span>
       </div>
       <div className="row">
         <input
@@ -410,6 +411,45 @@ const Canvas = memo(() => {
           }}
         >
           生成
+        </button>
+        <button
+          onClick={() => {
+            setAnimate(!animate);
+            if (animateRef.current) {
+              cancelAnimationFrame(animateRef.current);
+            }
+            if (animate) return;
+            let diffTime = 100;
+            let lastDate = Date.now();
+            const tick = () => {
+              const currentDate = Date.now();
+              if (currentDate - lastDate >= diffTime) {
+                lastDate = currentDate;
+                const elements = animateElements(
+                  scene.getElementsIncludingDeleted(),
+                  appState
+                );
+                renderScene({
+                  elements: elements,
+                  appState: appState,
+                  scale: window.devicePixelRatio,
+                  canvas: staticCanvasRef.current,
+                  renderConfig: {
+                    selectionColor: "#6965db",
+                    scrollX: appState.scrollX,
+                    scrollY: appState.scrollY,
+                    viewBackgroundColor: "#ffffff",
+                    zoom: appState.zoom,
+                  },
+                });
+              }
+
+              animateRef.current = requestAnimationFrame(tick);
+            };
+            animateRef.current = requestAnimationFrame(tick);
+          }}
+        >
+          {animate ? "停止动画" : "动画"}
         </button>
       </div>
       <div id="placeholder"></div>

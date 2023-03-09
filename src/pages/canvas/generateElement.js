@@ -48,4 +48,19 @@ const generateElements = (count, type, appState) => {
   return elements;
 };
 
+export const animateElements = (elements, appState) => {
+  elements.forEach((el) => {
+    const x = getRandomValue(
+      -appState.scrollX,
+      appState.canvasWidth - appState.scrollX
+    );
+    const y = getRandomValue(
+      -appState.scrollY,
+      appState.canvasHeight - appState.scrollY
+    );
+    el.x = x;
+    el.y = y;
+  });
+  return elements;
+};
 export default generateElements;
