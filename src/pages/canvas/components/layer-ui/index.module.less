@@ -7,3 +7,52 @@
   pointer-events: none;
   user-select: none;
 }
+
+.ball_red {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(#ff00ff, #ff0000);
+  border-radius: 50%;
+  animation: move 500ms infinite alternate;
+}
+
+.boundceBall {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.shadowball {
+  width: 100px;
+  height: 20px;
+  background: #000;
+  border-radius: 100%;
+  margin-top: -30px;
+  animation: shadowMove 500ms infinite alternate;
+}
+
+@keyframes move {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-350px);
+  }
+}
+
+@keyframes shadowMove {
+  0% {
+    opacity: 0.2;
+    transform: scale(0.75);
+  }
+
+  100% {
+    opacity: 0.05;
+    transform: scale(1);
+  }
+}

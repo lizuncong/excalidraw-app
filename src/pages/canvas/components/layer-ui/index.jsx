@@ -11,6 +11,10 @@ const LayerUI = memo(
           activeTool={activeTool}
           onActiveToolChange={onActiveToolChange}
         />
+        <div className={styles.boundceBall}>
+          <div className={styles.ball_red}></div>
+          <div className={styles.shadowball}></div>
+        </div>
       </div>
     );
   }
