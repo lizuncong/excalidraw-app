@@ -1,4 +1,5 @@
 import { renderElement } from "./renderElement";
+import { getElementBounds, viewportCoordsToSceneCoords } from "@/util";
 
 export const drawAxis = (ctx, { scrollX, scrollY, zoom }) => {
   ctx.save();
@@ -60,6 +61,41 @@ export const drawAxis = (ctx, { scrollX, scrollY, zoom }) => {
   ctx.restore();
 };
 
+const isVisibleElement = (
+  element: ExcalidrawElement,
+  canvasWidth: number,
+  canvasHeight: number,
+  viewTransformations: {
+    zoom: Zoom,
+    offsetLeft: number,
+    offsetTop: number,
+    scrollX: number,
+    scrollY: number,
+  }
+) => {
+  const [x1, y1, x2, y2] = getElementBounds(element); // scene coordinates
+  const topLeftSceneCoords = viewportCoordsToSceneCoords(
+    {
+      clientX: viewTransformations.offsetLeft,
+      clientY: viewTransformations.offsetTop,
+    },
+    viewTransformations
+  );
+  const bottomRightSceneCoords = viewportCoordsToSceneCoords(
+    {
+      clientX: viewTransformations.offsetLeft + canvasWidth,
+      clientY: viewTransformations.offsetTop + canvasHeight,
+    },
+    viewTransformations
+  );
+
+  return (
+    topLeftSceneCoords.x <= x2 &&
+    topLeftSceneCoords.y <= y2 &&
+    bottomRightSceneCoords.x >= x1 &&
+    bottomRightSceneCoords.y >= y1
+  );
+};
 export const renderScene = ({
   elements,
   appState,
@@ -81,7 +117,18 @@ export const renderScene = ({
   context.scale(renderConfig.zoom.value, renderConfig.zoom.value);
   drawAxis(context, renderConfig);
 
-  elements.forEach((element) => {
+  const visibleElements = elements.filter((element) =>
+    isVisibleElement(element, normalizedCanvasWidth, normalizedCanvasHeight, {
+      zoom: renderConfig.zoom,
+      offsetLeft: appState.offsetLeft,
+      offsetTop: appState.offsetTop,
+      scrollX: renderConfig.scrollX,
+      scrollY: renderConfig.scrollY,
+    })
+  );
+  const total = document.getElementById('canvas-total')
+  total.innerText = `总元素数：${elements.length}   可见区域内元素：${visibleElements.length}`
+  visibleElements.forEach((element) => {
     renderElement(element, context, renderConfig, appState);
   });
   context.restore();

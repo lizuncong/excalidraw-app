@@ -364,7 +364,11 @@ const Canvas = memo(() => {
         />
         <TextArea ref={textareaRef} staticCanvasRef={staticCanvasRef} />
       </div>
-      <div ref={rafRef}>FPS：--</div>
+      <div>
+        <span ref={rafRef}>FPS：--</span>
+        <span className="total" id="canvas-total">
+        </span>
+      </div>
       <div className="row">
         <input
           type="number"
@@ -379,7 +383,34 @@ const Canvas = memo(() => {
           <option value="rectangle">rectangle</option>
           <option value="text">text</option>
         </select>
-        <button onClick={() => generateElements()}>生成</button>
+        <button
+          onClick={() => {
+            const elements = generateElements(
+              Number(testObj.count),
+              testObj.type,
+              appState
+            );
+            scene.replaceAllElements([
+              ...scene.getElementsIncludingDeleted(),
+              ...elements,
+            ]);
+            renderScene({
+              elements: scene.getElementsIncludingDeleted(),
+              appState: appState,
+              scale: window.devicePixelRatio,
+              canvas: staticCanvasRef.current,
+              renderConfig: {
+                selectionColor: "#6965db",
+                scrollX: appState.scrollX,
+                scrollY: appState.scrollY,
+                viewBackgroundColor: "#ffffff",
+                zoom: appState.zoom,
+              },
+            });
+          }}
+        >
+          生成
+        </button>
       </div>
       <div id="placeholder"></div>
     </div>
