@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/static/css/main.c31e8db1.css",
-    "main.js": "/static/js/main.a82f7f22.js",
+    "main.js": "/static/js/main.a6be3210.js",
     "Shape.css": "/static/css/Shape.f6006728.chunk.css",
     "Shape.js": "/static/js/Shape.517534a5.chunk.js",
     "Style.css": "/static/css/Style.f6006728.chunk.css",
     "Style.js": "/static/js/Style.f4d2f89d.chunk.js",
-    "Canvas.css": "/static/css/Canvas.763f5a68.chunk.css",
-    "Canvas.js": "/static/js/Canvas.d2ddf5f6.chunk.js",
+    "Canvas.css": "/static/css/Canvas.58000b71.chunk.css",
+    "Canvas.js": "/static/js/Canvas.934fff7d.chunk.js",
     "Size.css": "/static/css/Size.f6006728.chunk.css",
     "Size.js": "/static/js/Size.865b26a7.chunk.js",
     "MaxSize.css": "/static/css/MaxSize.cff4317a.chunk.css",
@@ -79,13 +79,13 @@
     "static/media/点稀释.md": "/static/media/点稀释.31d6cfe0d16ae931b73c.md",
     "static/media/自由绘制.md": "/static/media/自由绘制.31d6cfe0d16ae931b73c.md",
     "main.c31e8db1.css.map": "/static/css/main.c31e8db1.css.map",
-    "main.a82f7f22.js.map": "/static/js/main.a82f7f22.js.map",
+    "main.a6be3210.js.map": "/static/js/main.a6be3210.js.map",
     "Shape.f6006728.chunk.css.map": "/static/css/Shape.f6006728.chunk.css.map",
     "Shape.517534a5.chunk.js.map": "/static/js/Shape.517534a5.chunk.js.map",
     "Style.f6006728.chunk.css.map": "/static/css/Style.f6006728.chunk.css.map",
     "Style.f4d2f89d.chunk.js.map": "/static/js/Style.f4d2f89d.chunk.js.map",
-    "Canvas.763f5a68.chunk.css.map": "/static/css/Canvas.763f5a68.chunk.css.map",
-    "Canvas.d2ddf5f6.chunk.js.map": "/static/js/Canvas.d2ddf5f6.chunk.js.map",
+    "Canvas.58000b71.chunk.css.map": "/static/css/Canvas.58000b71.chunk.css.map",
+    "Canvas.934fff7d.chunk.js.map": "/static/js/Canvas.934fff7d.chunk.js.map",
     "Size.f6006728.chunk.css.map": "/static/css/Size.f6006728.chunk.css.map",
     "Size.865b26a7.chunk.js.map": "/static/js/Size.865b26a7.chunk.js.map",
     "MaxSize.cff4317a.chunk.css.map": "/static/css/MaxSize.cff4317a.chunk.css.map",
@@ -117,6 +117,6 @@
   },
   "entrypoints": [
     "static/css/main.c31e8db1.css",
-    "static/js/main.a82f7f22.js"
+    "static/js/main.a6be3210.js"
   ]
 }
