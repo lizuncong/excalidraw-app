@@ -1,5 +1,6 @@
 import React, { memo, useRef, useEffect, useState } from "react";
 import { distance } from "@/util";
+// import { isAndroid } from "@/util/device";
 import {
   withBatchedUpdatesThrottled,
   viewportCoordsToSceneCoords,
@@ -93,8 +94,15 @@ const Canvas = memo(() => {
         cursorY: event.clientY,
       };
     };
+    const onTapStart = (e) => {
+      e.preventDefault();
+    };
+    const canvas = canvasRef.current;
+    canvas.addEventListener("touchstart", onTapStart);
     document.addEventListener("mousemove", updateCurrentCursorPosition);
     return () => {
+      canvas.removeEventListener("touchstart", onTapStart);
+
       wrap.removeEventListener("wheel", handleWheel);
       document.removeEventListener("mousemove", updateCurrentCursorPosition);
     };
