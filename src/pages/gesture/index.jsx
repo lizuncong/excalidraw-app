@@ -2,6 +2,7 @@ import React, { memo, useRef, useEffect } from "react";
 // import MarkDown from "@/components/markdown";
 // import doc from "../../../doc/canvas进阶/绘制矩形及无限画布.md";
 import renderScene from "./renderScene";
+import { getCenter, getDistance } from "@/util/gesture";
 import { getNormalizedZoom, getStateForZoom } from "./zoom";
 import "./index.less";
 const appState = {
@@ -22,6 +23,13 @@ const viewportCoordsToSceneCoords = (
   const y = (clientY - offsetTop) / zoom.value - scrollY;
   return { x, y };
 };
+const gesture = {
+  pointers: new Map(),
+  lastCenter: null,
+  initialDistance: null,
+  initialScale: null,
+};
+
 const Canvas = memo(() => {
   const canvasRef = useRef(null);
   const canvasContainer = useRef(null);
@@ -64,13 +72,44 @@ const Canvas = memo(() => {
         cursorY: event.clientY,
       };
     };
+    const canvas = canvasRef.current;
+    const onTouchEnd = (event) => {
+      console.log("touchend..");
+      if (!event.touches.length) {
+        gesture.pointers.clear();
+      }
+    };
+    canvas.addEventListener("touchend", onTouchEnd);
     document.addEventListener("mousemove", updateCurrentCursorPosition);
     return () => {
       wrap.removeEventListener("wheel", handleWheel);
+      canvas.removeEventListener("touchend", onTouchEnd);
       document.removeEventListener("mousemove", updateCurrentCursorPosition);
     };
   }, []);
+  const removePointer = (event) => {
+    gesture.pointers.delete(event.pointerId);
+  };
+  const updateGestureOnPointerDown = (event) => {
+    gesture.pointers.set(event.pointerId, {
+      x: event.clientX,
+      y: event.clientY,
+    });
+
+    if (gesture.pointers.size === 2) {
+      gesture.lastCenter = getCenter(gesture.pointers);
+      gesture.initialScale = appState.zoom.value;
+      gesture.initialDistance = getDistance(
+        Array.from(gesture.pointers.values())
+      );
+    }
+  };
   const handleCanvasPointerDown = (event) => {
+    updateGestureOnPointerDown(event);
+    console.log("pointer down...", gesture.pointers);
+    if (gesture.pointers.size > 1) {
+      return;
+    }
     const origin = viewportCoordsToSceneCoords(event, appState);
     console.log("origin...", appState, origin);
     const pointerDownState = {
@@ -105,6 +144,8 @@ const Canvas = memo(() => {
   };
   const onPointerUpFromCanvasPointerDownHandler =
     (pointerDownState) => (event) => {
+      console.log("pointer up..", event.pointerId);
+      removePointer(event);
       window.removeEventListener(
         "pointermove",
         pointerDownState.eventListeners.onMove
@@ -165,6 +206,52 @@ const Canvas = memo(() => {
     appState.scrollY = appState.scrollY - deltaY / appState.zoom.value;
     renderScene(canvasRef.current, appState);
   };
+  const handleCanvasPointerMove = (event) => {
+    if (gesture.pointers.has(event.pointerId)) {
+      gesture.pointers.set(event.pointerId, {
+        x: event.clientX,
+        y: event.clientY,
+      });
+    }
+    const initialScale = gesture.initialScale;
+    if (
+      gesture.pointers.size === 2 &&
+      gesture.lastCenter &&
+      initialScale &&
+      gesture.initialDistance
+    ) {
+      const center = getCenter(gesture.pointers);
+      const deltaX = center.x - gesture.lastCenter.x;
+      const deltaY = center.y - gesture.lastCenter.y;
+      gesture.lastCenter = center;
+
+      const distance = getDistance(Array.from(gesture.pointers.values()));
+      const scaleFactor = distance / gesture.initialDistance;
+
+      const nextZoom = scaleFactor
+        ? getNormalizedZoom(initialScale * scaleFactor)
+        : appState.zoom.value;
+      const zoomState = getStateForZoom(
+        {
+          viewportX: center.x,
+          viewportY: center.y,
+          nextZoom,
+        },
+        appState
+      );
+      Object.assign(appState, {
+        zoom: zoomState.zoom,
+        scrollX: zoomState.scrollX + deltaX / nextZoom,
+        scrollY: zoomState.scrollY + deltaY / nextZoom,
+      });
+      renderScene(canvasRef.current, appState);
+    } else {
+      gesture.lastCenter =
+        gesture.initialDistance =
+        gesture.initialScale =
+          null;
+    }
+  };
   return (
     <div className="gesture">
       <div ref={canvasContainer}>
@@ -172,6 +259,8 @@ const Canvas = memo(() => {
           ref={canvasRef}
           className="canvas"
           onPointerDown={handleCanvasPointerDown}
+          onPointerCancel={removePointer}
+          onPointerMove={handleCanvasPointerMove}
           onWheel={handleCanvasWheel}
         >
           绘制canvas
