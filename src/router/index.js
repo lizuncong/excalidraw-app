@@ -58,6 +58,9 @@ const CreateText = React.lazy(() =>
 const Scale = React.lazy(() =>
   import(/* webpackChunkName: "Scale" */ "@/pages/scale")
 );
+const Gesture = React.lazy(() =>
+  import(/* webpackChunkName: "Gesture" */ "@/pages/gesture")
+);
 const router = createHashRouter([
   {
     path: "/",
@@ -116,6 +119,14 @@ const router = createHashRouter([
         element: (
           <React.Suspense fallback={<div>loading...</div>}>
             <Scale />
+          </React.Suspense>
+        ),
+      },
+      {
+        path: "/advanced/gesture",
+        element: (
+          <React.Suspense fallback={<div>loading...</div>}>
+            <Gesture />
           </React.Suspense>
         ),
       },

@@ -71,12 +71,16 @@ const MENUS = [
         key: "/advanced/infinite",
       },
       {
-        label: <NavLink to="/advanced/text">创建文本</NavLink>,
-        key: "/advanced/text",
-      },
-      {
         label: <NavLink to="/advanced/scale">画布缩放</NavLink>,
         key: "/advanced/scale",
+      },
+      {
+        label: <NavLink to="/advanced/gesture">移动端手势平移缩放</NavLink>,
+        key: "/advanced/gesture",
+      },
+      {
+        label: <NavLink to="/advanced/text">创建文本</NavLink>,
+        key: "/advanced/text",
       },
     ],
   },

@@ -166,7 +166,7 @@ const Canvas = memo(() => {
     renderScene(canvasRef.current, appState);
   };
   return (
-    <div className="scale">
+    <div className="gesture">
       <div ref={canvasContainer}>
         <canvas
           ref={canvasRef}
