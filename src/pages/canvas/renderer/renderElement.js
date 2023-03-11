@@ -159,7 +159,7 @@ const drawElementFromCanvas = (elementWithCanvas, context, renderConfig) => {
   context.save();
   context.scale(1 / window.devicePixelRatio, 1 / window.devicePixelRatio);
   context.translate(cx, cy);
-
+  console.log('x2, ',padding,elementWithCanvas.canvasZoom.value)
   context.drawImage(
     elementWithCanvas.canvas,
     (-(x2 - x1) / 2) * window.devicePixelRatio -

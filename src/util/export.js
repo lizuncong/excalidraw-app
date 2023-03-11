@@ -1,5 +1,4 @@
 import { getCommonBounds, distance } from "./index";
-import { renderScene } from '@/pages/canvas/renderer/renderScene'
 const getCanvasSize = (elements, exportPadding) => {
   const [minX, minY, maxX, maxY] = getCommonBounds(elements);
   const width = distance(minX, maxX) + exportPadding * 2;
@@ -7,7 +6,7 @@ const getCanvasSize = (elements, exportPadding) => {
 
   return [minX, minY, width, height];
 };
-export const exportPng = ({ elements, appState }) => {
+export const canvasToDataURL = ({ renderScene, elements, appState }) => {
   const exportPadding = 10;
   const [minX, minY, width, height] = getCanvasSize(elements, exportPadding);
 
@@ -15,11 +14,9 @@ export const exportPng = ({ elements, appState }) => {
   const canvas = document.createElement("canvas");
   canvas.width = width * window.devicePixelRatio;
   canvas.height = height * window.devicePixelRatio;
-  // const context = canvas.getContext("2d");
-  // context.scale(window.devicePixelRatio, window.devicePixelRatio);
-
   renderScene({
     elements,
+    isExport: true,
     appState: {
       ...appState,
       scrollX: -minX + exportPadding,
@@ -32,12 +29,16 @@ export const exportPng = ({ elements, appState }) => {
       scrollX: -minX + exportPadding,
       scrollY: -minY + exportPadding,
       viewBackgroundColor: "#ffffff",
-      zoom: 1,
+      zoom: appState.zoom,
     },
   });
-  console.log("导出", elements);
+
+  return canvas.toDataURL();
+};
+export const exportPng = ({ renderScene, elements, appState }) => {
+  const dataUrl = canvasToDataURL({ renderScene, elements, appState });
   var a = document.createElement("a");
-  a.href = canvas.toDataURL();
+  a.href = dataUrl;
   a.download = "canvas.png";
   a.click();
 };

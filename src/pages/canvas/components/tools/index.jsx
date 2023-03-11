@@ -1,6 +1,7 @@
 import React, { memo } from "react";
 import styles from "./index.module.less";
 import { RectangleIcon, FreedrawIcon, ExportImageIcon } from "../icons";
+import { renderScene } from "../../renderer/renderScene";
 import { exportPng } from "@/util/export";
 import { scene } from "../../scene/scene";
 import { appState } from "../../index";
@@ -22,6 +23,7 @@ const Index = memo(({ activeTool, onActiveToolChange }) => {
         className={[styles.item].join(" ")}
         onClick={() => {
           exportPng({
+            renderScene,
             elements: scene.getElementsIncludingDeleted(),
             appState,
           });
