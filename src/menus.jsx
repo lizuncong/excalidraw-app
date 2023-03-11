@@ -51,10 +51,6 @@ const MENUS = [
       },
       // 貌似这种平移效果不是很好，无法满足无限画布的需求
       // {
-      //   label: <NavLink to="/free-draw/translate">平移</NavLink>,
-      //   key: "/free-draw/translate",
-      // },
-      // {
       //   label: (
       //     <NavLink to="/free-draw/dynamic-layer">优化四：动态分层</NavLink>
       //   ),
@@ -81,6 +77,10 @@ const MENUS = [
       {
         label: <NavLink to="/advanced/text">创建文本</NavLink>,
         key: "/advanced/text",
+      },
+      {
+        label: <NavLink to="/advanced/transform">Transform变换</NavLink>,
+        key: "/advanced/transform",
       },
     ],
   },

@@ -1,0 +1,30 @@
+.textarea {
+  position: absolute;
+  display: inline-block;
+  backface-visibility: hidden;
+  opacity: 0;
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+  outline: 0px;
+  resize: none;
+  left: 0;
+  top: 0;
+  font-weight: 500 !important;
+  z-index: -1;
+  // text-align: center;
+  background: transparent;
+  overflow: hidden;
+}
+
+.textarea_copy {
+  position: fixed;
+  left: 0 !important;
+  top: 0 !important;
+  opacity: 0;
+  z-index: -11;
+
+  &::after {
+    content: "";
+  }
+}
