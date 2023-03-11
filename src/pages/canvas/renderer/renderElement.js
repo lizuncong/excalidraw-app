@@ -15,7 +15,8 @@ export const clearElementCache = () => {
 
 const generateElementWithCanvas = (element, renderConfig) => {
   const prevElementWithCanvas = elementWithCanvasCache.get(element);
-  if (prevElementWithCanvas) {
+  // 导出图片时，默认zoom为1，因此这里加个notusecache配置重新生成canvas
+  if (prevElementWithCanvas && !renderConfig.notUseCache) {
     return prevElementWithCanvas;
   }
   const elementWithCanvas = generateElementCanvas(
@@ -23,8 +24,9 @@ const generateElementWithCanvas = (element, renderConfig) => {
     renderConfig.zoom,
     renderConfig
   );
-
-  elementWithCanvasCache.set(element, elementWithCanvas);
+  if (!renderConfig.notUseCache) {
+    elementWithCanvasCache.set(element, elementWithCanvas);
+  }
 
   return elementWithCanvas;
 };
@@ -159,7 +161,7 @@ const drawElementFromCanvas = (elementWithCanvas, context, renderConfig) => {
   context.save();
   context.scale(1 / window.devicePixelRatio, 1 / window.devicePixelRatio);
   context.translate(cx, cy);
-  console.log('x2, ',padding,elementWithCanvas.canvasZoom.value)
+  console.log("x2, ", padding, elementWithCanvas.canvasZoom.value);
   context.drawImage(
     elementWithCanvas.canvas,
     (-(x2 - x1) / 2) * window.devicePixelRatio -

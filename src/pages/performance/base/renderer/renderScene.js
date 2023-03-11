@@ -126,8 +126,10 @@ export const renderScene = ({
       scrollY: renderConfig.scrollY,
     })
   );
-  const total = document.getElementById('canvas-total')
-  total.innerText = `总元素数：${elements.length}   可见区域内元素：${visibleElements.length}`
+  const total = document.getElementById("canvas-total");
+  if (!renderConfig.isExport) {
+    total.innerText = `总元素数：${elements.length}   可见区域内元素：${visibleElements.length}`;
+  }
   visibleElements.forEach((element) => {
     renderElement(element, context, renderConfig, appState);
   });

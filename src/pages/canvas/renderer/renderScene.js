@@ -98,7 +98,6 @@ const isVisibleElement = (
 };
 export const renderScene = ({
   elements,
-  isExport,
   appState,
   scale,
   canvas,
@@ -118,25 +117,19 @@ export const renderScene = ({
   context.scale(renderConfig.zoom.value, renderConfig.zoom.value);
   drawAxis(context, renderConfig);
 
-  const visibleElements = isExport
-    ? elements
-    : elements.filter((element) =>
-        isVisibleElement(
-          element,
-          normalizedCanvasWidth,
-          normalizedCanvasHeight,
-          {
-            zoom: renderConfig.zoom,
-            offsetLeft: appState.offsetLeft,
-            offsetTop: appState.offsetTop,
-            scrollX: renderConfig.scrollX,
-            scrollY: renderConfig.scrollY,
-          }
-        )
-      );
-      console.log('render..', elements)
+  const visibleElements = elements.filter((element) =>
+    isVisibleElement(element, normalizedCanvasWidth, normalizedCanvasHeight, {
+      zoom: renderConfig.zoom,
+      offsetLeft: appState.offsetLeft,
+      offsetTop: appState.offsetTop,
+      scrollX: renderConfig.scrollX,
+      scrollY: renderConfig.scrollY,
+    })
+  );
   const total = document.getElementById("canvas-total");
-  total.innerText = `总元素数：${elements.length}   可见区域内元素：${visibleElements.length}`;
+  if (!renderConfig.isExport) {
+    total.innerText = `总元素数：${elements.length}   可见区域内元素：${visibleElements.length}`;
+  }
   visibleElements.forEach((element) => {
     renderElement(element, context, renderConfig, appState);
   });

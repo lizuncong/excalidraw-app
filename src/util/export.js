@@ -6,7 +6,13 @@ const getCanvasSize = (elements, exportPadding) => {
 
   return [minX, minY, width, height];
 };
-export const canvasToDataURL = ({ renderScene, elements, appState }) => {
+export const canvasToDataURL = ({
+  renderScene,
+  isExport,
+  notUseCache,
+  elements,
+  appState,
+}) => {
   const exportPadding = 10;
   const [minX, minY, width, height] = getCanvasSize(elements, exportPadding);
 
@@ -16,7 +22,6 @@ export const canvasToDataURL = ({ renderScene, elements, appState }) => {
   canvas.height = height * window.devicePixelRatio;
   renderScene({
     elements,
-    isExport: true,
     appState: {
       ...appState,
       scrollX: -minX + exportPadding,
@@ -29,14 +34,28 @@ export const canvasToDataURL = ({ renderScene, elements, appState }) => {
       scrollX: -minX + exportPadding,
       scrollY: -minY + exportPadding,
       viewBackgroundColor: "#ffffff",
-      zoom: appState.zoom,
+      zoom: { value: 1 },
+      isExport,
+      notUseCache,
     },
   });
 
   return canvas.toDataURL();
 };
-export const exportPng = ({ renderScene, elements, appState }) => {
-  const dataUrl = canvasToDataURL({ renderScene, elements, appState });
+export const exportPng = ({
+  renderScene,
+  isExport = true,
+  notUseCache = true,
+  elements,
+  appState,
+}) => {
+  const dataUrl = canvasToDataURL({
+    renderScene,
+    isExport,
+    notUseCache,
+    elements,
+    appState,
+  });
   var a = document.createElement("a");
   a.href = dataUrl;
   a.download = "canvas.png";
