@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/static/css/main.c31e8db1.css",
-    "main.js": "/static/js/main.69e89224.js",
+    "main.js": "/static/js/main.70af6802.js",
     "Shape.css": "/static/css/Shape.f6006728.chunk.css",
     "Shape.js": "/static/js/Shape.517534a5.chunk.js",
     "Style.css": "/static/css/Style.f6006728.chunk.css",
     "Style.js": "/static/js/Style.f4d2f89d.chunk.js",
     "Canvas.css": "/static/css/Canvas.58000b71.chunk.css",
-    "Canvas.js": "/static/js/Canvas.5a79f9b6.chunk.js",
+    "Canvas.js": "/static/js/Canvas.016ef2d7.chunk.js",
     "Size.css": "/static/css/Size.f6006728.chunk.css",
     "Size.js": "/static/js/Size.865b26a7.chunk.js",
     "MaxSize.css": "/static/css/MaxSize.cff4317a.chunk.css",
@@ -27,9 +27,9 @@
     "DynamicLayer.css": "/static/css/DynamicLayer.71ed3c48.chunk.css",
     "DynamicLayer.js": "/static/js/DynamicLayer.9a74482d.chunk.js",
     "Performance.css": "/static/css/Performance.84a67eda.chunk.css",
-    "Performance.js": "/static/js/Performance.8e6a2aed.chunk.js",
+    "Performance.js": "/static/js/Performance.b4eb8bbb.chunk.js",
     "Transform.css": "/static/css/Transform.601655c4.chunk.css",
-    "Transform.js": "/static/js/Transform.e761d975.chunk.js",
+    "Transform.js": "/static/js/Transform.1cff5127.chunk.js",
     "CreateText.css": "/static/css/CreateText.a8c6a3e0.chunk.css",
     "CreateText.js": "/static/js/CreateText.c08eaa4b.chunk.js",
     "Scale.css": "/static/css/Scale.2ad306d1.chunk.css",
@@ -83,13 +83,13 @@
     "static/media/点稀释.md": "/static/media/点稀释.31d6cfe0d16ae931b73c.md",
     "static/media/自由绘制.md": "/static/media/自由绘制.31d6cfe0d16ae931b73c.md",
     "main.c31e8db1.css.map": "/static/css/main.c31e8db1.css.map",
-    "main.69e89224.js.map": "/static/js/main.69e89224.js.map",
+    "main.70af6802.js.map": "/static/js/main.70af6802.js.map",
     "Shape.f6006728.chunk.css.map": "/static/css/Shape.f6006728.chunk.css.map",
     "Shape.517534a5.chunk.js.map": "/static/js/Shape.517534a5.chunk.js.map",
     "Style.f6006728.chunk.css.map": "/static/css/Style.f6006728.chunk.css.map",
     "Style.f4d2f89d.chunk.js.map": "/static/js/Style.f4d2f89d.chunk.js.map",
     "Canvas.58000b71.chunk.css.map": "/static/css/Canvas.58000b71.chunk.css.map",
-    "Canvas.5a79f9b6.chunk.js.map": "/static/js/Canvas.5a79f9b6.chunk.js.map",
+    "Canvas.016ef2d7.chunk.js.map": "/static/js/Canvas.016ef2d7.chunk.js.map",
     "Size.f6006728.chunk.css.map": "/static/css/Size.f6006728.chunk.css.map",
     "Size.865b26a7.chunk.js.map": "/static/js/Size.865b26a7.chunk.js.map",
     "MaxSize.cff4317a.chunk.css.map": "/static/css/MaxSize.cff4317a.chunk.css.map",
@@ -109,9 +109,9 @@
     "DynamicLayer.71ed3c48.chunk.css.map": "/static/css/DynamicLayer.71ed3c48.chunk.css.map",
     "DynamicLayer.9a74482d.chunk.js.map": "/static/js/DynamicLayer.9a74482d.chunk.js.map",
     "Performance.84a67eda.chunk.css.map": "/static/css/Performance.84a67eda.chunk.css.map",
-    "Performance.8e6a2aed.chunk.js.map": "/static/js/Performance.8e6a2aed.chunk.js.map",
+    "Performance.b4eb8bbb.chunk.js.map": "/static/js/Performance.b4eb8bbb.chunk.js.map",
     "Transform.601655c4.chunk.css.map": "/static/css/Transform.601655c4.chunk.css.map",
-    "Transform.e761d975.chunk.js.map": "/static/js/Transform.e761d975.chunk.js.map",
+    "Transform.1cff5127.chunk.js.map": "/static/js/Transform.1cff5127.chunk.js.map",
     "CreateText.a8c6a3e0.chunk.css.map": "/static/css/CreateText.a8c6a3e0.chunk.css.map",
     "CreateText.c08eaa4b.chunk.js.map": "/static/js/CreateText.c08eaa4b.chunk.js.map",
     "Scale.2ad306d1.chunk.css.map": "/static/css/Scale.2ad306d1.chunk.css.map",
@@ -125,6 +125,6 @@
   },
   "entrypoints": [
     "static/css/main.c31e8db1.css",
-    "static/js/main.69e89224.js"
+    "static/js/main.70af6802.js"
   ]
 }
