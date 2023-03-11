@@ -78,9 +78,19 @@ const MENUS = [
         label: <NavLink to="/advanced/text">创建文本</NavLink>,
         key: "/advanced/text",
       },
+    ],
+  },
+  {
+    label: "canvas性能优化进阶",
+    key: "canvas_performance",
+    children: [
       {
-        label: <NavLink to="/advanced/transform">Transform变换</NavLink>,
-        key: "/advanced/transform",
+        label: <NavLink to="/performance/base">基准</NavLink>,
+        key: "/performance/base",
+      },
+      {
+        label: <NavLink to="/performance/transform">css transform变换</NavLink>,
+        key: "/performance/transform",
       },
     ],
   },

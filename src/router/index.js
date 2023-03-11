@@ -49,8 +49,11 @@ const DynamicLayer = React.lazy(() =>
     /* webpackChunkName: "DynamicLayer" */ "@/pages/free-draw/dynamic-layer"
   )
 );
+const Performance = React.lazy(() =>
+  import(/* webpackChunkName: "Performance" */ "@/pages/performance/base")
+);
 const Transform = React.lazy(() =>
-  import(/* webpackChunkName: "Transform" */ "@/pages/transform")
+  import(/* webpackChunkName: "Transform" */ "@/pages/performance/transform")
 );
 const CreateText = React.lazy(() =>
   import(/* webpackChunkName: "CreateText" */ "@/pages/create-text")
@@ -139,10 +142,18 @@ const router = createHashRouter([
         ),
       },
       {
-        path: "/advanced/transform",
+        path: "/performance/transform",
         element: (
           <React.Suspense fallback={<div>loading...</div>}>
             <Transform />
+          </React.Suspense>
+        ),
+      },
+      {
+        path: "/performance/base",
+        element: (
+          <React.Suspense fallback={<div>loading...</div>}>
+            <Performance />
           </React.Suspense>
         ),
       },

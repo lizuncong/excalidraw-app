@@ -333,7 +333,7 @@ const Canvas = memo(() => {
     textareaRef.current.startEditText(event);
   };
   return (
-    <div ref={canvasContainer}>
+    <div className="performance-transform" ref={canvasContainer}>
       {/* <div className="refer">
         参照物
       </div> */}

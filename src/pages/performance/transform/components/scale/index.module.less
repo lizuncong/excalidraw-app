@@ -1,0 +1,32 @@
+.scale {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  left: 20px;
+  bottom: 20px;
+  border-radius: 8px;
+  border: 1px solid #d6d6d6;
+  pointer-events: all;
+  cursor: pointer;
+  overflow: hidden;
+  .item {
+    width: 36px;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    &:first-child {
+      border-right: 1px solid #d6d6d6;
+    }
+    &:last-child {
+      border-left: 1px solid #d6d6d6;
+    }
+    &:hover {
+      background: #f5f5f5;
+    }
+  }
+  .value {
+    padding: 0 10px;
+  }
+}
