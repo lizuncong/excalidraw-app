@@ -7,7 +7,7 @@ export const canvasToDataURL = ({
   elements,
   appState,
 }) => {
-  const exportPadding = 1;
+  const exportPadding = 0;
   const [minX, minY, width, height] = getCanvasSize(elements, exportPadding);
   // const placeholder = document.getElementById("placeholder");
   console.log("export...", minX, minY, width, height);
