@@ -127,9 +127,8 @@ export const renderScene = ({
     })
   );
   const total = document.getElementById("canvas-total");
-  if (!renderConfig.isExport) {
-    total.innerText = `总元素数：${elements.length}   可见区域内元素：${visibleElements.length}`;
-  }
+  total.innerText = `总元素数：${elements.length}   实际绘制元素总数：${visibleElements.length}`;
+
   visibleElements.forEach((element) => {
     renderElement(element, context, renderConfig, appState);
   });
