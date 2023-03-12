@@ -89,8 +89,18 @@ const MENUS = [
         key: "/performance/base",
       },
       {
-        label: <NavLink to="/performance/transform">css transform变换</NavLink>,
+        label: (
+          <NavLink to="/performance/transform">容器背景图片css 变换</NavLink>
+        ),
         key: "/performance/transform",
+      },
+      {
+        label: (
+          <NavLink to="/performance/transform-img">
+            图片 css transform 变换
+          </NavLink>
+        ),
+        key: "/performance/transform-img",
       },
     ],
   },

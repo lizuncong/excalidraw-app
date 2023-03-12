@@ -55,6 +55,11 @@ const Performance = React.lazy(() =>
 const Transform = React.lazy(() =>
   import(/* webpackChunkName: "Transform" */ "@/pages/performance/transform")
 );
+const TransformImg = React.lazy(() =>
+  import(
+    /* webpackChunkName: "TransformImg" */ "@/pages/performance/transform-img"
+  )
+);
 const CreateText = React.lazy(() =>
   import(/* webpackChunkName: "CreateText" */ "@/pages/create-text")
 );
@@ -146,6 +151,14 @@ const router = createHashRouter([
         element: (
           <React.Suspense fallback={<div>loading...</div>}>
             <Transform />
+          </React.Suspense>
+        ),
+      },
+      {
+        path: "/performance/transform-img",
+        element: (
+          <React.Suspense fallback={<div>loading...</div>}>
+            <TransformImg />
           </React.Suspense>
         ),
       },
