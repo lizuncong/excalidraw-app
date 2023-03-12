@@ -121,6 +121,20 @@ const Canvas = memo(() => {
     loop();
   }, []);
   const resizeBg = () => {
+    // 只绘制坐标轴
+    renderScene({
+      // elements: scene.getElementsIncludingDeleted(),
+      appState: appState,
+      scale: window.devicePixelRatio,
+      canvas: staticCanvasRef.current,
+      renderConfig: {
+        selectionColor: "#6965db",
+        scrollX: appState.scrollX,
+        scrollY: appState.scrollY,
+        viewBackgroundColor: "#ffffff",
+        zoom: appState.zoom,
+      },
+    });
     const { minX, minY, width, height, base64 } = canvasStatus.current;
     Object.assign(containerRef.current.style, {
       backgroundPosition: `${
@@ -129,13 +143,13 @@ const Canvas = memo(() => {
       backgroundSize: `${width * appState.zoom.value}px ${
         height * appState.zoom.value
       }px`,
-      backgroundImage: `url(${base64})`,
+      // backgroundImage: `url(${base64})`,
     });
   };
   const renderStaticCanvas = () => {
-    // 绘制静态canvas
+    // 只绘制坐标轴
     // renderScene({
-    //   elements: scene.getElementsIncludingDeleted(),
+    //   // elements: scene.getElementsIncludingDeleted(),
     //   appState: appState,
     //   scale: window.devicePixelRatio,
     //   canvas: staticCanvasRef.current,
@@ -173,15 +187,15 @@ const Canvas = memo(() => {
     canvasStatus.current.height = height;
     canvasStatus.current.base64 = bgCanvas.toDataURL();
     // imgRef.current.src = dataUrl;
-    // Object.assign(containerRef.current.style, {
-    //   backgroundPosition: `${
-    //     (minX + appState.scrollX) * appState.zoom.value
-    //   }px ${(minY + appState.scrollY) * appState.zoom.value}px`,
-    //   backgroundSize: `${width * appState.zoom.value}px ${
-    //     height * appState.zoom.value
-    //   }px`,
-    //   backgroundImage: `url(${bgCanvas.toDataURL()})`,
-    // });
+    Object.assign(containerRef.current.style, {
+      // backgroundPosition: `${
+      //   (minX + appState.scrollX) * appState.zoom.value
+      // }px ${(minY + appState.scrollY) * appState.zoom.value}px`,
+      // backgroundSize: `${width * appState.zoom.value}px ${
+      //   height * appState.zoom.value
+      // }px`,
+      backgroundImage: `url(${bgCanvas.toDataURL()})`,
+    });
     resizeBg();
   };
   const reDrawAfterZoom = () => {
@@ -198,7 +212,6 @@ const Canvas = memo(() => {
     //     zoom: appState.zoom,
     //   },
     // });
-    // renderStaticCanvas();
     resizeBg();
     if (globalVarRef.current.zoomTimerId) {
       clearTimeout(globalVarRef.current.zoomTimerId);
@@ -272,7 +285,6 @@ const Canvas = memo(() => {
     //     zoom: appState.zoom,
     //   },
     // });
-    // renderStaticCanvas();
     resizeBg();
   };
 
