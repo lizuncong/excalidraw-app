@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.c31e8db1.css",
-    "main.js": "/static/js/main.bd96eac5.js",
+    "main.js": "/static/js/main.37f55cb7.js",
     "Shape.css": "/static/css/Shape.f6006728.chunk.css",
     "Shape.js": "/static/js/Shape.517534a5.chunk.js",
     "Style.css": "/static/css/Style.f6006728.chunk.css",
@@ -32,6 +32,8 @@
     "Transform.js": "/static/js/Transform.56941a5c.chunk.js",
     "TransformImg.css": "/static/css/TransformImg.426efc93.chunk.css",
     "TransformImg.js": "/static/js/TransformImg.bbcd738a.chunk.js",
+    "OffscreenCanvas.css": "/static/css/OffscreenCanvas.a0da5baf.chunk.css",
+    "OffscreenCanvas.js": "/static/js/OffscreenCanvas.7e05d589.chunk.js",
     "CreateText.css": "/static/css/CreateText.a8c6a3e0.chunk.css",
     "CreateText.js": "/static/js/CreateText.c08eaa4b.chunk.js",
     "Scale.css": "/static/css/Scale.2ad306d1.chunk.css",
@@ -85,7 +87,7 @@
     "static/media/点稀释.md": "/static/media/点稀释.31d6cfe0d16ae931b73c.md",
     "static/media/自由绘制.md": "/static/media/自由绘制.31d6cfe0d16ae931b73c.md",
     "main.c31e8db1.css.map": "/static/css/main.c31e8db1.css.map",
-    "main.bd96eac5.js.map": "/static/js/main.bd96eac5.js.map",
+    "main.37f55cb7.js.map": "/static/js/main.37f55cb7.js.map",
     "Shape.f6006728.chunk.css.map": "/static/css/Shape.f6006728.chunk.css.map",
     "Shape.517534a5.chunk.js.map": "/static/js/Shape.517534a5.chunk.js.map",
     "Style.f6006728.chunk.css.map": "/static/css/Style.f6006728.chunk.css.map",
@@ -116,6 +118,8 @@
     "Transform.56941a5c.chunk.js.map": "/static/js/Transform.56941a5c.chunk.js.map",
     "TransformImg.426efc93.chunk.css.map": "/static/css/TransformImg.426efc93.chunk.css.map",
     "TransformImg.bbcd738a.chunk.js.map": "/static/js/TransformImg.bbcd738a.chunk.js.map",
+    "OffscreenCanvas.a0da5baf.chunk.css.map": "/static/css/OffscreenCanvas.a0da5baf.chunk.css.map",
+    "OffscreenCanvas.7e05d589.chunk.js.map": "/static/js/OffscreenCanvas.7e05d589.chunk.js.map",
     "CreateText.a8c6a3e0.chunk.css.map": "/static/css/CreateText.a8c6a3e0.chunk.css.map",
     "CreateText.c08eaa4b.chunk.js.map": "/static/js/CreateText.c08eaa4b.chunk.js.map",
     "Scale.2ad306d1.chunk.css.map": "/static/css/Scale.2ad306d1.chunk.css.map",
@@ -129,6 +133,6 @@
   },
   "entrypoints": [
     "static/css/main.c31e8db1.css",
-    "static/js/main.bd96eac5.js"
+    "static/js/main.37f55cb7.js"
   ]
 }
