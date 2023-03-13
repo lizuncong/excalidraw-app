@@ -37,6 +37,10 @@
 
 - [OffscreenCanvas — Speed up Your Canvas Operations with a Web Worker](https://developer.chrome.com/blog/offscreen-canvas/)
 
+- [Offscreen Canvas Example](https://github.com/mdn/dom-examples/tree/main/web-workers/offscreen-canvas-worker)
+
+- [Offscreen Canvas Online Demo](https://mdn.github.io/dom-examples/web-workers/offscreen-canvas-worker/)
+
 - [Optimizing your JavaScript game for Firefox OS](https://hacks.mozilla.org/2013/05/optimizing-your-javascript-game-for-firefox-os/)
 
 - [MDN: Optimizing canvas](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Optimizing_canvas)
