@@ -6,8 +6,7 @@ canvas.width = offsetWidth * window.devicePixelRatio;
 canvas.height = offsetHeight * window.devicePixelRatio;
 context.scale(window.devicePixelRatio, window.devicePixelRatio);
 
-
-const offscreenCanvas = new OffscreenCanvas(canvas.width, canvas.height);
-const offContext = offscreenCanvas.getContext('2d')
-offContext.fillRect(20, 20, 100, 100)
-context.drawImage(offContext, 20, 20, 100, 100)
+const worker = new Worker("./worker.js");
+// Use the OffscreenCanvas API and send to the worker thread
+const canvasWorker = canvas.transferControlToOffscreen();
+worker.postMessage({ canvas: canvasWorker }, [canvasWorker]);
