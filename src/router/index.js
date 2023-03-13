@@ -60,6 +60,11 @@ const TransformImg = React.lazy(() =>
     /* webpackChunkName: "TransformImg" */ "@/pages/performance/transform-img"
   )
 );
+const OffscreenCanvas = React.lazy(() =>
+  import(
+    /* webpackChunkName: "OffscreenCanvas" */ "@/pages/performance/offscreen-canvas"
+  )
+);
 const CreateText = React.lazy(() =>
   import(/* webpackChunkName: "CreateText" */ "@/pages/create-text")
 );
@@ -159,6 +164,14 @@ const router = createHashRouter([
         element: (
           <React.Suspense fallback={<div>loading...</div>}>
             <TransformImg />
+          </React.Suspense>
+        ),
+      },
+      {
+        path: "/performance/offscreen-canvas",
+        element: (
+          <React.Suspense fallback={<div>loading...</div>}>
+            <OffscreenCanvas />
           </React.Suspense>
         ),
       },

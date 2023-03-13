@@ -102,6 +102,14 @@ const MENUS = [
         ),
         key: "/performance/transform-img",
       },
+      {
+        label: (
+          <NavLink to="/performance/offscreen-canvas">
+            使用offscreen canvas全量绘制元素
+          </NavLink>
+        ),
+        key: "/performance/offscreen-canvas",
+      },
     ],
   },
 ];
