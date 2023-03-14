@@ -62,16 +62,10 @@ export const drawAxis = (ctx, { scrollX, scrollY, zoom }) => {
 };
 
 const isVisibleElement = (
-  element: ExcalidrawElement,
-  canvasWidth: number,
-  canvasHeight: number,
-  viewTransformations: {
-    zoom: Zoom,
-    offsetLeft: number,
-    offsetTop: number,
-    scrollX: number,
-    scrollY: number,
-  }
+  element,
+  canvasWidth,
+  canvasHeight,
+  viewTransformations
 ) => {
   const [x1, y1, x2, y2] = getElementBounds(element); // scene coordinates
   const topLeftSceneCoords = viewportCoordsToSceneCoords(
