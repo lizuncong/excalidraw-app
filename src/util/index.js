@@ -235,7 +235,8 @@ export const generateExcalidrawElements = () => {
   return result;
 };
 
-window.__generateExcalidrawElements = generateExcalidrawElements;
+// for worker
+// window.__generateExcalidrawElements = generateExcalidrawElements;
 
 export const getFontString = ({ fontSize, fontFamily }) => {
   return `${fontSize}px ${fontFamily}, Segoe UI Emoji`;

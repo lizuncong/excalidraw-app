@@ -179,7 +179,7 @@ module.exports = function (webpackEnv) {
           loader: require.resolve(preProcessor),
           options: {
             sourceMap: true,
-            ...preProcessorOpt
+            ...preProcessorOpt,
           },
         }
       );
@@ -230,6 +230,7 @@ module.exports = function (webpackEnv) {
         : isEnvDevelopment &&
           ((info) =>
             path.resolve(info.absoluteResourcePath).replace(/\\/g, "/")),
+      globalObject: "this",
     },
     cache: {
       type: "filesystem",
@@ -529,7 +530,7 @@ module.exports = function (webpackEnv) {
                     },
                     javascriptEnabled: true,
                   },
-                },
+                }
               ),
               // Don't consider CSS imports dead code even if the
               // containing package claims to have no side effects.

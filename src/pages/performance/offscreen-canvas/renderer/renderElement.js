@@ -30,13 +30,18 @@ const generateElementWithCanvas = (element, renderConfig) => {
 
   return elementWithCanvas;
 };
-let rightContainer = document.getElementById("placeholder");
+// for worker
+const isWindow = typeof document === "object";
+let rightContainer = isWindow && document.getElementById("placeholder");
 let previewCanvas = null;
 const generateElementCanvas = (element, zoom, renderConfig) => {
+  const devicePixelRatio = isWindow
+    ? window.devicePixelRatio
+    : renderConfig.devicePixelRatio;
   const canvas = document.createElement("canvas");
   const context = canvas.getContext("2d");
   const padding = getCanvasPadding(element);
-  if (!rightContainer) {
+  if (!rightContainer && isWindow) {
     rightContainer = document.getElementById("placeholder");
   }
   if (previewCanvas) {
@@ -52,37 +57,32 @@ const generateElementCanvas = (element, zoom, renderConfig) => {
     let canvasOffsetX = 0;
     let canvasOffsetY = 0;
     canvas.width =
-      distance(x1, x2) * window.devicePixelRatio * zoom.value +
+      distance(x1, x2) * devicePixelRatio * zoom.value +
       padding * zoom.value * 2;
     canvas.height =
-      distance(y1, y2) * window.devicePixelRatio * zoom.value +
+      distance(y1, y2) * devicePixelRatio * zoom.value +
       padding * zoom.value * 2;
     canvasOffsetX =
       element.x > x1
-        ? distance(element.x, x1) * window.devicePixelRatio * zoom.value
+        ? distance(element.x, x1) * devicePixelRatio * zoom.value
         : 0;
 
     canvasOffsetY =
       element.y > y1
-        ? distance(element.y, y1) * zoom.value * window.devicePixelRatio
+        ? distance(element.y, y1) * zoom.value * devicePixelRatio
         : 0;
     context.translate(canvasOffsetX, canvasOffsetY);
   } else {
     canvas.width =
-      element.width * window.devicePixelRatio * zoom.value +
-      padding * zoom.value * 2;
+      element.width * devicePixelRatio * zoom.value + padding * zoom.value * 2;
     canvas.height =
-      element.height * window.devicePixelRatio * zoom.value +
-      padding * zoom.value * 2;
+      element.height * devicePixelRatio * zoom.value + padding * zoom.value * 2;
   }
 
   context.save();
   context.translate(padding * zoom.value, padding * zoom.value);
 
-  context.scale(
-    window.devicePixelRatio * zoom.value,
-    window.devicePixelRatio * zoom.value
-  );
+  context.scale(devicePixelRatio * zoom.value, devicePixelRatio * zoom.value);
 
   drawElementOnCanvas(element, context, renderConfig);
   context.restore();
@@ -150,23 +150,26 @@ const getCanvasPadding = (element) =>
   element.type === "freedraw" ? element.strokeWidth * 12 : 20;
 
 const drawElementFromCanvas = (elementWithCanvas, context, renderConfig) => {
+  const devicePixelRatio = isWindow
+    ? window.devicePixelRatio
+    : renderConfig.devicePixelRatio;
   const element = elementWithCanvas.element;
   const padding = getCanvasPadding(element);
   let [x1, y1, x2, y2] = getElementAbsoluteCoords(element);
   if (element.type === "freedraw") {
     [x1, y1, x2, y2] = getElementAbsoluteCoords(element);
   }
-  const cx = ((x1 + x2) / 2 + renderConfig.scrollX) * window.devicePixelRatio;
-  const cy = ((y1 + y2) / 2 + renderConfig.scrollY) * window.devicePixelRatio;
+  const cx = ((x1 + x2) / 2 + renderConfig.scrollX) * devicePixelRatio;
+  const cy = ((y1 + y2) / 2 + renderConfig.scrollY) * devicePixelRatio;
   context.save();
-  context.scale(1 / window.devicePixelRatio, 1 / window.devicePixelRatio);
+  context.scale(1 / devicePixelRatio, 1 / devicePixelRatio);
   context.translate(cx, cy);
   context.drawImage(
     elementWithCanvas.canvas,
-    (-(x2 - x1) / 2) * window.devicePixelRatio -
+    (-(x2 - x1) / 2) * devicePixelRatio -
       (padding * elementWithCanvas.canvasZoom.value) /
         elementWithCanvas.canvasZoom.value,
-    (-(y2 - y1) / 2) * window.devicePixelRatio -
+    (-(y2 - y1) / 2) * devicePixelRatio -
       (padding * elementWithCanvas.canvasZoom.value) /
         elementWithCanvas.canvasZoom.value,
     elementWithCanvas.canvas.width / elementWithCanvas.canvasZoom.value,
