@@ -170,15 +170,10 @@ const Canvas = memo(() => {
     //   },
     // });
 
-    const {
-      canvas: bgCanvas,
-      minX,
-      minY,
-      width,
-      height,
-    } = canvasToDataURL({
+    canvasToDataURL({
       renderScene,
       isExport: true,
+      staticCanvas: staticCanvasRef.current,
       notUseCache: true,
       exportPadding: 0,
       // scale:1,
@@ -188,13 +183,24 @@ const Canvas = memo(() => {
         // strokeStyle: "black",
         // fillStyle: "black",
       },
+      cb: (canvas, minX, minY, width, height) => {
+        canvasStatus.current.minX = minX;
+        canvasStatus.current.minY = minY;
+        canvasStatus.current.width = width;
+        canvasStatus.current.height = height;
+        // canvasStatus.current.base64 = bgCanvas.toDataURL();
+        imgRef.current.src = canvas.toDataURL();
+        resizeBg();
+      },
     });
-    canvasStatus.current.minX = minX;
-    canvasStatus.current.minY = minY;
-    canvasStatus.current.width = width;
-    canvasStatus.current.height = height;
-    canvasStatus.current.base64 = bgCanvas.toDataURL();
-    imgRef.current.src = bgCanvas.toDataURL();
+    resizeBg();
+
+    // canvasStatus.current.minX = minX;
+    // canvasStatus.current.minY = minY;
+    // canvasStatus.current.width = width;
+    // canvasStatus.current.height = height;
+    // canvasStatus.current.base64 = bgCanvas.toDataURL();
+    // imgRef.current.src = bgCanvas.toDataURL();
     // Object.assign(containerRef.current.style, {
     //   // backgroundPosition: `${
     //   //   (minX + appState.scrollX) * appState.zoom.value
@@ -204,7 +210,7 @@ const Canvas = memo(() => {
     //   // }px`,
     //   backgroundImage: `url(${bgCanvas.toDataURL()})`,
     // });
-    resizeBg();
+    // resizeBg();
   };
   const reDrawAfterZoom = () => {
     // render1Scene({

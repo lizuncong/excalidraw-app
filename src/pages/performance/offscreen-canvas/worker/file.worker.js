@@ -1,8 +1,9 @@
-import { renderScene } from "./renderer/renderScene";
+import { renderScene } from "./renderScene";
 
 let canvas = null;
 let ctxWorker = null;
-this.onmessage = (event) => {
+/*eslint-disable*/
+self.onmessage = (event) => {
   const {
     canvasWorker,
     scale,
@@ -29,7 +30,7 @@ this.onmessage = (event) => {
         scrollX: -minX + exportPadding,
         scrollY: -minY + exportPadding,
       },
-      scale: window.devicePixelRatio,
+      scale: devicePixelRatio,
       canvas: canvas,
       renderConfig: {
         selectionColor: "#6965db",
@@ -44,6 +45,9 @@ this.onmessage = (event) => {
         devicePixelRatio,
       },
     });
+    const imageBitmap = canvas.transferToImageBitmap();
+    // console.log('worker finish..', canvas.toDataURL())
+    postMessage({ imageBitmap }, [imageBitmap]);
   }
 
   // startCounting();
