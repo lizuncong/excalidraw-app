@@ -104,6 +104,14 @@ const MENUS = [
       },
       {
         label: (
+          <NavLink to="/performance/transform-img-hd">
+            图片 css transform 变换-高清
+          </NavLink>
+        ),
+        key: "/performance/transform-img-hd",
+      },
+      {
+        label: (
           <NavLink to="/performance/offscreen-canvas">
             使用offscreen canvas全量绘制元素
           </NavLink>
