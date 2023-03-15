@@ -9,11 +9,11 @@ import { deleteElementCache } from "../../renderer/renderElement";
 import { viewportCoordsToSceneCoords, rgb, getFontString } from "@/util";
 import { newTextElement } from "../../element/newElement";
 import { scene } from "../../scene/scene";
-import { renderScene } from "../../renderer/renderScene";
+// import { renderScene } from "../../renderer/renderScene";
 import { appState } from "../../index";
 import styles from "./index.module.less";
 
-const Index = forwardRef(({ staticCanvasRef }, ref) => {
+const Index = forwardRef(({ renderStaticCanvas }, ref) => {
   const textareaRef = useRef(null);
   const [textareaValue, setTextAreaValue] = useState("");
   useImperativeHandle(ref, () => ({
@@ -139,19 +139,20 @@ const Index = forwardRef(({ staticCanvasRef }, ref) => {
               ...scene.getElementsIncludingDeleted(),
               appState.draggingElement,
             ]);
-            renderScene({
-              elements: scene.getElementsIncludingDeleted(),
-              appState: appState,
-              scale: window.devicePixelRatio,
-              canvas: staticCanvasRef.current,
-              renderConfig: {
-                selectionColor: "#6965db",
-                scrollX: appState.scrollX,
-                scrollY: appState.scrollY,
-                viewBackgroundColor: "#ffffff",
-                zoom: appState.zoom,
-              },
-            });
+            // renderScene({
+            //   elements: scene.getElementsIncludingDeleted(),
+            //   appState: appState,
+            //   scale: window.devicePixelRatio,
+            //   canvas: staticCanvasRef.current,
+            //   renderConfig: {
+            //     selectionColor: "#6965db",
+            //     scrollX: appState.scrollX,
+            //     scrollY: appState.scrollY,
+            //     viewBackgroundColor: "#ffffff",
+            //     zoom: appState.zoom,
+            //   },
+            // });
+            renderStaticCanvas()
             setTimeout(() => {
               copyTextarea.innerText = "";
               setTextAreaValue("");

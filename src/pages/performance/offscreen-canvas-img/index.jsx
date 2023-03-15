@@ -1,6 +1,5 @@
 import React, { memo, useRef, useEffect, useState } from "react";
 import { distance } from "@/util";
-// import { isAndroid } from "@/util/device";
 import {
   withBatchedUpdatesThrottled,
   viewportCoordsToSceneCoords,
@@ -9,6 +8,7 @@ import { getNormalizedZoom, getStateForZoom } from "@/util/zoom";
 import generateElements, { animateElements } from "./generateElement";
 import { createElement } from "./element/newElement";
 import { renderScene } from "./renderer/renderScene";
+import { canvasToDataURL } from "./renderBackground";
 import {
   deleteElementCache,
   clearElementCache,
@@ -43,6 +43,9 @@ const Canvas = memo(() => {
   const [testObj, setTestObj] = useState({ count: "", type: "rectangle" });
   const [animate, setAnimate] = useState(false);
   const animateRef = useRef();
+  const containerRef = useRef();
+  const imgRef = useRef();
+  const canvasStatus = useRef({});
   const refresh = () => {
     refreshFlag(!flag);
   };
@@ -65,19 +68,9 @@ const Canvas = memo(() => {
     appState.canvasHeight = offsetHeight;
 
     // 绘制静态canvas
-    renderScene({
-      elements: scene.getElementsIncludingDeleted(),
-      appState: appState,
-      scale: window.devicePixelRatio,
-      canvas: staticCanvasRef.current,
-      renderConfig: {
-        selectionColor: "#6965db",
-        scrollX: appState.scrollX,
-        scrollY: appState.scrollY,
-        viewBackgroundColor: "#ffffff",
-        zoom: appState.zoom,
-      },
-    });
+    //eslint-disable-line
+    renderStaticCanvas();
+    /*eslint-disable*/
   }, []);
   useEffect(() => {
     const wrap = canvasContainer.current;
@@ -127,9 +120,10 @@ const Canvas = memo(() => {
 
     loop();
   }, []);
-  const reDrawAfterZoom = () => {
+  const resizeBg = () => {
+    // 只绘制坐标轴
     renderScene({
-      elements: scene.getElementsIncludingDeleted(),
+      // elements: scene.getElementsIncludingDeleted(),
       appState: appState,
       scale: window.devicePixelRatio,
       canvas: staticCanvasRef.current,
@@ -141,24 +135,118 @@ const Canvas = memo(() => {
         zoom: appState.zoom,
       },
     });
+    const { minX, minY, width, height, base64 } = canvasStatus.current;
+    // Object.assign(containerRef.current.style, {
+    //   backgroundPosition: `${
+    //     (minX + appState.scrollX) * appState.zoom.value
+    //   }px ${(minY + appState.scrollY) * appState.zoom.value}px`,
+    //   backgroundSize: `${width * appState.zoom.value}px ${
+    //     height * appState.zoom.value
+    //   }px`,
+    //   // backgroundImage: `url(${base64})`,
+    // });
+    Object.assign(imgRef.current.style, {
+      transform: `translate(${
+        (minX + appState.scrollX) * appState.zoom.value
+      }px, ${(minY + appState.scrollY) * appState.zoom.value}px)`,
+      width: `${width * appState.zoom.value}px`,
+      height: `${height * appState.zoom.value}px`,
+      // backgroundImage: `url(${base64})`,
+    });
+  };
+  const renderStaticCanvas = () => {
+    // 只绘制坐标轴
+    // renderScene({
+    //   // elements: scene.getElementsIncludingDeleted(),
+    //   appState: appState,
+    //   scale: window.devicePixelRatio,
+    //   canvas: staticCanvasRef.current,
+    //   renderConfig: {
+    //     selectionColor: "#6965db",
+    //     scrollX: appState.scrollX,
+    //     scrollY: appState.scrollY,
+    //     viewBackgroundColor: "#ffffff",
+    //     zoom: appState.zoom,
+    //   },
+    // });
+
+    canvasToDataURL({
+      renderScene,
+      isExport: true,
+      staticCanvas: staticCanvasRef.current,
+      notUseCache: true,
+      exportPadding: 0,
+      // scale:1,
+      elements: scene.getElementsIncludingDeleted(),
+      appState: {
+        ...appState,
+        // strokeStyle: "black",
+        // fillStyle: "black",
+      },
+      cb: (canvas, minX, minY, width, height) => {
+        canvasStatus.current.minX = minX;
+        canvasStatus.current.minY = minY;
+        canvasStatus.current.width = width;
+        canvasStatus.current.height = height;
+        // canvasStatus.current.base64 = bgCanvas.toDataURL();
+        imgRef.current.src = canvas.toDataURL();
+        resizeBg();
+      },
+    });
+    resizeBg();
+
+    // canvasStatus.current.minX = minX;
+    // canvasStatus.current.minY = minY;
+    // canvasStatus.current.width = width;
+    // canvasStatus.current.height = height;
+    // canvasStatus.current.base64 = bgCanvas.toDataURL();
+    // imgRef.current.src = bgCanvas.toDataURL();
+    // Object.assign(containerRef.current.style, {
+    //   // backgroundPosition: `${
+    //   //   (minX + appState.scrollX) * appState.zoom.value
+    //   // }px ${(minY + appState.scrollY) * appState.zoom.value}px`,
+    //   // backgroundSize: `${width * appState.zoom.value}px ${
+    //   //   height * appState.zoom.value
+    //   // }px`,
+    //   backgroundImage: `url(${bgCanvas.toDataURL()})`,
+    // });
+    // resizeBg();
+  };
+  const reDrawAfterZoom = () => {
+    // render1Scene({
+    //   elements: scene.getElementsIncludingDeleted(),
+    //   appState: appState,
+    //   scale: window.devicePixelRatio,
+    //   canvas: staticCanvasRef.current,
+    //   renderConfig: {
+    //     selectionColor: "#6965db",
+    //     scrollX: appState.scrollX,
+    //     scrollY: appState.scrollY,
+    //     viewBackgroundColor: "#ffffff",
+    //     zoom: appState.zoom,
+    //   },
+    // });
+    resizeBg();
     if (globalVarRef.current.zoomTimerId) {
       clearTimeout(globalVarRef.current.zoomTimerId);
     }
     globalVarRef.current.zoomTimerId = setTimeout(() => {
       clearElementCache();
-      renderScene({
-        elements: scene.getElementsIncludingDeleted(),
-        appState: appState,
-        scale: window.devicePixelRatio,
-        canvas: staticCanvasRef.current,
-        renderConfig: {
-          selectionColor: "#6965db",
-          scrollX: appState.scrollX,
-          scrollY: appState.scrollY,
-          viewBackgroundColor: "#ffffff",
-          zoom: appState.zoom,
-        },
-      });
+      // render1Scene({
+      //   elements: scene.getElementsIncludingDeleted(),
+      //   appState: appState,
+      //   scale: window.devicePixelRatio,
+      //   canvas: staticCanvasRef.current,
+      //   renderConfig: {
+      //     selectionColor: "#6965db",
+      //     scrollX: appState.scrollX,
+      //     scrollY: appState.scrollY,
+      //     viewBackgroundColor: "#ffffff",
+      //     zoom: appState.zoom,
+      //   },
+      // });
+      // 重新绘制，否则元素会很模糊
+      renderStaticCanvas();
     }, 300);
   };
   const handleCanvasWheel = (event) => {
@@ -190,7 +278,6 @@ const Canvas = memo(() => {
           appState
         ),
       });
-      // renderScene(canvasRef.current, appState);
       refresh();
       reDrawAfterZoom();
       return;
@@ -199,19 +286,20 @@ const Canvas = memo(() => {
     appState.scrollY = appState.scrollY - deltaY;
 
     // 在滚动画布的过程中，只绘制底层的canvas
-    renderScene({
-      elements: scene.getElementsIncludingDeleted(),
-      appState: appState,
-      scale: window.devicePixelRatio,
-      canvas: staticCanvasRef.current,
-      renderConfig: {
-        selectionColor: "#6965db",
-        scrollX: appState.scrollX,
-        scrollY: appState.scrollY,
-        viewBackgroundColor: "#ffffff",
-        zoom: appState.zoom,
-      },
-    });
+    // render1Scene({
+    //   elements: scene.getElementsIncludingDeleted(),
+    //   appState: appState,
+    //   scale: window.devicePixelRatio,
+    //   canvas: staticCanvasRef.current,
+    //   renderConfig: {
+    //     selectionColor: "#6965db",
+    //     scrollX: appState.scrollX,
+    //     scrollY: appState.scrollY,
+    //     viewBackgroundColor: "#ffffff",
+    //     zoom: appState.zoom,
+    //   },
+    // });
+    resizeBg();
   };
 
   const handleCanvasPointerDown = (event) => {
@@ -290,19 +378,21 @@ const Canvas = memo(() => {
       const context = canvas.getContext("2d");
       context.clearRect(0, 0, canvas.width, canvas.height);
       // 重绘底层canvas
-      renderScene({
-        elements: scene.getElementsIncludingDeleted(),
-        appState: appState,
-        scale: window.devicePixelRatio,
-        canvas: staticCanvasRef.current,
-        renderConfig: {
-          selectionColor: "#6965db",
-          scrollX: appState.scrollX,
-          scrollY: appState.scrollY,
-          viewBackgroundColor: "#ffffff",
-          zoom: appState.zoom,
-        },
-      });
+      // render1Scene({
+      //   elements: scene.getElementsIncludingDeleted(),
+      //   appState: appState,
+      //   scale: window.devicePixelRatio,
+      //   canvas: staticCanvasRef.current,
+      //   renderConfig: {
+      //     selectionColor: "#6965db",
+      //     scrollX: appState.scrollX,
+      //     scrollY: appState.scrollY,
+      //     viewBackgroundColor: "#ffffff",
+      //     zoom: appState.zoom,
+      //   },
+      // });
+      renderStaticCanvas();
+
       window.removeEventListener(
         "pointermove",
         pointerDownState.eventListeners.onMove
@@ -333,11 +423,12 @@ const Canvas = memo(() => {
     textareaRef.current.startEditText(event);
   };
   return (
-    <div className="performance-base" ref={canvasContainer}>
+    <div className="performance-transform" ref={canvasContainer}>
       {/* <div className="refer">
         参照物
       </div> */}
-      <div className="container wrap">
+      <div ref={containerRef} className="container wrap">
+        <img ref={imgRef} className="img" src="" alt="" />
         <canvas ref={staticCanvasRef} className="canvas">
           静态canvas
         </canvas>
@@ -372,7 +463,7 @@ const Canvas = memo(() => {
             setActiveTool(value);
           }}
         />
-        <TextArea ref={textareaRef} staticCanvasRef={staticCanvasRef} />
+        <TextArea ref={textareaRef} renderStaticCanvas={renderStaticCanvas} />
       </div>
       <div>
         <span ref={rafRef}>FPS：--</span>
@@ -403,19 +494,20 @@ const Canvas = memo(() => {
               ...scene.getElementsIncludingDeleted(),
               ...elements,
             ]);
-            renderScene({
-              elements: scene.getElementsIncludingDeleted(),
-              appState: appState,
-              scale: window.devicePixelRatio,
-              canvas: staticCanvasRef.current,
-              renderConfig: {
-                selectionColor: "#6965db",
-                scrollX: appState.scrollX,
-                scrollY: appState.scrollY,
-                viewBackgroundColor: "#ffffff",
-                zoom: appState.zoom,
-              },
-            });
+            // render1Scene({
+            //   elements: scene.getElementsIncludingDeleted(),
+            //   appState: appState,
+            //   scale: window.devicePixelRatio,
+            //   canvas: staticCanvasRef.current,
+            //   renderConfig: {
+            //     selectionColor: "#6965db",
+            //     scrollX: appState.scrollX,
+            //     scrollY: appState.scrollY,
+            //     viewBackgroundColor: "#ffffff",
+            //     zoom: appState.zoom,
+            //   },
+            // });
+            renderStaticCanvas();
           }}
         >
           生成

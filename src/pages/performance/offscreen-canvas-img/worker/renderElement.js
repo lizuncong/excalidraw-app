@@ -1,4 +1,4 @@
-import { getElementAbsoluteCoords, distance, getFontString } from "@/util";
+import { getElementAbsoluteCoords, distance, getFontString } from "./util";
 export const renderElement = (element, context, renderConfig, appState) => {
   const elementWithCanvas = generateElementWithCanvas(element, renderConfig);
   drawElementFromCanvas(elementWithCanvas, context, renderConfig);
@@ -30,59 +30,53 @@ const generateElementWithCanvas = (element, renderConfig) => {
 
   return elementWithCanvas;
 };
-let rightContainer = document.getElementById("placeholder");
-let previewCanvas = null;
+// for worker
+const isWindow = typeof document === "object";
+
 const generateElementCanvas = (element, zoom, renderConfig) => {
-  const canvas = document.createElement("canvas");
-  const context = canvas.getContext("2d");
+  const devicePixelRatio = isWindow
+    ? window.devicePixelRatio
+    : renderConfig.devicePixelRatio;
+
   const padding = getCanvasPadding(element);
-  if (!rightContainer) {
-    rightContainer = document.getElementById("placeholder");
-  }
-  if (previewCanvas) {
-    // rightContainer.removeChild(previewCanvas);
-  }
-  previewCanvas = canvas;
-  // rightContainer.appendChild(previewCanvas);
 
   let canvasOffsetX = 0;
   let canvasOffsetY = 0;
+  let canvas;
+  let context;
   if (element.type === "freedraw") {
     let [x1, y1, x2, y2] = getElementAbsoluteCoords(element);
     let canvasOffsetX = 0;
     let canvasOffsetY = 0;
-    canvas.width =
-      distance(x1, x2) * window.devicePixelRatio * zoom.value +
-      padding * zoom.value * 2;
-    canvas.height =
-      distance(y1, y2) * window.devicePixelRatio * zoom.value +
-      padding * zoom.value * 2;
+    canvas = new OffscreenCanvas(
+      distance(x1, x2) * devicePixelRatio * zoom.value +
+        padding * zoom.value * 2,
+      distance(y1, y2) * devicePixelRatio * zoom.value +
+        padding * zoom.value * 2
+    );
+    context = canvas.getContext("2d");
     canvasOffsetX =
       element.x > x1
-        ? distance(element.x, x1) * window.devicePixelRatio * zoom.value
+        ? distance(element.x, x1) * devicePixelRatio * zoom.value
         : 0;
 
     canvasOffsetY =
       element.y > y1
-        ? distance(element.y, y1) * zoom.value * window.devicePixelRatio
+        ? distance(element.y, y1) * zoom.value * devicePixelRatio
         : 0;
     context.translate(canvasOffsetX, canvasOffsetY);
   } else {
-    canvas.width =
-      element.width * window.devicePixelRatio * zoom.value +
-      padding * zoom.value * 2;
-    canvas.height =
-      element.height * window.devicePixelRatio * zoom.value +
-      padding * zoom.value * 2;
+    canvas = new OffscreenCanvas(
+      element.width * devicePixelRatio * zoom.value + padding * zoom.value * 2,
+      element.height * devicePixelRatio * zoom.value + padding * zoom.value * 2
+    );
+    context = canvas.getContext("2d");
   }
 
   context.save();
   context.translate(padding * zoom.value, padding * zoom.value);
 
-  context.scale(
-    window.devicePixelRatio * zoom.value,
-    window.devicePixelRatio * zoom.value
-  );
+  context.scale(devicePixelRatio * zoom.value, devicePixelRatio * zoom.value);
 
   drawElementOnCanvas(element, context, renderConfig);
   context.restore();
@@ -104,13 +98,13 @@ const drawElementOnCanvas = (element, context, renderConfig) => {
       context.lineJoin = "round";
       context.lineCap = "round";
       context.lineWidth = element.strokeWidth;
-      context.strokeStyle = element.strokeStyle;
+      context.strokeStyle = renderConfig.strokeStyle || element.strokeStyle;
       context.strokeRect(0, 0, element.width, element.height);
       break;
     }
     case "text": {
       context.font = getFontString(element);
-      context.fillStyle = element.strokeColor;
+      context.fillStyle = renderConfig.fillStyle || element.strokeColor;
       context.textAlign = element.textAlign;
       const lines = element.text.split("\n");
       const lineHeight = lines.length ? element.height / lines.length : 18;
@@ -123,7 +117,7 @@ const drawElementOnCanvas = (element, context, renderConfig) => {
     case "freedraw": {
       context.save();
       context.lineWidth = element.strokeWidth;
-      context.strokeStyle = element.strokeStyle;
+      context.strokeStyle = renderConfig.strokeStyle || element.strokeStyle;
       element.points.forEach((point, index) => {
         let [x, y] = point;
         x = x - element.x;
@@ -150,23 +144,26 @@ const getCanvasPadding = (element) =>
   element.type === "freedraw" ? element.strokeWidth * 12 : 20;
 
 const drawElementFromCanvas = (elementWithCanvas, context, renderConfig) => {
+  const devicePixelRatio = isWindow
+    ? window.devicePixelRatio
+    : renderConfig.devicePixelRatio;
   const element = elementWithCanvas.element;
   const padding = getCanvasPadding(element);
   let [x1, y1, x2, y2] = getElementAbsoluteCoords(element);
   if (element.type === "freedraw") {
     [x1, y1, x2, y2] = getElementAbsoluteCoords(element);
   }
-  const cx = ((x1 + x2) / 2 + renderConfig.scrollX) * window.devicePixelRatio;
-  const cy = ((y1 + y2) / 2 + renderConfig.scrollY) * window.devicePixelRatio;
+  const cx = ((x1 + x2) / 2 + renderConfig.scrollX) * devicePixelRatio;
+  const cy = ((y1 + y2) / 2 + renderConfig.scrollY) * devicePixelRatio;
   context.save();
-  context.scale(1 / window.devicePixelRatio, 1 / window.devicePixelRatio);
+  context.scale(1 / devicePixelRatio, 1 / devicePixelRatio);
   context.translate(cx, cy);
   context.drawImage(
     elementWithCanvas.canvas,
-    (-(x2 - x1) / 2) * window.devicePixelRatio -
+    (-(x2 - x1) / 2) * devicePixelRatio -
       (padding * elementWithCanvas.canvasZoom.value) /
         elementWithCanvas.canvasZoom.value,
-    (-(y2 - y1) / 2) * window.devicePixelRatio -
+    (-(y2 - y1) / 2) * devicePixelRatio -
       (padding * elementWithCanvas.canvasZoom.value) /
         elementWithCanvas.canvasZoom.value,
     elementWithCanvas.canvas.width / elementWithCanvas.canvasZoom.value,
