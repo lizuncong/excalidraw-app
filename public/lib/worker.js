@@ -3,7 +3,7 @@ let ctxWorker = null;
 let canvasWidth;
 let canvasHeight;
 let elements = [];
-let count = 15000;
+let count = 5000;
 self.onmessage = (event) => {
   const { canvasWorker, type, scale } = event.data;
   elements = generateElements(count);

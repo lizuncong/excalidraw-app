@@ -18,10 +18,13 @@ worker.postMessage(
 const btn = document.getElementById("draw");
 btn.onclick = () => {
   console.log("点击按钮触发重绘");
-  worker.postMessage(
-    {
-      type: 'redraw',
+
+  const tick = () => {
+    worker.postMessage({
+      type: "redraw",
       scale: window.devicePixelRatio,
-    }
-  );
+    });
+    requestAnimationFrame(tick);
+  };
+  tick();
 };
