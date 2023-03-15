@@ -129,6 +129,6 @@ export const renderScene = ({
   context.restore();
 
   context.restore();
-  localStorage.setItem("elements", JSON.stringify(elements));
-  localStorage.setItem("appState", JSON.stringify(appState));
+  // localStorage.setItem("elements", JSON.stringify(elements));
+  // localStorage.setItem("appState", JSON.stringify(appState));
 };

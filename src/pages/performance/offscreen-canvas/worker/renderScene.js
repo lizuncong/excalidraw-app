@@ -124,7 +124,9 @@ export const renderScene = ({
     );
     // const total = document.getElementById("canvas-total");
     // total.innerText = `总元素数：${elements.length}   实际绘制元素总数：${visibleElements.length}`;
-
+    console.log(
+      `worker绘制元素总数：${elements.length}，实际绘制元素总数：${visibleElements.length}`
+    );
     visibleElements.forEach((element) => {
       renderElement(element, context, renderConfig, appState);
     });
@@ -136,5 +138,5 @@ export const renderScene = ({
   if (elements) {
     // localStorage.setItem("elements", JSON.stringify(elements));
   }
-//   localStorage.setItem("appState", JSON.stringify(appState));
+  //   localStorage.setItem("appState", JSON.stringify(appState));
 };

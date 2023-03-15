@@ -16,6 +16,7 @@ import {
 import LayerUI from "./components/layer-ui";
 import TextArea from "./components/textarea";
 import { scene } from "./scene/scene";
+import { renderSceneInWorker } from './worker'
 import "./index.less";
 const temp = JSON.parse(localStorage.getItem("appState"));
 export let appState = temp || {
@@ -65,7 +66,7 @@ const Canvas = memo(() => {
     appState.canvasHeight = offsetHeight;
 
     // 绘制静态canvas
-    renderScene({
+    renderSceneInWorker({
       elements: scene.getElementsIncludingDeleted(),
       appState: appState,
       scale: window.devicePixelRatio,
@@ -128,7 +129,7 @@ const Canvas = memo(() => {
     loop();
   }, []);
   const reDrawAfterZoom = () => {
-    renderScene({
+    renderSceneInWorker({
       elements: scene.getElementsIncludingDeleted(),
       appState: appState,
       scale: window.devicePixelRatio,
@@ -146,7 +147,7 @@ const Canvas = memo(() => {
     }
     globalVarRef.current.zoomTimerId = setTimeout(() => {
       clearElementCache();
-      renderScene({
+      renderSceneInWorker({
         elements: scene.getElementsIncludingDeleted(),
         appState: appState,
         scale: window.devicePixelRatio,
@@ -199,7 +200,7 @@ const Canvas = memo(() => {
     appState.scrollY = appState.scrollY - deltaY;
 
     // 在滚动画布的过程中，只绘制底层的canvas
-    renderScene({
+    renderSceneInWorker({
       elements: scene.getElementsIncludingDeleted(),
       appState: appState,
       scale: window.devicePixelRatio,
@@ -290,7 +291,7 @@ const Canvas = memo(() => {
       const context = canvas.getContext("2d");
       context.clearRect(0, 0, canvas.width, canvas.height);
       // 重绘底层canvas
-      renderScene({
+      renderSceneInWorker({
         elements: scene.getElementsIncludingDeleted(),
         appState: appState,
         scale: window.devicePixelRatio,
@@ -403,7 +404,7 @@ const Canvas = memo(() => {
               ...scene.getElementsIncludingDeleted(),
               ...elements,
             ]);
-            renderScene({
+            renderSceneInWorker({
               elements: scene.getElementsIncludingDeleted(),
               appState: appState,
               scale: window.devicePixelRatio,
@@ -437,7 +438,7 @@ const Canvas = memo(() => {
                   scene.getElementsIncludingDeleted(),
                   appState
                 );
-                renderScene({
+                renderSceneInWorker({
                   elements: elements,
                   appState: appState,
                   scale: window.devicePixelRatio,
