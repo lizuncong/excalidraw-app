@@ -21,7 +21,19 @@
   <body>
     <div id="root">
       <canvas id="canvas" class="canvas"> 绘制canvas </canvas>
+      <div id="counter">计数器：0</div>
+      <button id="draw">重绘</button>
     </div>
     <script type="module" src="./lib/index.js"></script>
+    <script>
+      const counterEle = document.getElementById("counter");
+      let count = 0;
+      const tick = () => {
+         count++;
+        counterEle.innerText = `计数器：${count}`;
+        requestAnimationFrame(tick)
+      }
+      tick();
+    </script>
   </body>
 </html>
