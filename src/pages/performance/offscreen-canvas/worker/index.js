@@ -16,6 +16,7 @@ export const renderSceneInWorker = ({
   canvas,
   canvasImg,
   renderConfig,
+  cb,
 }) => {
   renderConfig.devicePixelRatio = window.devicePixelRatio;
   const params = {
@@ -26,7 +27,6 @@ export const renderSceneInWorker = ({
   };
   if (canvas) {
     if (!canvasWorker) {
-      console.log("初始化...", elements.length);
       canvasWorker = canvas.transferControlToOffscreen();
       worker.postMessage(
         {
@@ -37,7 +37,6 @@ export const renderSceneInWorker = ({
         [canvasWorker]
       );
     } else {
-      console.log("重回...", elements.length);
       worker.postMessage({
         type: "redraw",
         ...params,
@@ -46,7 +45,6 @@ export const renderSceneInWorker = ({
   }
 
   if (canvasImg) {
-    console.log("生成图片");
     if (!canvasImgWorker) {
       canvasImgWorker = canvasImg.transferControlToOffscreen();
       worker.postMessage(
@@ -65,8 +63,11 @@ export const renderSceneInWorker = ({
     }
 
     callback = (data) => {
-      console.log("worker 绘制完成...", data);
-      console.log("worker绘制完成222...", canvasImg.toDataURL())
+      if (cb) {
+        cb({
+          base64: canvasImg.toDataURL(),
+        });
+      }
     };
   }
 };

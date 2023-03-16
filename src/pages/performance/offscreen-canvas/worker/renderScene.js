@@ -95,6 +95,7 @@ const isVisibleElement = (
   );
 };
 export const renderScene = ({
+  type,
   elements,
   appState,
   scale,
@@ -141,8 +142,11 @@ export const renderScene = ({
     // const total = document.getElementById("canvas-total");
     // total.innerText = `总元素数：${elements.length}   实际绘制元素总数：${visibleElements.length}`;
     console.log(
-      `worker绘制元素总数：${elements.length}，实际绘制元素总数：${visibleElements.length}`
+      `${type}, worker绘制元素总数：${elements.length}，实际绘制元素总数：${visibleElements.length}`
     );
+    if(type === 'img'){
+      console.log('visible...', appState, visibleElements)
+    }
     visibleElements.forEach((element) => {
       renderElement(element, context, renderConfig, appState);
     });

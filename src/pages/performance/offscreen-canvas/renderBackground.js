@@ -8,10 +8,11 @@ export const canvasToDataURL = ({
   notUseCache,
   elements,
   appState,
+  callback,
 }) => {
   const exportPadding = 0;
   const [minX, minY, width, height] = getCanvasSize(elements, exportPadding);
-  console.log("渲染静态图片...", minX, minY, width, height);
+  console.log("生成静态图片的尺寸。。。", minX, minY, width, height);
   if (!canvas) {
     canvas = document.createElement("canvas");
     canvas.style.width = `${width}px`;
@@ -28,7 +29,7 @@ export const canvasToDataURL = ({
       scrollY: -minY + exportPadding,
     },
     scale: window.devicePixelRatio,
-    canvas: canvas,
+    canvasImg: canvas,
     renderConfig: {
       selectionColor: "#6965db",
       scrollX: -minX + exportPadding,
@@ -39,6 +40,15 @@ export const canvasToDataURL = ({
       strokeStyle: appState.strokeStyle,
       isExport,
       notUseCache,
+    },
+    cb: ({ base64 }) => {
+      callback({
+        base64,
+        minX,
+        minY,
+        width,
+        height,
+      });
     },
   });
 };

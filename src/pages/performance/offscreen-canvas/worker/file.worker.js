@@ -20,6 +20,7 @@ self.onmessage = (event) => {
     }
 
     renderScene({
+      type: 'canvas',
       elements,
       appState,
       scale,
@@ -30,17 +31,20 @@ self.onmessage = (event) => {
 
   // 全量生成图片
   if (type === "init-img" || type === "redraw-img") {
+    console.log('全量生成图片个数：', elements)
     if (canvasImgWorker) {
       canvasImg = canvasImgWorker;
     }
-
     renderScene({
+      type: 'img',
       elements,
       appState,
       scale,
-      canvasImg,
+      canvas: canvasImg,
       renderConfig,
     });
-    postMessage({ type: 'img-finish' });
+    setTimeout(() => {
+      postMessage({ type: "img-finish" });
+    }, 2000);
   }
 };

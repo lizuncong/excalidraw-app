@@ -138,9 +138,8 @@ const Canvas = memo(() => {
     });
     const { minX, minY, width, height } = canvasStatus.current;
     Object.assign(imgRef.current.style, {
-      transform: `translate(${
-        (minX + appState.scrollX) * appState.zoom.value
-      }px, ${(minY + appState.scrollY) * appState.zoom.value}px)`,
+      transform: `translate(${(minX + appState.scrollX) * appState.zoom.value
+        }px, ${(minY + appState.scrollY) * appState.zoom.value}px)`,
       width: `${width * appState.zoom.value}px`,
       height: `${height * appState.zoom.value}px`,
     });
@@ -169,12 +168,6 @@ const Canvas = memo(() => {
     // canvasStatus.current.base64 = bgCanvas.toDataURL();
     // imgRef.current.src = bgCanvas.toDataURL();
     resizeBg();
-    canvasToDataURL({
-      isExport: true,
-      notUseCache: true,
-      elements: scene.getElementsIncludingDeleted(),
-      appState,
-    });
     renderSceneInWorker({
       elements: scene.getElementsIncludingDeleted(),
       appState: appState,
@@ -186,6 +179,20 @@ const Canvas = memo(() => {
         scrollY: appState.scrollY,
         viewBackgroundColor: "#ffffff",
         zoom: appState.zoom,
+      },
+    });
+    canvasToDataURL({
+      isExport: true,
+      notUseCache: true,
+      elements: scene.getElementsIncludingDeleted(),
+      appState,
+      callback: ({ base64, minX, minY, width, height }) => {
+        canvasStatus.current.minX = minX;
+        canvasStatus.current.minY = minY;
+        canvasStatus.current.width = width;
+        canvasStatus.current.height = height;
+        imgRef.current.src = base64;
+        resizeBg();
       },
     });
   };
