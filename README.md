@@ -46,3 +46,5 @@
 - [MDN: Optimizing canvas](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Optimizing_canvas)
 
 - [https://github.com/excalidraw/excalidraw/issues/5192](https://github.com/excalidraw/excalidraw/issues/5192)
+
+- [OffscreenCanvas 与 requestAnimationFrame](https://wiki.whatwg.org/wiki/OffscreenCanvas.requestAnimationFrame)

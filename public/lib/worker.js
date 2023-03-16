@@ -3,12 +3,22 @@ let ctxWorker = null;
 let canvasWidth;
 let canvasHeight;
 let elements = [];
-let count = 5000;
+let count = 15000;
+let appState = {
+  scrollX: 0,
+  scrollY: 0,
+};
+let isDrawing = false;
 self.onmessage = (event) => {
-  const { canvasWorker, type, scale } = event.data;
+  const { canvasWorker, appState: state, type, scale } = event.data;
   elements = generateElements(count);
   if (type === "redraw") {
-    startCounting();
+    appState = state;
+    // if (!isDrawing) {
+    //   isDrawing = true;
+    //   startCounting();
+    //   isDrawing = false;
+    // }
   } else {
     canvas = canvasWorker;
     ctxWorker = canvas.getContext("2d");
@@ -19,18 +29,32 @@ self.onmessage = (event) => {
   }
 };
 
-function startCounting() {
-  // setInterval(() => {
-  elements = generateElements(count);
-  redrawCanvasB();
-  // }, 100);
-}
+let start = Date.now();
+// function startCounting() {
+//   setInterval(() => {
+//     const current = Date.now();
+//     elements = generateElements(count);
+//     console.log("worker redraw interval...", current - start, elements.length);
+//     start = current;
+//     // redrawCanvasB();
+//   }, 16.6);
+//   // requestAnimationFrame(startCounting);
+// }
 
+function startCounting() {
+  const current = Date.now();
+  elements = generateElements(count);
+  // console.log("worker redraw raf...", current - start, elements.length);
+  start = current;
+  const drawStart = Date.now();
+  redrawCanvasB();
+  // console.log("绘制时间...", Date.now() - drawStart);
+  requestAnimationFrame(startCounting);
+}
 function redrawCanvasB() {
-  console.log("redraw...", elements.length);
   ctxWorker.clearRect(0, 0, canvas.width, canvas.height);
   ctxWorker.save();
-
+  ctxWorker.translate(appState.scrollX, appState.scrollY);
   elements.forEach((ele) => {
     ctxWorker.save();
 
