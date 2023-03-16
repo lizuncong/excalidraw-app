@@ -6,7 +6,6 @@ const getRandomValue = (n, m) => {
 };
 const generateElements = (count, type, appState) => {
   const elements = [];
-  console.log("generate elements...", count, type);
   let element;
   for (let i = 0; i < count; i++) {
     let x = getRandomValue(

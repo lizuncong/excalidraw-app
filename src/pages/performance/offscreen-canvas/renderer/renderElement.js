@@ -104,13 +104,13 @@ const drawElementOnCanvas = (element, context, renderConfig) => {
       context.lineJoin = "round";
       context.lineCap = "round";
       context.lineWidth = element.strokeWidth;
-      context.strokeStyle = element.strokeStyle;
+      context.strokeStyle = renderConfig.strokeStyle || element.strokeStyle;
       context.strokeRect(0, 0, element.width, element.height);
       break;
     }
     case "text": {
       context.font = getFontString(element);
-      context.fillStyle = element.strokeColor;
+      context.fillStyle = renderConfig.fillStyle || element.strokeColor;
       context.textAlign = element.textAlign;
       const lines = element.text.split("\n");
       const lineHeight = lines.length ? element.height / lines.length : 18;
@@ -123,7 +123,7 @@ const drawElementOnCanvas = (element, context, renderConfig) => {
     case "freedraw": {
       context.save();
       context.lineWidth = element.strokeWidth;
-      context.strokeStyle = element.strokeStyle;
+      context.strokeStyle = renderConfig.strokeStyle || element.strokeStyle;
       element.points.forEach((point, index) => {
         let [x, y] = point;
         x = x - element.x;

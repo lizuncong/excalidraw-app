@@ -4,19 +4,20 @@ export const renderElement = (element, context, renderConfig, appState) => {
   drawElementFromCanvas(elementWithCanvas, context, renderConfig);
 };
 
-let elementWithCanvasCache = new WeakMap();
+export let elementWithCanvasCache = {};
 
 export const deleteElementCache = (element) => {
-  elementWithCanvasCache.delete(element);
+  delete elementWithCanvasCache[element.id]
 };
 export const clearElementCache = () => {
-  elementWithCanvasCache = new WeakMap();
+  elementWithCanvasCache = {};
 };
 
 const generateElementWithCanvas = (element, renderConfig) => {
-  const prevElementWithCanvas = elementWithCanvasCache.get(element);
+  const prevElementWithCanvas = elementWithCanvasCache[element.id];
   // 导出图片时，默认zoom为1，因此这里加个notusecache配置重新生成canvas
   if (prevElementWithCanvas && !renderConfig.notUseCache) {
+    console.log('worker复用cache===========================')
     return prevElementWithCanvas;
   }
   const elementWithCanvas = generateElementCanvas(
@@ -25,7 +26,7 @@ const generateElementWithCanvas = (element, renderConfig) => {
     renderConfig
   );
   if (!renderConfig.notUseCache) {
-    elementWithCanvasCache.set(element, elementWithCanvas);
+    elementWithCanvasCache[element.id] = elementWithCanvas;
   }
 
   return elementWithCanvas;

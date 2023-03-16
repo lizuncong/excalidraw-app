@@ -1,4 +1,8 @@
-import { renderElement } from "./renderElement";
+import {
+  renderElement,
+  elementWithCanvasCache,
+  deleteElementCache,
+} from "./renderElement";
 import { getElementBounds, viewportCoordsToSceneCoords } from "./util";
 
 export const drawAxis = (ctx, { scrollX, scrollY, zoom }) => {
@@ -110,18 +114,30 @@ export const renderScene = ({
   // 先放大
   context.scale(renderConfig.zoom.value, renderConfig.zoom.value);
   if (!renderConfig.isExport || !elements) {
-    drawAxis(context, renderConfig);
+    // drawAxis(context, renderConfig);
   }
   if (elements) {
-    const visibleElements = elements.filter((element) =>
-      isVisibleElement(element, normalizedCanvasWidth, normalizedCanvasHeight, {
-        zoom: renderConfig.zoom,
-        offsetLeft: appState.offsetLeft,
-        offsetTop: appState.offsetTop,
-        scrollX: renderConfig.scrollX,
-        scrollY: renderConfig.scrollY,
-      })
-    );
+    const visibleElements = elements.filter((element) => {
+      const isVisible = isVisibleElement(
+        element,
+        normalizedCanvasWidth,
+        normalizedCanvasHeight,
+        {
+          zoom: renderConfig.zoom,
+          offsetLeft: appState.offsetLeft,
+          offsetTop: appState.offsetTop,
+          scrollX: renderConfig.scrollX,
+          scrollY: renderConfig.scrollY,
+        }
+      );
+      const cache = elementWithCanvasCache[element.id];
+      if (isVisible && cache) {
+        if (renderConfig.zoom.value !== cache.canvasZoom.value) {
+          deleteElementCache(element);
+        }
+      }
+      return isVisible;
+    });
     // const total = document.getElementById("canvas-total");
     // total.innerText = `总元素数：${elements.length}   实际绘制元素总数：${visibleElements.length}`;
     console.log(

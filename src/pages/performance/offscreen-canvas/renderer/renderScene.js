@@ -109,26 +109,32 @@ export const renderScene = ({
   context.save();
   // 先放大
   context.scale(renderConfig.zoom.value, renderConfig.zoom.value);
-  drawAxis(context, renderConfig);
+  if (!renderConfig.isExport || !elements) {
+    drawAxis(context, renderConfig);
+  }
+  if (elements) {
+    const visibleElements = elements.filter((element) =>
+      isVisibleElement(element, normalizedCanvasWidth, normalizedCanvasHeight, {
+        zoom: renderConfig.zoom,
+        offsetLeft: appState.offsetLeft,
+        offsetTop: appState.offsetTop,
+        scrollX: renderConfig.scrollX,
+        scrollY: renderConfig.scrollY,
+      })
+    );
+    const total = document.getElementById("canvas-total");
+    total.innerText = `总元素数：${elements.length}   实际绘制元素总数：${visibleElements.length}`;
 
-  const visibleElements = elements.filter((element) =>
-    isVisibleElement(element, normalizedCanvasWidth, normalizedCanvasHeight, {
-      zoom: renderConfig.zoom,
-      offsetLeft: appState.offsetLeft,
-      offsetTop: appState.offsetTop,
-      scrollX: renderConfig.scrollX,
-      scrollY: renderConfig.scrollY,
-    })
-  );
-  const total = document.getElementById("canvas-total");
-  total.innerText = `总元素数：${elements.length}   实际绘制元素总数：${visibleElements.length}`;
+    visibleElements.forEach((element) => {
+      renderElement(element, context, renderConfig, appState);
+    });
+  }
 
-  visibleElements.forEach((element) => {
-    renderElement(element, context, renderConfig, appState);
-  });
   context.restore();
 
   context.restore();
-  // localStorage.setItem("elements", JSON.stringify(elements));
-  // localStorage.setItem("appState", JSON.stringify(appState));
+  if (elements) {
+    localStorage.setItem("elements", JSON.stringify(elements));
+  }
+  localStorage.setItem("appState", JSON.stringify(appState));
 };
