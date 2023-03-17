@@ -241,7 +241,7 @@ const Canvas = memo(() => {
       // });
       // 重新绘制，否则元素会很模糊
       renderStaticCanvas();
-    }, 300);
+    }, 1000);
   };
   const handleCanvasWheel = (event) => {
     const { deltaX, deltaY } = event;
