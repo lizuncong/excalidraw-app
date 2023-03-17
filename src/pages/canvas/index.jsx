@@ -13,6 +13,7 @@ import {
   deleteElementCache,
   clearElementCache,
 } from "./renderer/renderElement";
+import { useGesture } from "./useGesture";
 import LayerUI from "./components/layer-ui";
 import TextArea from "./components/textarea";
 import { scene } from "./scene/scene";
@@ -127,6 +128,12 @@ const Canvas = memo(() => {
 
     loop();
   }, []);
+  const {
+    updateGestureOnPointerDown,
+    handleCanvasPointerMove,
+    removePointer,
+    gesture,
+  } = useGesture(canvasRef, appState);
   const reDrawAfterZoom = () => {
     renderScene({
       elements: scene.getElementsIncludingDeleted(),
@@ -215,7 +222,13 @@ const Canvas = memo(() => {
   };
 
   const handleCanvasPointerDown = (event) => {
-    if (!activeTool.type) return;
+    if (gesture.pointers.size > 1) {
+      return;
+    }
+    if (!activeTool.type) {
+      updateGestureOnPointerDown(event);
+      return;
+    }
     const pointerDownState = initialPointerDownState(event);
     const element = createElement({
       elementType: activeTool.type,
@@ -279,6 +292,7 @@ const Canvas = memo(() => {
   const onPointerUpFromCanvasPointerDownHandler =
     (pointerDownState) => (event) => {
       // deleteElementCache(appState.draggingElement);
+      removePointer(event);
       scene.replaceAllElements([
         ...scene.getElementsIncludingDeleted(),
         appState.draggingElement,
@@ -347,6 +361,13 @@ const Canvas = memo(() => {
           onWheel={handleCanvasWheel}
           onPointerDown={handleCanvasPointerDown}
           onDoubleClick={handleCanvasDoubleClick}
+          onPointerCancel={removePointer}
+          onPointerMove={(event) => {
+            handleCanvasPointerMove(event, () => {
+              refresh();
+              reDrawAfterZoom();
+            });
+          }}
         >
           动态canvas
         </canvas>
