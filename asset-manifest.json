@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/static/css/main.c31e8db1.css",
-    "main.js": "/static/js/main.f9c7a8dd.js",
+    "main.js": "/static/js/main.261da945.js",
     "Shape.css": "/static/css/Shape.f6006728.chunk.css",
     "Shape.js": "/static/js/Shape.b752495b.chunk.js",
     "Style.css": "/static/css/Style.f6006728.chunk.css",
     "Style.js": "/static/js/Style.eaa2fdf4.chunk.js",
     "Canvas.css": "/static/css/Canvas.58000b71.chunk.css",
-    "Canvas.js": "/static/js/Canvas.db72b98f.chunk.js",
+    "Canvas.js": "/static/js/Canvas.0a01eb96.chunk.js",
     "Size.css": "/static/css/Size.f6006728.chunk.css",
     "Size.js": "/static/js/Size.17a3410c.chunk.js",
     "MaxSize.css": "/static/css/MaxSize.cff4317a.chunk.css",
@@ -90,13 +90,13 @@
     "static/media/点稀释.md": "/static/media/点稀释.31d6cfe0d16ae931b73c.md",
     "static/media/自由绘制.md": "/static/media/自由绘制.31d6cfe0d16ae931b73c.md",
     "main.c31e8db1.css.map": "/static/css/main.c31e8db1.css.map",
-    "main.f9c7a8dd.js.map": "/static/js/main.f9c7a8dd.js.map",
+    "main.261da945.js.map": "/static/js/main.261da945.js.map",
     "Shape.f6006728.chunk.css.map": "/static/css/Shape.f6006728.chunk.css.map",
     "Shape.b752495b.chunk.js.map": "/static/js/Shape.b752495b.chunk.js.map",
     "Style.f6006728.chunk.css.map": "/static/css/Style.f6006728.chunk.css.map",
     "Style.eaa2fdf4.chunk.js.map": "/static/js/Style.eaa2fdf4.chunk.js.map",
     "Canvas.58000b71.chunk.css.map": "/static/css/Canvas.58000b71.chunk.css.map",
-    "Canvas.db72b98f.chunk.js.map": "/static/js/Canvas.db72b98f.chunk.js.map",
+    "Canvas.0a01eb96.chunk.js.map": "/static/js/Canvas.0a01eb96.chunk.js.map",
     "Size.f6006728.chunk.css.map": "/static/css/Size.f6006728.chunk.css.map",
     "Size.17a3410c.chunk.js.map": "/static/js/Size.17a3410c.chunk.js.map",
     "MaxSize.cff4317a.chunk.css.map": "/static/css/MaxSize.cff4317a.chunk.css.map",
@@ -138,6 +138,6 @@
   },
   "entrypoints": [
     "static/css/main.c31e8db1.css",
-    "static/js/main.f9c7a8dd.js"
+    "static/js/main.261da945.js"
   ]
 }
