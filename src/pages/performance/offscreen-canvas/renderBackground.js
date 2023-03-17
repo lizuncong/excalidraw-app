@@ -10,16 +10,14 @@ export const canvasToDataURL = ({
   appState,
   callback,
 }) => {
-  const exportPadding = 0;
+  const exportPadding = 1.6;
   const [minX, minY, width, height] = getCanvasSize(elements, exportPadding);
-  console.log("生成静态图片的尺寸。。。", minX, minY, width, height);
-  if (!canvas) {
-    canvas = document.createElement("canvas");
-    canvas.style.width = `${width}px`;
-    canvas.style.height = `${height}px`;
-    canvas.width = width * window.devicePixelRatio;
-    canvas.height = height * window.devicePixelRatio;
-  }
+  canvas = document.createElement("canvas");
+
+  canvas.style.width = `${width}px`;
+  canvas.style.height = `${height}px`;
+  canvas.width = width * window.devicePixelRatio;
+  canvas.height = height * window.devicePixelRatio;
 
   renderSceneInWorker({
     elements,
@@ -37,7 +35,7 @@ export const canvasToDataURL = ({
       viewBackgroundColor: "#ffffff",
       zoom: { value: 1 },
       fillStyle: appState.fillStyle,
-      strokeStyle: appState.strokeStyle,
+      // strokeStyle: 'black', //appState.strokeStyle,
       isExport,
       notUseCache,
     },

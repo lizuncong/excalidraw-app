@@ -18,12 +18,29 @@
 - 只绘制可视区域内的元素。
 - 尝试使用 css 实现平移、缩放
 - 缩放时可以使用当前缓存的 canvas 绘制，缩放动作完成后，再重新绘制元素
-- 等等。可以看参考资料收集的手段
+- 其他的可以看参考资料收集的手段
+- 在使用 img 进行平移缩放时，需要提前绘制全量的元素并生成图片。在绘制元素时，以 1 倍图为基准绘制。因为如果绘制的图片太大，那么在平移缩放时还是会卡顿的
 
 ## 待完善
 
 - 自由书写-平移。目前还没完善，有 bug，同时需要考虑结合无限画布实现
 - 平移缩放性能
+- 如果采用 offscreencanvas 在 worker 线程绘制，会比较卡顿，目前大概的原因是：
+  - 由于主线程 static canvas 和 worker 线程的 OffscreenCanvas 保持频繁的传输导致每一帧都耗时较长
+
+```js
+canvasWorker = staticCanvas.transferControlToOffscreen();
+worker.postMessage(
+  {
+    canvasWorker: canvasWorker,
+    type: "init",
+    ...params,
+  },
+  [canvasWorker]
+);
+```
+
+- 主线程频繁给 worker 发送消息重绘也会导致卡顿，因此不能在平移拖拽时给 worker 线程发送消息
 
 ## 工具
 

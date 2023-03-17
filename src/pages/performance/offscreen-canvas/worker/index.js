@@ -45,22 +45,16 @@ export const renderSceneInWorker = ({
   }
 
   if (canvasImg) {
-    if (!canvasImgWorker) {
-      canvasImgWorker = canvasImg.transferControlToOffscreen();
-      worker.postMessage(
-        {
-          canvasImgWorker: canvasImgWorker,
-          type: "init-img",
-          ...params,
-        },
-        [canvasImgWorker]
-      );
-    } else {
-      worker.postMessage({
-        type: "redraw-img",
+    // 如果是生成图片，则每次都重新创建一个offscreen canvas
+    canvasImgWorker = canvasImg.transferControlToOffscreen();
+    worker.postMessage(
+      {
+        canvasImgWorker: canvasImgWorker,
+        type: "init-img",
         ...params,
-      });
-    }
+      },
+      [canvasImgWorker]
+    );
 
     callback = (data) => {
       if (cb) {

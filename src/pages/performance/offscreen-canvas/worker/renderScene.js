@@ -86,7 +86,6 @@ const isVisibleElement = (
     },
     viewTransformations
   );
-
   return (
     topLeftSceneCoords.x <= x2 &&
     topLeftSceneCoords.y <= y2 &&
@@ -106,7 +105,6 @@ export const renderScene = ({
 
   context.save();
   context.scale(scale, scale);
-
   const normalizedCanvasWidth = canvas.width / scale;
   const normalizedCanvasHeight = canvas.height / scale;
   context.clearRect(0, 0, normalizedCanvasWidth, normalizedCanvasHeight);
@@ -142,11 +140,13 @@ export const renderScene = ({
     // const total = document.getElementById("canvas-total");
     // total.innerText = `总元素数：${elements.length}   实际绘制元素总数：${visibleElements.length}`;
     console.log(
-      `${type}, worker绘制元素总数：${elements.length}，实际绘制元素总数：${visibleElements.length}`
+      `${type === "img" ? "生成全量图片" : "渲染静态的canvas"}, worker绘制元素总数：${
+        elements.length
+      }，实际绘制元素总数：${visibleElements.length}`
     );
-    if(type === 'img'){
-      console.log('visible...', appState, visibleElements)
-    }
+    // if (type === "img") {
+    //   console.log("visible...", appState, visibleElements);
+    // }
     visibleElements.forEach((element) => {
       renderElement(element, context, renderConfig, appState);
     });

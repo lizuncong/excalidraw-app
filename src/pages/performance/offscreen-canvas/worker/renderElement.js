@@ -17,7 +17,6 @@ const generateElementWithCanvas = (element, renderConfig) => {
   const prevElementWithCanvas = elementWithCanvasCache[element.id];
   // 导出图片时，默认zoom为1，因此这里加个notusecache配置重新生成canvas
   if (prevElementWithCanvas && !renderConfig.notUseCache) {
-    console.log('worker复用cache===========================')
     return prevElementWithCanvas;
   }
   const elementWithCanvas = generateElementCanvas(

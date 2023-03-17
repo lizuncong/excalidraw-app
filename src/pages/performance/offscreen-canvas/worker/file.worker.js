@@ -31,7 +31,6 @@ self.onmessage = (event) => {
 
   // 全量生成图片
   if (type === "init-img" || type === "redraw-img") {
-    console.log('全量生成图片个数：', elements)
     if (canvasImgWorker) {
       canvasImg = canvasImgWorker;
     }
@@ -45,6 +44,6 @@ self.onmessage = (event) => {
     });
     setTimeout(() => {
       postMessage({ type: "img-finish" });
-    }, 2000);
+    }, 300);
   }
 };

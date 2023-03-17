@@ -3,7 +3,7 @@ let ctxWorker = null;
 let canvasWidth;
 let canvasHeight;
 let elements = [];
-let count = 15000;
+let count = 0;
 let appState = {
   scrollX: 0,
   scrollY: 0,

@@ -70,7 +70,7 @@ const Canvas = memo(() => {
 
     // 绘制静态canvas
     //eslint-disable-line
-    renderStaticCanvas();
+    renderStaticCanvas(true);
     /*eslint-disable*/
   }, []);
   useEffect(() => {
@@ -104,21 +104,17 @@ const Canvas = memo(() => {
   useEffect(() => {
     let frame = 0;
     let startTime = Date.now();
-
     const loop = () => {
       const currentTime = Date.now();
       frame++;
-
       if (currentTime > 1000 + startTime) {
         const fps = Math.round((frame * 1000) / (currentTime - startTime));
         rafRef.current.innerText = `FPS：${fps}`;
         frame = 0;
         startTime = currentTime;
       }
-
       requestAnimationFrame(loop);
     };
-
     loop();
   }, []);
   const resizeBg = () => {
@@ -138,35 +134,15 @@ const Canvas = memo(() => {
     });
     const { minX, minY, width, height } = canvasStatus.current;
     Object.assign(imgRef.current.style, {
-      transform: `translate(${(minX + appState.scrollX) * appState.zoom.value
-        }px, ${(minY + appState.scrollY) * appState.zoom.value}px)`,
+      transform: `translate(${
+        (minX + appState.scrollX) * appState.zoom.value
+      }px, ${(minY + appState.scrollY) * appState.zoom.value}px)`,
       width: `${width * appState.zoom.value}px`,
       height: `${height * appState.zoom.value}px`,
     });
   };
-  const renderStaticCanvas = () => {
-    // const {
-    //   canvas: bgCanvas,
-    //   minX,
-    //   minY,
-    //   width,
-    //   height,
-    // } = canvasToDataURL({
-    //   renderScene,
-    //   isExport: true,
-    //   notUseCache: true,
-    //   exportPadding: 0,
-    //   elements: scene.getElementsIncludingDeleted(),
-    //   appState: {
-    //     ...appState,
-    //   },
-    // });
-    // canvasStatus.current.minX = minX;
-    // canvasStatus.current.minY = minY;
-    // canvasStatus.current.width = width;
-    // canvasStatus.current.height = height;
-    // canvasStatus.current.base64 = bgCanvas.toDataURL();
-    // imgRef.current.src = bgCanvas.toDataURL();
+
+  const renderStaticCanvas = (reRenderImg) => {
     resizeBg();
     renderSceneInWorker({
       elements: scene.getElementsIncludingDeleted(),
@@ -181,22 +157,27 @@ const Canvas = memo(() => {
         zoom: appState.zoom,
       },
     });
-    canvasToDataURL({
-      isExport: true,
-      notUseCache: true,
-      elements: scene.getElementsIncludingDeleted(),
-      appState,
-      callback: ({ base64, minX, minY, width, height }) => {
-        canvasStatus.current.minX = minX;
-        canvasStatus.current.minY = minY;
-        canvasStatus.current.width = width;
-        canvasStatus.current.height = height;
-        imgRef.current.src = base64;
-        resizeBg();
-      },
-    });
+    if (reRenderImg) {
+      canvasToDataURL({
+        isExport: true,
+        notUseCache: true,
+        elements: scene.getElementsIncludingDeleted(),
+        appState,
+        callback: ({ base64, minX, minY, width, height }) => {
+          canvasStatus.current.minX = minX;
+          canvasStatus.current.minY = minY;
+          canvasStatus.current.width = width;
+          canvasStatus.current.height = height;
+          imgRef.current.src = base64;
+          resizeBg();
+        },
+      });
+    }
   };
   const reDrawAfterZoom = () => {
+    imgRef.current.style.opacity = 1;
+    staticCanvasRef.current.style.opacity = 0;
+    console.log('appstate...', appState)
     resizeBg();
     if (globalVarRef.current.zoomTimerId) {
       clearTimeout(globalVarRef.current.zoomTimerId);
@@ -205,7 +186,11 @@ const Canvas = memo(() => {
       clearElementCache();
       // 重新绘制，否则元素会很模糊
       renderStaticCanvas();
-    }, 3000);
+      setTimeout(() => {
+        staticCanvasRef.current.style.opacity = 1;
+        imgRef.current.style.opacity = 0;
+      }, 1000);
+    }, 600);
   };
   const handleCanvasWheel = (event) => {
     const { deltaX, deltaY } = event;
@@ -242,8 +227,7 @@ const Canvas = memo(() => {
     }
     appState.scrollX = appState.scrollX - deltaX;
     appState.scrollY = appState.scrollY - deltaY;
-    // resizeBg();
-    renderStaticCanvas();
+    reDrawAfterZoom();
   };
 
   const handleCanvasPointerDown = (event) => {
@@ -318,10 +302,10 @@ const Canvas = memo(() => {
       console.log("pointer up appState...", appState);
 
       // 鼠标抬起后，先清空顶层的cavans
-      const canvas = canvasRef.current;
-      const context = canvas.getContext("2d");
-      context.clearRect(0, 0, canvas.width, canvas.height);
-      renderStaticCanvas();
+      // const canvas = canvasRef.current;
+      // const context = canvas.getContext("2d");
+      // context.clearRect(0, 0, canvas.width, canvas.height);
+      renderStaticCanvas(true);
 
       window.removeEventListener(
         "pointermove",
@@ -424,7 +408,7 @@ const Canvas = memo(() => {
               ...scene.getElementsIncludingDeleted(),
               ...elements,
             ]);
-            renderStaticCanvas();
+            renderStaticCanvas(true);
           }}
         >
           生成
