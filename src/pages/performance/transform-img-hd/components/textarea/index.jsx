@@ -72,7 +72,6 @@ const Index = forwardRef(({ renderStaticCanvas }, ref) => {
       <textarea
         onChange={(e) => {
           let text = e.target.value;
-          // console.log("tex5....", text, text.length);
           const textarea = textareaRef.current;
           const maxWidth = parseFloat(textarea.style.maxWidth);
 
@@ -83,13 +82,11 @@ const Index = forwardRef(({ renderStaticCanvas }, ref) => {
             // 正常输入的情况下，两者的差值不会太大，只有粘贴进来的文本才会导致
             // copy text宽度突然增大
             if (copyTextWidth - maxWidth < 30) {
-              console.log("正常的输入");
               text = copyTextarea.innerText =
                 text.slice(0, text.length - 1) +
                 "\n" +
                 text.slice(text.length - 1);
             } else {
-              console.log("粘贴进来的文本");
               let lines = text.split("\n");
               const splitResult = [];
               lines.forEach((line) => {
@@ -114,7 +111,6 @@ const Index = forwardRef(({ renderStaticCanvas }, ref) => {
                   }
                 }
               });
-              console.log("splitResult..", splitResult);
               text = splitResult.join("\n");
               copyTextarea.innerText = text;
             }

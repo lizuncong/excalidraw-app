@@ -64,7 +64,6 @@ const renderElements = (ctx, appState) => {
     ctx.save();
     ctx.scale(1 / window.devicePixelRatio, 1 / window.devicePixelRatio);
     ctx.translate(cx, cy);
-    console.log();
     ctx.drawImage(
       canvas,
       (-(x2 - x1) / 2) * window.devicePixelRatio - padding,

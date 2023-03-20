@@ -184,7 +184,6 @@ const Canvas = memo(() => {
   const reDrawAfterZoom = () => {
     imgRef.current.style.opacity = 1;
     staticCanvasRef.current.style.opacity = 0;
-    console.log("appstate...", appState);
     resizeBg();
     if (globalVarRef.current.zoomTimerId) {
       clearTimeout(globalVarRef.current.zoomTimerId);
@@ -313,7 +312,6 @@ const Canvas = memo(() => {
         ...scene.getElementsIncludingDeleted(),
         appState.draggingElement,
       ]);
-      console.log("pointer up appState...", appState);
 
       // 鼠标抬起后，先清空顶层的cavans
       // const canvas = canvasRef.current;

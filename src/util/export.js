@@ -16,7 +16,6 @@ export const canvasToDataURL = ({
   const exportPadding = 10;
   const [minX, minY, width, height] = getCanvasSize(elements, exportPadding);
 
-  console.log("export...", minX, minY, width, height);
   const canvas = document.createElement("canvas");
   canvas.width = width * window.devicePixelRatio;
   canvas.height = height * window.devicePixelRatio;

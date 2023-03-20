@@ -77,12 +77,10 @@ const Canvas = memo(() => {
   } = useGesture(canvasRef, appState);
   const handleCanvasPointerDown = (event) => {
     updateGestureOnPointerDown(event);
-    console.log("pointer down...", gesture.pointers);
     if (gesture.pointers.size > 1) {
       return;
     }
     const origin = viewportCoordsToSceneCoords(event, appState);
-    console.log("origin...", appState, origin);
     const pointerDownState = {
       origin,
       lastCoords: { ...origin },
@@ -115,7 +113,6 @@ const Canvas = memo(() => {
   };
   const onPointerUpFromCanvasPointerDownHandler =
     (pointerDownState) => (event) => {
-      console.log("pointer up..", event.pointerId);
       removePointer(event);
       window.removeEventListener(
         "pointermove",
@@ -187,9 +184,7 @@ const Canvas = memo(() => {
           onPointerDown={handleCanvasPointerDown}
           onPointerCancel={removePointer}
           onPointerMove={(event) => {
-            console.log('pointer move====')
             handleCanvasPointerMove(event, () => {
-              console.log("move.....");
               renderScene(canvasRef.current, appState);
             });
           }}
@@ -229,7 +224,6 @@ const Canvas = memo(() => {
               scrollX: -minX + 10,
               scrollY: -minY + 10,
             });
-            console.log("导出", elements);
             var a = document.createElement("a");
             a.href = canvas.toDataURL();
             a.download = "canvas.png";

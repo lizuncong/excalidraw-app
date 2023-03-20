@@ -59,7 +59,6 @@ const drawAxis = (ctx, { zoom, scrollX, scrollY }) => {
 const renderElements = (ctx, appState) => {
   elements.forEach((ele) => {
     ctx.save();
-    // console.log("appStsate...", appState.scrollX);
     // ctx.translate(
     //   (ele.x + appState.scrollX) * appState.zoom.value,
     //   (ele.y + appState.scrollY) * appState.zoom.value

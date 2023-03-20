@@ -144,9 +144,6 @@ export const renderScene = ({
         elements.length
       }，实际绘制元素总数：${visibleElements.length}`
     );
-    // if (type === "img") {
-    //   console.log("visible...", appState, visibleElements);
-    // }
     visibleElements.forEach((element) => {
       renderElement(element, context, renderConfig, appState);
     });

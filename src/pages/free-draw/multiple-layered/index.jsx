@@ -60,7 +60,6 @@ const Canvas = memo(() => {
   }, []);
   useEffect(() => {
     import("./1500").then((res) => {
-      // console.log("懒加载....");
     });
   }, []);
   const handleCanvasPointerDown = (event) => {
@@ -108,11 +107,6 @@ const Canvas = memo(() => {
   const onPointerUpFromCanvasPointerDownHandler = (pointerDownState) => () => {
     deleteElementCache(appState.draggingElement);
     elements.push(appState.draggingElement);
-    console.log("appState...", appState);
-    console.log(
-      "elements...",
-      elements.map((ele) => ele.points.length)
-    );
     const canvas = canvasRef.current;
     const context = canvas.getContext("2d");
     context.clearRect(0, 0, canvas.width, canvas.height);

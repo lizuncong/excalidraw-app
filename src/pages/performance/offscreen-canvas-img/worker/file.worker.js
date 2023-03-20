@@ -46,7 +46,6 @@ self.onmessage = (event) => {
       },
     });
     const imageBitmap = canvas.transferToImageBitmap();
-    // console.log('worker finish..', canvas.toDataURL())
     postMessage({ imageBitmap }, [imageBitmap]);
   }
 
@@ -67,4 +66,3 @@ self.onmessage = (event) => {
 //   ctxWorker.textAlign = "center";
 //   ctxWorker.fillText(counter, canvas.width / 2, canvas.height / 2);
 // }
-console.log("worker===========");

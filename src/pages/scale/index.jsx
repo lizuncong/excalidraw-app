@@ -72,7 +72,6 @@ const Canvas = memo(() => {
   }, []);
   const handleCanvasPointerDown = (event) => {
     const origin = viewportCoordsToSceneCoords(event, appState);
-    console.log("origin...", appState, origin);
     const pointerDownState = {
       origin,
       lastCoords: { ...origin },
@@ -208,7 +207,6 @@ const Canvas = memo(() => {
               scrollX: -minX + 10,
               scrollY: -minY + 10,
             });
-            console.log("导出", elements);
             var a = document.createElement("a");
             a.href = canvas.toDataURL();
             a.download = "canvas.png";

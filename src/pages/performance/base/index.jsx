@@ -222,7 +222,6 @@ const Canvas = memo(() => {
   };
 
   const handleCanvasPointerDown = (event) => {
-    // console.log("pointer down...", gesture.pointers);
     if (gesture.pointers.size > 1) {
       return;
     }
@@ -298,7 +297,6 @@ const Canvas = memo(() => {
         ...scene.getElementsIncludingDeleted(),
         appState.draggingElement,
       ]);
-      console.log("pointer up appState...", appState);
 
       // 鼠标抬起后，先清空顶层的cavans
       const canvas = canvasRef.current;

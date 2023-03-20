@@ -83,8 +83,6 @@ const Canvas = memo(() => {
     });
 
   const onPointerUpFromCanvasPointerDownHandler = (pointerDownState) => () => {
-    console.log('appState...', appState)
-    console.log("elements...", elements.map(ele => ele.points.length));
     window.removeEventListener(
       "pointermove",
       pointerDownState.eventListeners.onMove

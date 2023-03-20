@@ -60,7 +60,6 @@ const Canvas = memo(() => {
   }, []);
   const handleCanvasPointerDown = (event) => {
     const origin = viewportCoordsToSceneCoords(event, appState);
-    console.log("origin...", appState, origin);
     const pointerDownState = {
       origin,
       lastCoords: { ...origin },
@@ -118,7 +117,6 @@ const Canvas = memo(() => {
     const { deltaX, deltaY } = event;
     appState.scrollX = appState.scrollX - deltaX;
     appState.scrollY = appState.scrollY - deltaY;
-    console.log(`滚动距离，X：${appState.scrollX}, Y：${appState.scrollY}`);
     renderScene(canvasRef.current, appState);
   };
   return (
@@ -164,7 +162,6 @@ const Canvas = memo(() => {
               scrollX: -minX + 10,
               scrollY: -minY + 10,
             });
-            console.log("导出", elements);
             var a = document.createElement("a");
             a.href = canvas.toDataURL();
             a.download = "canvas.png";

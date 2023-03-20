@@ -34,7 +34,6 @@ export const canvasToDataURL = ({
 }) => {
   const exportPadding = 0;
   const [minX, minY, width, height] = getCanvasSize(elements, exportPadding);
-  console.log("export...", minX, minY, width, height);
   const canvas = document.createElement("canvas");
   canvas.style.width = `${width}px`;
   canvas.style.height = `${height}px`;
@@ -62,10 +61,8 @@ export const canvasToDataURL = ({
   callbacks = []
   const callback = (data) => {
     callbacks = callbacks.filter((cb) => cb !== callback);
-    console.log("接收worker消息。。", data);
     const canvas = document.createElement("canvas");
     const { canvasWidth, canvasHeight } = appState;
-    console.log("接收worker...", canvasWidth, canvasHeight);
     canvas.style.width = `${canvasWidth}px`;
     canvas.style.height = `${canvasHeight}px`;
     canvas.width = canvasWidth * window.devicePixelRatio;

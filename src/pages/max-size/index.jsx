@@ -32,7 +32,6 @@ const getMaxWidth = () => {
       // 加个阀值，防止死循环，返回0表示算法错误导致获取失败
       return 0;
     }
-    console.log('find width...', maxW, max, min)
     if (isCanvasExceedsMaximumSize(max, 1)) {
       maxW = Math.min(max, maxW)
       max = parseInt((min + max) / 2);
@@ -41,7 +40,6 @@ const getMaxWidth = () => {
       max = Math.min(max * 2, maxW);
     }
   }
-  console.log(`最大宽度：尝试了${count}次`);
   return max;
 };
 const maxWidth = getMaxWidth();
@@ -52,7 +50,7 @@ function Index() {
   const [areaRes, setAreaRes] = useState({ max: "--", areaCount: "--" });
 
   const draw = () => {
-    const startTime = new Date().getTime();
+    // const startTime = new Date().getTime();
     const canvas = canvasRef.current;
     canvas.width = width;
     canvas.height = height;
@@ -61,7 +59,6 @@ function Index() {
     ctx.fillStyle = "red";
     ctx.fillRect(0, 0, 300 + Math.random() * 1000, 300);
 
-    console.log(`绘制耗时：${new Date().getTime() - startTime}毫秒`);
   };
   useEffect(() => {
     getMaxArea(maxWidth).then((res) => {

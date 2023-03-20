@@ -31,7 +31,6 @@ function workLoop() {
       return 0;
     }
     const height = Math.floor(max / maxWidth);
-    // console.log("finding...", height, max, min);
 
     if (isCanvasExceedsMaximumSize(maxWidth, height)) {
       maxHeight = Math.min(height, maxHeight);
@@ -42,7 +41,6 @@ function workLoop() {
     }
     // 执行完当前工作，则判断时间是否超过5ms，如果超过，则退出while循环
     if (new Date().getTime() - currentEventStartTime > yieldInterval) {
-      // console.log("break...", new Date().getTime() - currentEventStartTime);
       // 执行耗时超过了5ms，结束本轮事件，主动让出控制权给浏览器绘制页面或者执行其他操作
       break;
     }
@@ -62,7 +60,6 @@ export const getMaxArea = (maxW) => {
   maxHeight = maxW;
   port.postMessage(null);
   return areaPromise.then((res) => {
-    console.log(`最大面积：${res.max}，尝试了${areaCount}次`);
     return Promise.resolve(res)
   });
 };

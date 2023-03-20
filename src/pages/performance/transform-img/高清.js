@@ -12,7 +12,6 @@ export const canvasToDataURL = ({
   const exportPadding = 1;
   const [minX, minY, width, height] = getCanvasSize(elements, exportPadding);
   // const placeholder = document.getElementById("placeholder");
-  console.log("export...", minX, minY, width, height);
   const canvas = document.createElement("canvas");
   let w = width * appState.zoom.value;
   let h = height * appState.zoom.value;

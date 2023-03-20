@@ -272,7 +272,6 @@ const Canvas = memo(() => {
           appState
         ),
       });
-      console.log('缩放》。。。。。')
       refresh();
       reDrawAfterZoom();
       return;
@@ -294,7 +293,6 @@ const Canvas = memo(() => {
     //     zoom: appState.zoom,
     //   },
     // });
-    console.log('平移.....')
     resizeBg();
   };
 
@@ -367,7 +365,6 @@ const Canvas = memo(() => {
         ...scene.getElementsIncludingDeleted(),
         appState.draggingElement,
       ]);
-      console.log("pointer up appState...", appState);
 
       // 鼠标抬起后，先清空顶层的cavans
       const canvas = canvasRef.current;
