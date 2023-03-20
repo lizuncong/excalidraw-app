@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <title>Canvas内存开销</title>
+    <style>
+      body {
+        margin: 0;
+      }
+      .canvas {
+        margin: 20px;
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="root">Canvas内存开销</div>
+    <canvas id="canvas" width="512" height="512" id="canvas" class="canvas">
+      绘制canvas
+    </canvas>
+    <button id="btn">
+      创建2000个canvas
+    </button>
+    <script>
+      const ctx = canvas.getContext("2d");
+      ctx.fillRect(0, 0, 200, 200);
+      const canvasArr = [];
+      const size = 512;
+      const createOffscreenCanvas = () => {
+        const offscreenCanvas = document.createElement("canvas");
+        offscreenCanvas.width = size;
+        offscreenCanvas.height = size;
+        const context = offscreenCanvas.getContext("2d");
+        context.fillRect(0, 0, size, size);
+        return offscreenCanvas;
+      };
+     
+      btn.onclick = () => {
+        const count = 2000;
+        for (let i = 0; i < count; i++) {
+          canvasArr.push(createOffscreenCanvas());
+        }
+      }
+      
+    </script>
+  </body>
+</html>
