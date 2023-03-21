@@ -1,6 +1,6 @@
 ## 前言
 
-浏览器为 canvas 分配的 GPU 内存是有限的，不同设备不同浏览器内核限制不同。以 Blink 内核为例，具体可以看 Blink 内核源码：
+浏览器为 canvas 分配的 GPU 内存是有限的，不同设备不同浏览器内核限制不同。以 Blink 内核为例，具体可以看 [Blink 内核源码](https://chromium.googlesource.com/chromium/src/+/e96cb85842e21a2cfb49d9b4a31a3848dd3e038d/third_party/blink/renderer/core/html/canvas/html_canvas_element.cc)：
 
 ![image](../../excalidraw-app/memo_01.png)
 
