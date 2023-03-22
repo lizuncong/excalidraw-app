@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <title>Canvas Demo</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 20px;
+      }
+      .canvas {
+        width: 600px;
+        height: 600px;
+        border: 1px solid black;
+      }
+      #animate {
+        background: red;
+        height: 30px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="root">
+      <canvas id="canvas" class="canvas"> 绘制canvas </canvas>
+      <div id="animate"></div>
+      <button id="draw">动画</button>
+    </div>
+    <script type="module" src="./index.js"></script>
+    <script>
+      const animateEle = document.getElementById("animate");
+      let width = 20;
+      let step = 1;
+      const tick = () => {
+        width = width + step;
+        if(width > 600 || width < 20){
+          step = step * (-1)
+        }
+        animateEle.style.width = `${width}px`
+        requestAnimationFrame(tick)
+      }
+      tick();
+    </script>
+  </body>
+</html>

@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <title>OffscreenCanvas Demo</title>
+    <title>OffscreenCanvas基本使用</title>
     <style>
       body {
         margin: 0;
@@ -23,7 +23,7 @@
       <canvas id="canvas" class="canvas"> 绘制canvas </canvas>
     </div>
     <script>
-      const worker = new Worker("./canvas_worker.js");
+      const worker = new Worker("./worker.js");
 
       const canvas = document.getElementById("canvas");
       const { offsetWidth, offsetHeight } = canvas;
