@@ -4,6 +4,8 @@
 
 ![image](../excalidraw-app/max-size-01.jpg)
 
+blink 内核源码写死了 canvas 最大宽度和最大绘制面积：https://chromium.googlesource.com/chromium/src/+/e96cb85842e21a2cfb49d9b4a31a3848dd3e038d/third_party/blink/renderer/platform/graphics/skia/skia_utils.h
+
 不同浏览器，不同设备(比如 pc 端和移动端)，canvas 的最大限制不同。实际上上面的表格并不准确，但可以参考。至少通过这个表格，我们知道 canvas 还是会有尺寸限制的。下面以 pc 端 chrome 为例
 
 ## canvas 最大尺寸
