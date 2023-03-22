@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.c31e8db1.css",
-    "main.js": "/static/js/main.cdd9f081.js",
+    "main.js": "/static/js/main.3552c21d.js",
     "Shape.css": "/static/css/Shape.f6006728.chunk.css",
     "Shape.js": "/static/js/Shape.b752495b.chunk.js",
     "Style.css": "/static/css/Style.f6006728.chunk.css",
@@ -11,7 +11,7 @@
     "Size.css": "/static/css/Size.f6006728.chunk.css",
     "Size.js": "/static/js/Size.17a3410c.chunk.js",
     "MaxSize.css": "/static/css/MaxSize.cff4317a.chunk.css",
-    "MaxSize.js": "/static/js/MaxSize.d53224c1.chunk.js",
+    "MaxSize.js": "/static/js/MaxSize.d6e53d25.chunk.js",
     "InfiniteCavnas.css": "/static/css/InfiniteCavnas.0813ba38.chunk.css",
     "InfiniteCavnas.js": "/static/js/InfiniteCavnas.fea2db0c.chunk.js",
     "FreeDraw.css": "/static/css/FreeDraw.a02694f6.chunk.css",
@@ -162,7 +162,7 @@
     "static/media/绘制矩形及无限画布.md": "/static/media/绘制矩形及无限画布.00ed7c1731a6947cf40e.md",
     "../build/scale_01.png": "/../build/scale_01.png",
     "static/media/彻底搞懂canvas尺寸.md": "/static/media/彻底搞懂canvas尺寸.0ce2093e9572b8425b07.md",
-    "static/media/canvas最大尺寸限制.md": "/static/media/canvas最大尺寸限制.74de79e1170fe30b5961.md",
+    "static/media/canvas最大尺寸限制.md": "/static/media/canvas最大尺寸限制.9efb2216c7d115a8e148.md",
     "static/js/file.worker.8a9bf481.worker.js": "/static/js/file.worker.8a9bf481.worker.js",
     "../build/gesture_01.png": "/../build/gesture_01.png",
     "static/media/canvas图形绘制基础.md": "/static/media/canvas图形绘制基础.64cca0ca3bc03437c488.md",
@@ -174,7 +174,7 @@
     "static/media/点稀释.md": "/static/media/点稀释.31d6cfe0d16ae931b73c.md",
     "static/media/自由绘制.md": "/static/media/自由绘制.31d6cfe0d16ae931b73c.md",
     "main.c31e8db1.css.map": "/static/css/main.c31e8db1.css.map",
-    "main.cdd9f081.js.map": "/static/js/main.cdd9f081.js.map",
+    "main.3552c21d.js.map": "/static/js/main.3552c21d.js.map",
     "Shape.f6006728.chunk.css.map": "/static/css/Shape.f6006728.chunk.css.map",
     "Shape.b752495b.chunk.js.map": "/static/js/Shape.b752495b.chunk.js.map",
     "Style.f6006728.chunk.css.map": "/static/css/Style.f6006728.chunk.css.map",
@@ -184,7 +184,7 @@
     "Size.f6006728.chunk.css.map": "/static/css/Size.f6006728.chunk.css.map",
     "Size.17a3410c.chunk.js.map": "/static/js/Size.17a3410c.chunk.js.map",
     "MaxSize.cff4317a.chunk.css.map": "/static/css/MaxSize.cff4317a.chunk.css.map",
-    "MaxSize.d53224c1.chunk.js.map": "/static/js/MaxSize.d53224c1.chunk.js.map",
+    "MaxSize.d6e53d25.chunk.js.map": "/static/js/MaxSize.d6e53d25.chunk.js.map",
     "InfiniteCavnas.0813ba38.chunk.css.map": "/static/css/InfiniteCavnas.0813ba38.chunk.css.map",
     "InfiniteCavnas.fea2db0c.chunk.js.map": "/static/js/InfiniteCavnas.fea2db0c.chunk.js.map",
     "FreeDraw.a02694f6.chunk.css.map": "/static/css/FreeDraw.a02694f6.chunk.css.map",
@@ -222,6 +222,6 @@
   },
   "entrypoints": [
     "static/css/main.c31e8db1.css",
-    "static/js/main.cdd9f081.js"
+    "static/js/main.3552c21d.js"
   ]
 }
