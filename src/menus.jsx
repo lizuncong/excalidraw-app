@@ -120,6 +120,16 @@ const MENUS = [
       },
     ],
   },
+  {
+    label: "DOM 渲染方案",
+    key: "dom_render",
+    children: [
+      {
+        label: <NavLink to="/dom-render/base">基础版本</NavLink>,
+        key: "/dom-render/base",
+      },
+    ],
+  },
 ];
 
 export default MENUS;

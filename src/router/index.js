@@ -79,6 +79,10 @@ const Scale = React.lazy(() =>
 const Gesture = React.lazy(() =>
   import(/* webpackChunkName: "Gesture" */ "@/pages/gesture")
 );
+
+const DomRenderBase = React.lazy(() =>
+  import(/* webpackChunkName: "DomRenderBase" */ "@/pages/dom-render/base")
+);
 const router = createHashRouter([
   {
     path: "/",
@@ -241,6 +245,14 @@ const router = createHashRouter([
         element: (
           <React.Suspense fallback={<div>loading...</div>}>
             <DynamicLayer />
+          </React.Suspense>
+        ),
+      },
+      {
+        path: "/dom-render/base",
+        element: (
+          <React.Suspense fallback={<div>loading...</div>}>
+            <DomRenderBase />
           </React.Suspense>
         ),
       },
