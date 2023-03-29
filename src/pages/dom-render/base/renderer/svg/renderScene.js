@@ -1,101 +1,38 @@
-import { renderElement } from "./renderElement";
-import { getElementBounds, viewportCoordsToSceneCoords } from "@/util";
-
-export const drawAxis = (ctx, { scrollX, scrollY, zoom }) => {
-  ctx.save();
-  const rectH = 100; // 纵轴刻度间距
-  const rectW = 100; // 横轴刻度间距
-  const tickLength = 8; // 刻度线长度
-  const canvas = ctx.canvas;
-  ctx.strokeStyle = "red";
-  ctx.fillStyle = "red";
-  // 绘制横轴和纵轴刻度
-  ctx.beginPath();
-  ctx.lineWidth = 2;
-  ctx.textBaseline = "middle";
-  ctx.save();
-  ctx.translate(0, scrollY);
-  for (let i = 0; i < scrollY / rectH; i++) {
-    // 绘制纵轴刻度
-    ctx.moveTo(0, -i * rectH);
-    ctx.lineTo(tickLength, -i * rectH);
-    ctx.font = "10px Arial";
-    ctx.fillText(-i, 0, -i * rectH + 10);
-  }
-  for (
-    let i = 1;
-    i < (canvas.height - scrollY * zoom.value) / (rectH * zoom.value);
-    i++
-  ) {
-    // 绘制纵轴刻度
-    ctx.moveTo(0, i * rectH);
-    ctx.lineTo(tickLength, i * rectH);
-    ctx.font = "10px Arial";
-    ctx.fillText(i, 0, i * rectH + 10);
-  }
-  ctx.restore();
-  ctx.save();
-  ctx.translate(scrollX, 0);
-
-  for (let i = 0; i < scrollX / rectW; i++) {
-    // 绘制横轴刻度
-    ctx.moveTo(-i * rectW, 0);
-    ctx.lineTo(-i * rectW, tickLength);
-    ctx.font = "10px Arial";
-    ctx.fillText(-i, -i * rectW + 5, 5);
-  }
-  for (
-    let i = 1;
-    i < (canvas.width - scrollX * zoom.value) / (rectW * zoom.value);
-    i++
-  ) {
-    // 绘制横轴刻度
-    ctx.moveTo(i * rectW, 0);
-    ctx.lineTo(i * rectW, tickLength);
-    ctx.font = "10px Arial";
-    ctx.fillText(i, i * rectW + 5, 5);
-  }
-  ctx.restore();
-  ctx.stroke();
-
-  ctx.restore();
-};
-
-const isVisibleElement = (
-  element,
-  canvasWidth,
-  canvasHeight,
-  viewTransformations
-) => {
-  const [x1, y1, x2, y2] = getElementBounds(element); // scene coordinates
-  const topLeftSceneCoords = viewportCoordsToSceneCoords(
-    {
-      clientX: viewTransformations.offsetLeft,
-      clientY: viewTransformations.offsetTop,
-    },
-    viewTransformations
-  );
-  const bottomRightSceneCoords = viewportCoordsToSceneCoords(
-    {
-      clientX: viewTransformations.offsetLeft + canvasWidth,
-      clientY: viewTransformations.offsetTop + canvasHeight,
-    },
-    viewTransformations
-  );
-
-  return (
-    topLeftSceneCoords.x <= x2 &&
-    topLeftSceneCoords.y <= y2 &&
-    bottomRightSceneCoords.x >= x1 &&
-    bottomRightSceneCoords.y >= y1
-  );
-};
+import { renderElementToSvg } from "./renderElement";
+import ReactDOM from "react-dom/client";
+export const SVG_NS = "http://www.w3.org/2000/svg";
+// const root = ReactDOM.createRoot(document.getElementById("root"));
+// root.render(<RouterProvider router={router} />);
+let root;
 export const renderScene = ({
   elements,
   appState,
   scale,
-  canvas,
+  svg,
   renderConfig,
 }) => {
+  // if (!svgRoot) {
+  //   svgRoot = document.createElementNS(SVG_NS, "svg");
+  //   svgRoot.setAttribute("version", "1.1");
+  //   svgRoot.setAttribute("xmlns", SVG_NS);
+  //   const { canvasHeight, canvasWidth } = appState;
+  //   svgRoot.setAttribute("viewBox", `0 0 ${canvasWidth} ${canvasHeight}`);
+  //   svgRoot.setAttribute("width", `${canvasWidth}`);
+  //   svgRoot.setAttribute("height", `${canvasHeight}`);
+  //   svgRoot.setAttribute("style", `background: rgba(0,0,0,0.05)`);
 
+  //   canvas.parentNode.insertBefore(svgRoot, canvas);
+  // }
+  if(!root){
+    root = ReactDOM.createRoot(svg)
+  }
+  svg.setAttribute('style', `
+    transform: translateX(${appState.scrollX * appState.zoom.value}px) translateY(${appState.scrollY * appState.zoom.value}px) scale(${appState.zoom.value})
+  `)
+  console.log('开始渲染。。。', elements)
+  const children = elements.map((element, index) => {
+    return renderElementToSvg(element, renderConfig, appState);
+  });
+  console.log('渲染后。。。', children)
+  root.render(children)
 };

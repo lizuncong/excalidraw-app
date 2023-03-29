@@ -35,6 +35,7 @@ const Canvas = memo(() => {
   const canvasRef = useRef(null);
   const canvasContainer = useRef(null);
   const staticCanvasRef = useRef(null);
+  const svgContainerRef = useRef(null)
   const cursorPosition = useRef({});
   const textareaRef = useRef(null);
   const rafRef = useRef(null);
@@ -71,6 +72,7 @@ const Canvas = memo(() => {
       appState: appState,
       scale: window.devicePixelRatio,
       canvas: staticCanvasRef.current,
+      svg: svgContainerRef.current,
       renderConfig: {
         selectionColor: "#6965db",
         scrollX: appState.scrollX,
@@ -140,6 +142,7 @@ const Canvas = memo(() => {
       appState: appState,
       scale: window.devicePixelRatio,
       canvas: staticCanvasRef.current,
+      svg: svgContainerRef.current,
       renderConfig: {
         selectionColor: "#6965db",
         scrollX: appState.scrollX,
@@ -158,6 +161,7 @@ const Canvas = memo(() => {
         appState: appState,
         scale: window.devicePixelRatio,
         canvas: staticCanvasRef.current,
+        svg: svgContainerRef.current,
         renderConfig: {
           selectionColor: "#6965db",
           scrollX: appState.scrollX,
@@ -197,7 +201,6 @@ const Canvas = memo(() => {
           appState
         ),
       });
-      // renderScene(canvasRef.current, appState);
       refresh();
       reDrawAfterZoom();
       return;
@@ -211,6 +214,7 @@ const Canvas = memo(() => {
       appState: appState,
       scale: window.devicePixelRatio,
       canvas: staticCanvasRef.current,
+      svg: svgContainerRef.current,
       renderConfig: {
         selectionColor: "#6965db",
         scrollX: appState.scrollX,
@@ -237,6 +241,10 @@ const Canvas = memo(() => {
     });
     appState.draggingElement = element;
     deleteElementCache(element);
+    scene.replaceAllElements([
+      ...scene.getElementsIncludingDeleted(),
+      appState.draggingElement,
+    ]);
     const onPointerMove =
       onPointerMoveFromCanvasPointerDownHandler(pointerDownState);
     const onPointerUp =
@@ -275,10 +283,11 @@ const Canvas = memo(() => {
       deleteElementCache(appState.draggingElement);
       // 在移动过程中，先在顶层canvas绘制
       renderScene({
-        elements: [appState.draggingElement],
+        elements: scene.getElementsIncludingDeleted(),
         appState: appState,
         scale: window.devicePixelRatio,
-        canvas: canvasRef.current,
+        canvas: staticCanvasRef.current,
+        svg: svgContainerRef.current,
         renderConfig: {
           selectionColor: "#6965db",
           scrollX: appState.scrollX,
@@ -293,10 +302,10 @@ const Canvas = memo(() => {
     (pointerDownState) => (event) => {
       // deleteElementCache(appState.draggingElement);
       removePointer(event);
-      scene.replaceAllElements([
-        ...scene.getElementsIncludingDeleted(),
-        appState.draggingElement,
-      ]);
+      // scene.replaceAllElements([
+      //   ...scene.getElementsIncludingDeleted(),
+      //   appState.draggingElement,
+      // ]);
 
       // 鼠标抬起后，先清空顶层的cavans
       const canvas = canvasRef.current;
@@ -308,6 +317,7 @@ const Canvas = memo(() => {
         appState: appState,
         scale: window.devicePixelRatio,
         canvas: staticCanvasRef.current,
+        svg: svgContainerRef.current,
         renderConfig: {
           selectionColor: "#6965db",
           scrollX: appState.scrollX,
@@ -346,11 +356,12 @@ const Canvas = memo(() => {
     textareaRef.current.startEditText(event);
   };
   return (
-    <div className="performance-base" ref={canvasContainer}>
+    <div className="svg-base" ref={canvasContainer}>
       {/* <div className="refer">
         参照物
       </div> */}
       <div className="container wrap">
+        <div className="svg-container" ref={svgContainerRef}></div>
         <canvas ref={staticCanvasRef} className="canvas">
           静态canvas
         </canvas>
@@ -428,6 +439,7 @@ const Canvas = memo(() => {
               appState: appState,
               scale: window.devicePixelRatio,
               canvas: staticCanvasRef.current,
+              svg: svgContainerRef.current,
               renderConfig: {
                 selectionColor: "#6965db",
                 scrollX: appState.scrollX,
@@ -462,6 +474,7 @@ const Canvas = memo(() => {
                   appState: appState,
                   scale: window.devicePixelRatio,
                   canvas: staticCanvasRef.current,
+                  svg: svgContainerRef.current,
                   renderConfig: {
                     selectionColor: "#6965db",
                     scrollX: appState.scrollX,

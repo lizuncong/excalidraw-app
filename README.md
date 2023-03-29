@@ -46,6 +46,11 @@ worker.postMessage(
 
 - [chrome://gpu/](chrome://gpu/)。硬件加速报告，可以查看所有有硬件加速的元素。比如 canvas
 
+## 白板 SVG 渲染方案
+
+- [https://echarts.apache.org/handbook/zh/best-practices/canvas-vs-svg/](https://echarts.apache.org/handbook/zh/best-practices/canvas-vs-svg/)
+- [https://github.com/ecomfe/zrender/pull/836](https://github.com/ecomfe/zrender/pull/836)
+
 ## 参考资料
 
 - [canvas 基础](http://diveintohtml5.info/canvas.html)
