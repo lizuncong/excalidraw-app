@@ -50,6 +50,16 @@ worker.postMessage(
 
 - [https://echarts.apache.org/handbook/zh/best-practices/canvas-vs-svg/](https://echarts.apache.org/handbook/zh/best-practices/canvas-vs-svg/)
 - [https://github.com/ecomfe/zrender/pull/836](https://github.com/ecomfe/zrender/pull/836)
+- [SVG 优化方案](https://css-tricks.com/understanding-and-manually-improving-svg-optimization/)
+- [SVG 渲染性能优化方案](https://codepen.io/tigt/post/improving-svg-rendering-performance)
+- [SVG 性能相关的](http://web.archive.org/web/20160310083016/https://www.mapbox.com/osmdev/2012/11/20/getting-serious-about-svg/)
+- [SVG 中浏览器性能的一些考虑因素的比较分析](http://web.archive.org/web/20191220121231/https://www.svgopen.org/2007/papers/BrowserPerformanceMeasures/index.html)。
+- [https://www.crmarsh.com/svg-performance/](https://www.crmarsh.com/svg-performance/)
+- [高性能 svg](https://css-tricks.com/high-performance-svgs/)
+
+## SVG 性能相关
+
+- 加载慢是 SVG 的一个缺点
 
 ## 参考资料
 
@@ -70,3 +80,5 @@ worker.postMessage(
 - [https://github.com/excalidraw/excalidraw/issues/5192](https://github.com/excalidraw/excalidraw/issues/5192)
 
 - [OffscreenCanvas 与 requestAnimationFrame](https://wiki.whatwg.org/wiki/OffscreenCanvas.requestAnimationFrame)
+
+- [Excalidraw 官方博客](https://blog.excalidraw.com/)
