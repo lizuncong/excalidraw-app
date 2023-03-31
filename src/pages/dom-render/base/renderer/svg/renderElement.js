@@ -38,13 +38,14 @@ export const renderElementToSvg = (element, renderConfig, appState) => {
         <svg
           id={element.id}
           key={element.id}
-          width={element.width}
-          height={element.height}
+          width={element.width + element.strokeWidth * 2 + 2}
+          height={element.height + element.strokeWidth * 2 + 2}
           style={{
             position: "absolute",
             left: `${element.x}px`,
             top: `${element.y}px`,
-            // background: "grey",
+            background: "grey",
+            padding: `${element.strokeWidth}px`
           }}
           xmlns="http://www.w3.org/2000/svg"
           version="1.1"
