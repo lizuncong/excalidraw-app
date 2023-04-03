@@ -1,6 +1,10 @@
 import { renderElementToSvg } from "./renderElement";
 export const SVG_NS = "http://www.w3.org/2000/svg";
 
+const trimSpace = (str) => {
+  return str.replace(/\s+/g," ")
+}
+
 export const renderScene = ({
   elements,
   appState,
@@ -28,6 +32,6 @@ export const renderScene = ({
   const children = elements.map((element, index) => {
     return renderElementToSvg(element, renderConfig, appState);
   });
-  svg.innerHTML = children;
+  svg.innerHTML = children.join('').replace(/\s+/g," ");
   console.log("渲染后。。。", children);
 };

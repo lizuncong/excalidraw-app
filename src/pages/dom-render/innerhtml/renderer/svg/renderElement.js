@@ -8,8 +8,7 @@ export const renderElementToSvg = (element, renderConfig, appState) => {
   let el;
   switch (element.type) {
     case "rectangle": {
-      el = `<svg
-          id=${element.id}
+      el = `<svg id=${element.id}
           key=${element.id}
           width=${element.width + element.strokeWidth * 2}
           height=${element.height + element.strokeWidth * 2}
