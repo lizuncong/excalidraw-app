@@ -128,6 +128,10 @@ const MENUS = [
         label: <NavLink to="/dom-render/base">基础版本</NavLink>,
         key: "/dom-render/base",
       },
+      {
+        label: <NavLink to="/dom-render/innerhtml">dom原生</NavLink>,
+        key: "/dom-render/innerhtml",
+      },
     ],
   },
 ];

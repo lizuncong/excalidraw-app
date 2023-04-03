@@ -83,6 +83,9 @@ const Gesture = React.lazy(() =>
 const DomRenderBase = React.lazy(() =>
   import(/* webpackChunkName: "DomRenderBase" */ "@/pages/dom-render/base")
 );
+const InnerHtml = React.lazy(() =>
+  import(/* webpackChunkName: "InnerHtml" */ "@/pages/dom-render/innerhtml")
+);
 const router = createHashRouter([
   {
     path: "/",
@@ -253,6 +256,14 @@ const router = createHashRouter([
         element: (
           <React.Suspense fallback={<div>loading...</div>}>
             <DomRenderBase />
+          </React.Suspense>
+        ),
+      },
+      {
+        path: "/dom-render/innerhtml",
+        element: (
+          <React.Suspense fallback={<div>loading...</div>}>
+            <InnerHtml />
           </React.Suspense>
         ),
       },
