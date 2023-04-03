@@ -11,23 +11,15 @@ export const renderScene = ({
   svg,
   renderConfig,
 }) => {
-  // if (!svgRoot) {
-  //   svgRoot = document.createElementNS(SVG_NS, "svg");
-  //   svgRoot.setAttribute("version", "1.1");
-  //   svgRoot.setAttribute("xmlns", SVG_NS);
-  //   const { canvasHeight, canvasWidth } = appState;
-  //   svgRoot.setAttribute("viewBox", `0 0 ${canvasWidth} ${canvasHeight}`);
-  //   svgRoot.setAttribute("width", `${canvasWidth}`);
-  //   svgRoot.setAttribute("height", `${canvasHeight}`);
-  //   svgRoot.setAttribute("style", `background: rgba(0,0,0,0.05)`);
-
-  //   canvas.parentNode.insertBefore(svgRoot, canvas);
-  // }
   if(!root){
     root = ReactDOM.createRoot(svg)
   }
+  const originSize = 30;
   svg.setAttribute('style', `
-    transform: translateX(${appState.scrollX * appState.zoom.value}px) translateY(${appState.scrollY * appState.zoom.value}px) scale(${appState.zoom.value})
+    transform: translateX(${appState.scrollX * appState.zoom.value}px) translateY(${appState.scrollY * appState.zoom.value}px) scale(${appState.zoom.value});
+    width: ${originSize}px;
+    height: ${originSize}px;
+    transform-origin: left top;
   `)
   console.log('开始渲染。。。', elements)
   const children = elements.map((element, index) => {

@@ -10,10 +10,7 @@ import generateElements, { animateElements } from "./generateElement";
 import { createElement } from "./element/newElement";
 import { renderScene } from "./renderer";
 import { useGesture } from "./useGesture";
-import {
-  deleteElementCache,
-  clearElementCache,
-} from "./renderer";
+import { deleteElementCache, clearElementCache } from "./renderer";
 import LayerUI from "./components/layer-ui";
 import TextArea from "./components/textarea";
 import { scene } from "./scene/scene";
@@ -35,7 +32,7 @@ const Canvas = memo(() => {
   const canvasRef = useRef(null);
   const canvasContainer = useRef(null);
   const staticCanvasRef = useRef(null);
-  const svgContainerRef = useRef(null)
+  const svgContainerRef = useRef(null);
   const cursorPosition = useRef({});
   const textareaRef = useRef(null);
   const rafRef = useRef(null);
@@ -360,7 +357,19 @@ const Canvas = memo(() => {
       {/* <div className="refer">
         参照物
       </div> */}
-      <div className="container wrap">
+      <div
+        onWheel={handleCanvasWheel}
+        onPointerDown={handleCanvasPointerDown}
+        onDoubleClick={handleCanvasDoubleClick}
+        onPointerCancel={removePointer}
+        onPointerMove={(event) => {
+          handleCanvasPointerMove(event, () => {
+            refresh();
+            reDrawAfterZoom();
+          });
+        }}
+        className="container wrap"
+      >
         <div className="svg-container" ref={svgContainerRef}></div>
         <canvas ref={staticCanvasRef} className="canvas">
           静态canvas
@@ -368,16 +377,16 @@ const Canvas = memo(() => {
         <canvas
           ref={canvasRef}
           className="canvas draw"
-          onWheel={handleCanvasWheel}
-          onPointerDown={handleCanvasPointerDown}
-          onDoubleClick={handleCanvasDoubleClick}
-          onPointerCancel={removePointer}
-          onPointerMove={(event) => {
-            handleCanvasPointerMove(event, () => {
-              refresh();
-              reDrawAfterZoom();
-            });
-          }}
+          // onWheel={handleCanvasWheel}
+          // onPointerDown={handleCanvasPointerDown}
+          // onDoubleClick={handleCanvasDoubleClick}
+          // onPointerCancel={removePointer}
+          // onPointerMove={(event) => {
+          //   handleCanvasPointerMove(event, () => {
+          //     refresh();
+          //     reDrawAfterZoom();
+          //   });
+          // }}
         >
           动态canvas
         </canvas>

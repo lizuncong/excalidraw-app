@@ -4,7 +4,7 @@ export const deleteElementCache = () => {};
 
 export const clearElementCache = () => {};
 
-const TO_FIXED_PRECISION = /(\s?[A-Z]?,?-?[0-9]*\.[0-9]{0,2})(([0-9]|e|-)*)/g;
+// const TO_FIXED_PRECISION = /(\s?[A-Z]?,?-?[0-9]*\.[0-9]{0,2})(([0-9]|e|-)*)/g;
 // function med(A, B) {
 //   return [(A[0] + B[0]) / 2, (A[1] + B[1]) / 2];
 // }
@@ -38,19 +38,21 @@ export const renderElementToSvg = (element, renderConfig, appState) => {
         <svg
           id={element.id}
           key={element.id}
-          width={element.width + element.strokeWidth * 2 + 2}
-          height={element.height + element.strokeWidth * 2 + 2}
+          width={element.width + element.strokeWidth * 2}
+          height={element.height + element.strokeWidth * 2}
           style={{
             position: "absolute",
             left: `${element.x}px`,
             top: `${element.y}px`,
-            background: "grey",
-            padding: `${element.strokeWidth}px`
+            // background: "grey",
+            // padding: `${element.strokeWidth}px`
           }}
           xmlns="http://www.w3.org/2000/svg"
           version="1.1"
         >
           <rect
+            x={Math.ceil(element.strokeWidth / 2)}
+            y={Math.ceil(element.strokeWidth / 2)}
             width={element.width}
             height={element.height}
             style={{
@@ -68,15 +70,15 @@ export const renderElementToSvg = (element, renderConfig, appState) => {
       const width = distance(x1, x2);
       const height = distance(y1, y2);
       const points = element.points.map((p) => [
-        p[0] - x1,
-        p[1] - y1,
+        p[0] - x1 + Math.ceil(element.strokeWidth / 2),
+        p[1] - y1 + Math.ceil(element.strokeWidth / 2),
       ]);
       el = (
         <svg
           id={element.id}
           key={element.id}
-          width={width}
-          height={height}
+          width={width + element.strokeWidth * 2}
+          height={height + element.strokeWidth * 2}
           style={{
             position: "absolute",
             left: `${x1}px`,
