@@ -140,6 +140,7 @@ const Canvas = memo(() => {
       scale: window.devicePixelRatio,
       canvas: staticCanvasRef.current,
       svg: svgContainerRef.current,
+      isTransform: true,
       renderConfig: {
         selectionColor: "#6965db",
         scrollX: appState.scrollX,
@@ -159,6 +160,7 @@ const Canvas = memo(() => {
         scale: window.devicePixelRatio,
         canvas: staticCanvasRef.current,
         svg: svgContainerRef.current,
+        isTransform: true,
         renderConfig: {
           selectionColor: "#6965db",
           scrollX: appState.scrollX,
@@ -208,6 +210,7 @@ const Canvas = memo(() => {
     // 在滚动画布的过程中，只绘制底层的canvas
     renderScene({
       elements: scene.getElementsIncludingDeleted(),
+      isTransform: true,
       appState: appState,
       scale: window.devicePixelRatio,
       canvas: staticCanvasRef.current,
