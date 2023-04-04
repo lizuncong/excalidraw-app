@@ -360,19 +360,7 @@ const Canvas = memo(() => {
       {/* <div className="refer">
         参照物
       </div> */}
-      <div
-        onWheel={handleCanvasWheel}
-        onPointerDown={handleCanvasPointerDown}
-        onDoubleClick={handleCanvasDoubleClick}
-        onPointerCancel={removePointer}
-        onPointerMove={(event) => {
-          handleCanvasPointerMove(event, () => {
-            refresh();
-            reDrawAfterZoom();
-          });
-        }}
-        className="container wrap"
-      >
+      <div className="container wrap">
         <div className="svg-container" ref={svgContainerRef}></div>
         <canvas ref={staticCanvasRef} className="canvas">
           静态canvas
@@ -380,16 +368,16 @@ const Canvas = memo(() => {
         <canvas
           ref={canvasRef}
           className="canvas draw"
-          // onWheel={handleCanvasWheel}
-          // onPointerDown={handleCanvasPointerDown}
-          // onDoubleClick={handleCanvasDoubleClick}
-          // onPointerCancel={removePointer}
-          // onPointerMove={(event) => {
-          //   handleCanvasPointerMove(event, () => {
-          //     refresh();
-          //     reDrawAfterZoom();
-          //   });
-          // }}
+          onWheel={handleCanvasWheel}
+          onPointerDown={handleCanvasPointerDown}
+          onDoubleClick={handleCanvasDoubleClick}
+          onPointerCancel={removePointer}
+          onPointerMove={(event) => {
+            handleCanvasPointerMove(event, () => {
+              refresh();
+              reDrawAfterZoom();
+            });
+          }}
         >
           动态canvas
         </canvas>

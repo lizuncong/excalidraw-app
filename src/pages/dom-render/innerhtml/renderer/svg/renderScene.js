@@ -14,9 +14,7 @@ export const renderScene = ({
   isTransform,
 }) => {
   const originSize = 30;
-  svg.setAttribute(
-    "style",
-    `
+  const constainerStyle = `
     transform: translateX(${
       appState.scrollX * appState.zoom.value
     }px) translateY(${appState.scrollY * appState.zoom.value}px) scale(${
@@ -26,12 +24,15 @@ export const renderScene = ({
     height: ${originSize}px;
     transform-origin: left top;
   `
+  svg.setAttribute(
+    "style",
+    trimSpace(constainerStyle)
   );
   if (isTransform) return;
   console.log("开始渲染。。。", elements);
   const children = elements.map((element, index) => {
     return renderElementToSvg(element, renderConfig, appState);
   });
-  svg.innerHTML = children.join('').replace(/\s+/g," ");
+  svg.innerHTML = trimSpace(children.join(''));
   console.log("渲染后。。。", children);
 };
