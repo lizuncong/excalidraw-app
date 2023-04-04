@@ -59,7 +59,7 @@ export const renderElementToSvg = (element, renderConfig, appState) => {
           version="1.1"
         >
           <polyline
-            points=${points.join(" ")}
+            points="${points.join(' ')}"
             style="
               fill: none;
               stroke-width: ${element.strokeWidth};

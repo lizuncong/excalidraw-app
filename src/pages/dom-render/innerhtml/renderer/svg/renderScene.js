@@ -29,10 +29,8 @@ export const renderScene = ({
     trimSpace(constainerStyle)
   );
   if (isTransform) return;
-  console.log("开始渲染。。。", elements);
   const children = elements.map((element, index) => {
     return renderElementToSvg(element, renderConfig, appState);
   });
   svg.innerHTML = trimSpace(children.join(''));
-  console.log("渲染后。。。", children);
 };
