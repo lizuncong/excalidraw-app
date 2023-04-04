@@ -132,6 +132,10 @@ const MENUS = [
         label: <NavLink to="/dom-render/innerhtml">dom原生</NavLink>,
         key: "/dom-render/innerhtml",
       },
+      {
+        label: <NavLink to="/dom-render/single-svg">单SVG</NavLink>,
+        key: "/dom-render/single-svg",
+      },
     ],
   },
 ];
