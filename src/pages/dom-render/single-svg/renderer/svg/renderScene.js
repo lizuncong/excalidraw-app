@@ -3,7 +3,7 @@ import { getCanvasSize } from "@/util/export";
 export const SVG_NS = "http://www.w3.org/2000/svg";
 
 const trimSpace = (str) => {
-  return str;
+  // return str;
   return str.replace(/\s+/g, " ");
 };
 

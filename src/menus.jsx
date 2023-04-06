@@ -129,11 +129,11 @@ const MENUS = [
         key: "/dom-render/base",
       },
       {
-        label: <NavLink to="/dom-render/innerhtml">多svg节点</NavLink>,
+        label: <NavLink to="/dom-render/innerhtml">多SVG节点</NavLink>,
         key: "/dom-render/innerhtml",
       },
       {
-        label: <NavLink to="/dom-render/single-svg">单SVG</NavLink>,
+        label: <NavLink to="/dom-render/single-svg">单SVG节点</NavLink>,
         key: "/dom-render/single-svg",
       },
     ],
