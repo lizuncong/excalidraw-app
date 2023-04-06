@@ -41,6 +41,7 @@ const Canvas = memo(() => {
   const [activeTool, setActiveTool] = useState({ type: "" });
   const [testObj, setTestObj] = useState({ count: "", type: "rectangle" });
   const [animate, setAnimate] = useState(false);
+  const willChangeRef = useRef(false);
   const animateRef = useRef();
   const refresh = () => {
     refreshFlag(!flag);
@@ -76,6 +77,7 @@ const Canvas = memo(() => {
         scrollY: appState.scrollY,
         viewBackgroundColor: "#ffffff",
         zoom: appState.zoom,
+        accelerate: willChangeRef.current
       },
     });
   }, []);
@@ -147,6 +149,7 @@ const Canvas = memo(() => {
         scrollY: appState.scrollY,
         viewBackgroundColor: "#ffffff",
         zoom: appState.zoom,
+        accelerate: willChangeRef.current
       },
     });
     if (globalVarRef.current.zoomTimerId) {
@@ -167,6 +170,7 @@ const Canvas = memo(() => {
           scrollY: appState.scrollY,
           viewBackgroundColor: "#ffffff",
           zoom: appState.zoom,
+          accelerate: willChangeRef.current
         },
       });
     }, 300);
@@ -221,6 +225,7 @@ const Canvas = memo(() => {
         scrollY: appState.scrollY,
         viewBackgroundColor: "#ffffff",
         zoom: appState.zoom,
+        accelerate: willChangeRef.current
       },
     });
   };
@@ -294,6 +299,7 @@ const Canvas = memo(() => {
           scrollY: appState.scrollY,
           viewBackgroundColor: "#ffffff",
           zoom: appState.zoom,
+          accelerate: willChangeRef.current
         },
       });
     });
@@ -324,6 +330,7 @@ const Canvas = memo(() => {
           scrollY: appState.scrollY,
           viewBackgroundColor: "#ffffff",
           zoom: appState.zoom,
+          accelerate: willChangeRef.current
         },
       });
       window.removeEventListener(
@@ -408,6 +415,15 @@ const Canvas = memo(() => {
       <div>
         <span ref={rafRef}>FPS：--</span>
         <span className="total" id="canvas-total"></span>
+        <span className="willchange">
+          <input
+            type="checkbox"
+            onChange={(e) => {
+              willChangeRef.current = e.target.checked;
+            }}
+          />
+          开启硬件加速
+        </span>
       </div>
       <div className="row">
         <input
@@ -446,6 +462,7 @@ const Canvas = memo(() => {
                 scrollY: appState.scrollY,
                 viewBackgroundColor: "#ffffff",
                 zoom: appState.zoom,
+                accelerate: willChangeRef.current
               },
             });
           }}
@@ -481,6 +498,7 @@ const Canvas = memo(() => {
                     scrollY: appState.scrollY,
                     viewBackgroundColor: "#ffffff",
                     zoom: appState.zoom,
+                    accelerate: willChangeRef.current
                   },
                 });
               }

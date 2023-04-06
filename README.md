@@ -82,3 +82,5 @@ worker.postMessage(
 - [OffscreenCanvas 与 requestAnimationFrame](https://wiki.whatwg.org/wiki/OffscreenCanvas.requestAnimationFrame)
 
 - [Excalidraw 官方博客](https://blog.excalidraw.com/)
+
+- [https://source.chromium.org/](https://source.chromium.org/)。在线查看谷歌内核源码

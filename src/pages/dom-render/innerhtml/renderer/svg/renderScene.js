@@ -23,6 +23,7 @@ export const renderScene = ({
     width: ${originSize}px;
     height: ${originSize}px;
     transform-origin: left top;
+    //will-change: transform;
   `
   svg.setAttribute(
     "style",
