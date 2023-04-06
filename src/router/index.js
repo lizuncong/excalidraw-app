@@ -89,6 +89,9 @@ const InnerHtml = React.lazy(() =>
 const SingleSVG = React.lazy(() =>
   import(/* webpackChunkName: "SingleSVG" */ "@/pages/dom-render/single-svg")
 );
+const ReactDiff = React.lazy(() =>
+  import(/* webpackChunkName: "ReactDiff" */ "@/pages/dom-render/react-diff")
+);
 const router = createHashRouter([
   {
     path: "/",
@@ -275,6 +278,14 @@ const router = createHashRouter([
         element: (
           <React.Suspense fallback={<div>loading...</div>}>
             <SingleSVG />
+          </React.Suspense>
+        ),
+      },
+      {
+        path: "/dom-render/react-diff",
+        element: (
+          <React.Suspense fallback={<div>loading...</div>}>
+            <ReactDiff />
           </React.Suspense>
         ),
       },

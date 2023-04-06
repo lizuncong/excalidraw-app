@@ -125,7 +125,7 @@ const MENUS = [
     key: "dom_render",
     children: [
       {
-        label: <NavLink to="/dom-render/base">React Diff方案</NavLink>,
+        label: <NavLink to="/dom-render/base">React Diff方案(反向优化)</NavLink>,
         key: "/dom-render/base",
       },
       {
@@ -135,6 +135,10 @@ const MENUS = [
       {
         label: <NavLink to="/dom-render/single-svg">单SVG节点</NavLink>,
         key: "/dom-render/single-svg",
+      },
+      {
+        label: <NavLink to="/dom-render/react-diff">React Diff</NavLink>,
+        key: "/dom-render/react-diff",
       },
     ],
   },
