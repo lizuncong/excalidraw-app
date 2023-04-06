@@ -125,11 +125,11 @@ const MENUS = [
     key: "dom_render",
     children: [
       {
-        label: <NavLink to="/dom-render/base">基础版本</NavLink>,
+        label: <NavLink to="/dom-render/base">React Diff方案</NavLink>,
         key: "/dom-render/base",
       },
       {
-        label: <NavLink to="/dom-render/innerhtml">dom原生</NavLink>,
+        label: <NavLink to="/dom-render/innerhtml">多svg节点</NavLink>,
         key: "/dom-render/innerhtml",
       },
       {
