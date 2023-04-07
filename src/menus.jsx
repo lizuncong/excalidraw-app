@@ -140,6 +140,10 @@ const MENUS = [
         label: <NavLink to="/dom-render/react-diff">React Diff</NavLink>,
         key: "/dom-render/react-diff",
       },
+      {
+        label: <NavLink to="/dom-render/cache-detect">缓存检测</NavLink>,
+        key: "/dom-render/cache-detect",
+      },
     ],
   },
 ];
