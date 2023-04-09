@@ -33,19 +33,19 @@ export const renderScene = ({
   if (isTransform) return;
   const [minX, minY, width, height] = getCanvasSize(elements, 10);
   if(!svg){
-    svg = document.createElement('svg')
+    svg = document.createElementNS(SVG_NS,'svg')
     svg.style.position = "absolute"
     svg.style.background = 'transparent'
-    svg.xmlns = 'http://www.w3.org/2000/svg'
-    svg.version = '1.1'
+    svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
+    svg.setAttribute('version', '1.1')
     svgContainer.appendChild(svg)
   }
-  svg.width = width
-  svg.height = height;
+  svg.setAttribute('width', width)
+  svg.setAttribute('height', height)
   const start = Date.now();
   console.log("耗时...", Date.now() - start, minX, minY, width, height);
-  const children = elements.map(function renderToSvg(element, index) {
-    return renderElementToSvg(element, renderConfig, appState, { minX, minY });
+  elements.map(function renderToSvg(element, index) {
+    return renderElementToSvg(element, renderConfig, appState, { minX, minY, svg });
   });
   // svgContainer.innerHTML = `
   // <svg 
