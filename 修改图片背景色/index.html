@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <title>BackgroundColor</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 20px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="root">
+      <canvas id="canvas" class="canvas"> 绘制canvas </canvas>
+    </div>
+    <script>
+      const testColor = [101, 153, 254, 255];
+      function isSimilar(arr1, arr2) {
+        if (arr1.length !== arr2.length) return false;
+        for (let i = 0; i < arr1.length; i++) {
+          if (Math.abs(arr1[i] - arr2[i]) > 20) {
+            return false;
+          }
+        }
+        return true;
+      }
+      const image = new Image();
+      image.src =
+        "http://localhost:8080/%E4%BF%AE%E6%94%B9%E5%9B%BE%E7%89%87%E8%83%8C%E6%99%AF%E8%89%B2/test.jpg";
+      image.onload = () => {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = image.width;
+        canvas.height = image.height;
+        ctx.drawImage(image, 0, 0, image.width, image.height);
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        console.log("imagedta...", imageData);
+        for (let i = 0; i < imageData.data.length; i++) {
+          const similar = isSimilar(testColor, imageData.data.slice(i, i + 4));
+          if (
+            similar ||
+            (imageData.data[i] === 101 &&
+              imageData.data[i + 1] === 153 &&
+              imageData.data[i + 2] === 254)
+          ) {
+            imageData.data[i + 3] = 0;
+          }
+        }
+        ctx.putImageData(imageData, 0, 0);
+
+        const base64 = canvas.toDataURL("image/png");
+
+        const img = document.createElement("img");
+        img.src = base64;
+        document.body.appendChild(img);
+      };
+    </script>
+  </body>
+</html>
