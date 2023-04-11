@@ -44,7 +44,7 @@ const Canvas = memo(() => {
   const [activeTool, setActiveTool] = useState({ type: "" });
   const [testObj, setTestObj] = useState({ count: "", type: "rectangle" });
   const [animate, setAnimate] = useState(false);
-  const willChangeRef = useRef(false);
+  const willChangeRef = useRef(true);
   const animateRef = useRef();
   const refresh = () => {
     refreshFlag(!flag);
@@ -289,7 +289,6 @@ const Canvas = memo(() => {
         appState.draggingElement.height = height;
       }
       deleteElementCache(appState.draggingElement);
-      // 在移动过程中，先在顶层canvas绘制
       renderScene({
         elements: scene.getElementsIncludingDeleted(),
         appState: appState,
@@ -421,7 +420,9 @@ const Canvas = memo(() => {
         <span className="willchange">
           <input
             type="checkbox"
+            checked={willChangeRef.current}
             onChange={(e) => {
+              refresh();
               willChangeRef.current = e.target.checked;
             }}
           />

@@ -8,6 +8,9 @@ const trimSpace = (str) => {
 };
 
 let svg;
+let timerId;
+let _minX;
+let _minY;
 export const renderScene = ({
   elements,
   appState,
@@ -30,31 +33,44 @@ export const renderScene = ({
     ${accelerate ? "will-change: transform;" : ""}
   `;
   svgContainer.setAttribute("style", trimSpace(constainerStyle));
-  if (isTransform) return;
-  const [minX, minY, width, height] = getCanvasSize(elements, 10);
-  if(!svg){
-    svg = document.createElementNS(SVG_NS,'svg')
-    svg.style.position = "absolute"
-    svg.style.background = 'transparent'
-    svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
-    svg.setAttribute('version', '1.1')
-    svgContainer.appendChild(svg)
+  if (isTransform) {
+    if (timerId) {
+      clearTimeout(timerId);
+    }
+    // if (accelerate) {
+    //   timerId = setTimeout(() => {
+    //     console.log('ddd')
+    //     svgContainer.style.willChange = "";
+    //     setTimeout(() => {
+    //       svgContainer.style.willChange = "transform";
+    //     }, 0);
+    //   }, 1000);
+    // }
+    return;
   }
-  svg.setAttribute('width', width)
-  svg.setAttribute('height', height)
-  const start = Date.now();
-  console.log("耗时...", Date.now() - start, minX, minY, width, height);
+  const [minX, minY, width, height] = getCanvasSize(elements, 10);
+  if (!svg) {
+    svg = document.createElementNS(SVG_NS, "svg");
+    svg.style.position = "absolute";
+    svg.style.background = "transparent";
+    svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+    svg.setAttribute("version", "1.1");
+    svgContainer.appendChild(svg);
+  }
+  svg.setAttribute("width", width);
+  svg.setAttribute("height", height);
+  svg.style.left = `${minX}px`;
+  svg.style.top = `${minY}px`;
   elements.map(function renderToSvg(element, index) {
-    return renderElementToSvg(element, renderConfig, appState, { minX, minY, svg });
+    return renderElementToSvg(element, renderConfig, appState, {
+      minX,
+      minY,
+      svg,
+      originChange: _minX !== minX || _minY !== minY
+    });
   });
-  // svgContainer.innerHTML = `
-  // <svg 
-  //   width=${width} 
-  //   height=${height} 
-  //   style="position: absolute;left: ${minX}px;top: ${minY}px;background: transparent;"
-  //   xmlns="http://www.w3.org/2000/svg"
-  //   version="1.1"
-  // >${trimSpace(children.join(""))}</svg>`;
+  _minX = minX;
+  _minY = minY;
 };
 
 window.__svg2img = (svg) => {
