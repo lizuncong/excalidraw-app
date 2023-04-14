@@ -148,6 +148,10 @@ const MENUS = [
         label: <NavLink to="/dom-render/svg-to-img">SVG转图片(反向优化，效果不是很理想)</NavLink>,
         key: "/dom-render/svg-to-img",
       },
+      {
+        label: <NavLink to="/dom-render/switch-render">切换渲染引擎</NavLink>,
+        key: "/dom-render/switch-render",
+      },
     ],
   },
 ];
