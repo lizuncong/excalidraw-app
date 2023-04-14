@@ -16,6 +16,7 @@ export const clearElementCache = () => {
 const generateElementWithCanvas = (element, renderConfig) => {
   const prevElementWithCanvas = elementWithCanvasCache.get(element);
   // 导出图片时，默认zoom为1，因此这里加个notusecache配置重新生成canvas
+  console.log('生成离屏canvas')
   if (prevElementWithCanvas && !renderConfig.notUseCache) {
     return prevElementWithCanvas;
   }
@@ -40,10 +41,10 @@ const generateElementCanvas = (element, zoom, renderConfig) => {
     rightContainer = document.getElementById("placeholder");
   }
   if (previewCanvas) {
-    // rightContainer.removeChild(previewCanvas);
+    rightContainer.removeChild(previewCanvas);
   }
   previewCanvas = canvas;
-  // rightContainer.appendChild(previewCanvas);
+  rightContainer.appendChild(previewCanvas);
 
   let canvasOffsetX = 0;
   let canvasOffsetY = 0;
@@ -104,7 +105,7 @@ const drawElementOnCanvas = (element, context, renderConfig) => {
       context.lineJoin = "round";
       context.lineCap = "round";
       context.lineWidth = element.strokeWidth;
-      context.strokeStyle = element.strokeStyle;
+      context.strokeStyle = "black"; // element.strokeStyle;
       context.strokeRect(0, 0, element.width, element.height);
       break;
     }
@@ -123,7 +124,7 @@ const drawElementOnCanvas = (element, context, renderConfig) => {
     case "freedraw": {
       context.save();
       context.lineWidth = element.strokeWidth;
-      context.strokeStyle = element.strokeStyle;
+      context.strokeStyle = "black"; //element.strokeStyle;
       element.points.forEach((point, index) => {
         let [x, y] = point;
         x = x - element.x;

@@ -98,6 +98,7 @@ export const renderScene = ({
   renderConfig,
 }) => {
   const context = canvas.getContext("2d");
+  context.setTransform(1, 0, 0, 1, 0, 0);
 
   context.save();
   context.scale(scale, scale);
