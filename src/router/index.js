@@ -95,6 +95,10 @@ const ReactDiff = React.lazy(() =>
 const CacheDiff = React.lazy(() =>
   import(/* webpackChunkName: "CacheDiff" */ "@/pages/dom-render/cache-detect")
 );
+
+const SvgToImg = React.lazy(() =>
+  import(/* webpackChunkName: "SvgToImg" */ "@/pages/dom-render/svg-to-img")
+);
 const router = createHashRouter([
   {
     path: "/",
@@ -297,6 +301,14 @@ const router = createHashRouter([
         element: (
           <React.Suspense fallback={<div>loading...</div>}>
             <CacheDiff />
+          </React.Suspense>
+        ),
+      },
+      {
+        path: "/dom-render/svg-to-img",
+        element: (
+          <React.Suspense fallback={<div>loading...</div>}>
+            <SvgToImg />
           </React.Suspense>
         ),
       },

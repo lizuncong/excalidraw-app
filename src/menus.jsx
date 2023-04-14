@@ -144,6 +144,10 @@ const MENUS = [
         label: <NavLink to="/dom-render/cache-detect">缓存检测</NavLink>,
         key: "/dom-render/cache-detect",
       },
+      {
+        label: <NavLink to="/dom-render/svg-to-img">SVG转图片(反向优化，效果不是很理想)</NavLink>,
+        key: "/dom-render/svg-to-img",
+      },
     ],
   },
 ];
