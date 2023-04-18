@@ -231,8 +231,8 @@ const Canvas = memo(() => {
       reDrawAfterZoom();
       return;
     }
-    appState.scrollX = appState.scrollX - deltaX;
-    appState.scrollY = appState.scrollY - deltaY;
+    appState.scrollX = appState.scrollX - deltaX / appState.zoom.value;
+    appState.scrollY = appState.scrollY - deltaY / appState.zoom.value;
     reDrawAfterZoom();
   };
 

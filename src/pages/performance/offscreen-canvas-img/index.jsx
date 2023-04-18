@@ -282,8 +282,8 @@ const Canvas = memo(() => {
       reDrawAfterZoom();
       return;
     }
-    appState.scrollX = appState.scrollX - deltaX;
-    appState.scrollY = appState.scrollY - deltaY;
+    appState.scrollX = appState.scrollX - deltaX / appState.zoom.value;
+    appState.scrollY = appState.scrollY - deltaY / appState.zoom.value;
 
     // 在滚动画布的过程中，只绘制底层的canvas
     // render1Scene({
