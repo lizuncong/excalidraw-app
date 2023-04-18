@@ -89,3 +89,5 @@ worker.postMessage(
 - [Excalidraw 官方博客](https://blog.excalidraw.com/)
 
 - [https://source.chromium.org/](https://source.chromium.org/)。在线查看谷歌内核源码
+
+- [撤销重做设计](https://www.cnblogs.com/hanshuai/p/15171165.html)
