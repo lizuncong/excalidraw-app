@@ -104,6 +104,10 @@ const SwitchRender = React.lazy(() =>
   import(/* webpackChunkName: "SwitchRender" */ "@/pages/dom-render/switch-render")
 );
 
+const UndoRedo = React.lazy(() =>
+  import(/* webpackChunkName: "UndoRedo" */ "@/pages/undo-redo")
+);
+
 const router = createHashRouter([
   {
     path: "/",
@@ -322,6 +326,14 @@ const router = createHashRouter([
         element: (
           <React.Suspense fallback={<div>loading...</div>}>
             <SwitchRender />
+          </React.Suspense>
+        ),
+      },
+      {
+        path: "/undo-redo",
+        element: (
+          <React.Suspense fallback={<div>loading...</div>}>
+            <UndoRedo />
           </React.Suspense>
         ),
       },

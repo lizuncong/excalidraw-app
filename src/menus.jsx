@@ -154,6 +154,10 @@ const MENUS = [
       },
     ],
   },
+  {
+    label: <NavLink to="/undo-redo">撤销重做</NavLink>,
+    key: "/undo-redo",
+  },
 ];
 
 export default MENUS;
