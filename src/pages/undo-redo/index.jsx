@@ -1,9 +1,11 @@
 import React, { memo, useRef, useEffect } from "react";
 import { viewportCoordsToSceneCoords, rgb } from "@/util";
-import styles from  "./index.module.less";
+import styles from "./index.module.less";
 import renderScene from "./renderScene";
+import History from "./History";
 
-export const elements = JSON.parse(localStorage.getItem("free-draw-elements")) || [];
+export const elements =
+  JSON.parse(localStorage.getItem("free-draw-elements")) || [];
 const appState = {
   offsetLeft: 0,
   offsetTop: 0,
@@ -11,6 +13,8 @@ const appState = {
   scrollY: 0,
   draggingElement: null,
 };
+const history = new History();
+console.log('history...', history)
 const Canvas = memo(() => {
   const canvasRef = useRef(null);
   const canvasContainer = useRef(null);
