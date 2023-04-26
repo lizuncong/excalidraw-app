@@ -14,12 +14,11 @@ const clearAppStatePropertiesForHistory = (appState) => {
 class History {
   constructor() {
     this.elementCache = new Map();
-    this.recording = true;
     this.stateHistory = [];
     this.redoStack = [];
     this.lastEntry = null;
   }
-
+  // appState只存储部分属性，并不是全部
   hydrateHistoryEntry({ appState, elements }) {
     return {
       appState: JSON.parse(appState),
@@ -56,75 +55,22 @@ class History {
     };
   }
 
-  clear() {
-    this.stateHistory.length = 0;
-    this.redoStack.length = 0;
-    this.lastEntry = null;
-    this.elementCache.clear();
-  }
-
+  // 将当前state和elements生成一个快照，格式：{ appState: string, elements: [{id, versionNonce}] }
   generateEntry = (appState, elements) =>
     this.dehydrateHistoryEntry({
       appState: clearAppStatePropertiesForHistory(appState),
       elements,
     });
 
-  shouldCreateEntry(nextEntry) {
-    const { lastEntry } = this;
-
-    if (!lastEntry) {
-      return true;
-    }
-
-    if (nextEntry.elements.length !== lastEntry.elements.length) {
-      return true;
-    }
-
-    // loop from right to left as changes are likelier to happen on new elements
-    for (let i = nextEntry.elements.length - 1; i > -1; i--) {
-      const prev = nextEntry.elements[i];
-      const next = lastEntry.elements[i];
-      if (
-        !prev ||
-        !next ||
-        prev.id !== next.id ||
-        prev.versionNonce !== next.versionNonce
-      ) {
-        return true;
-      }
-    }
-
-    // note: this is safe because entry's appState is guaranteed no excess props
-    let key;
-    for (key in nextEntry.appState) {
-      if (key === "editingLinearElement") {
-        if (
-          nextEntry.appState[key]?.elementId ===
-          lastEntry.appState[key]?.elementId
-        ) {
-          continue;
-        }
-      }
-      if (key === "selectedElementIds" || key === "selectedGroupIds") {
-        continue;
-      }
-      if (nextEntry.appState[key] !== lastEntry.appState[key]) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
   pushEntry(appState, elements) {
     const newEntryDehydrated = this.generateEntry(appState, elements);
     const newEntry = this.hydrateHistoryEntry(newEntryDehydrated);
-
+    console.log('push entry=====', newEntry)
     if (newEntry) {
       if (!this.shouldCreateEntry(newEntry)) {
         return;
       }
-
+      console.log('create new entry=====')
       this.stateHistory.push(newEntryDehydrated);
       this.lastEntry = newEntry;
       // As a new entry was pushed, we invalidate the redo stack
@@ -183,17 +129,64 @@ class History {
     );
   }
 
-  // Suspicious that this is called so many places. Seems error-prone.
-  resumeRecording() {
-    this.recording = true;
+  record(state, elements) {
+    this.pushEntry(state, elements);
+  }
+  clear() {
+    this.stateHistory.length = 0;
+    this.redoStack.length = 0;
+    this.lastEntry = null;
+    this.elementCache.clear();
   }
 
-  record(state, elements) {
-    if (this.recording) {
-      this.pushEntry(state, elements);
-      this.recording = false;
+  shouldCreateEntry(nextEntry) {
+    const { lastEntry } = this;
+
+    if (!lastEntry) {
+      return true;
     }
+
+    if (nextEntry.elements.length !== lastEntry.elements.length) {
+      return true;
+    }
+
+    // loop from right to left as changes are likelier to happen on new elements
+    for (let i = nextEntry.elements.length - 1; i > -1; i--) {
+      const prev = nextEntry.elements[i];
+      const next = lastEntry.elements[i];
+      if (
+        !prev ||
+        !next ||
+        prev.id !== next.id ||
+        prev.versionNonce !== next.versionNonce
+      ) {
+        return true;
+      }
+    }
+
+    // note: this is safe because entry's appState is guaranteed no excess props
+    let key;
+    for (key in nextEntry.appState) {
+      if (key === "editingLinearElement") {
+        if (
+          nextEntry.appState[key]?.elementId ===
+          lastEntry.appState[key]?.elementId
+        ) {
+          continue;
+        }
+      }
+      if (key === "selectedElementIds" || key === "selectedGroupIds") {
+        continue;
+      }
+      if (nextEntry.appState[key] !== lastEntry.appState[key]) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }
 
 export default History;
+
+// 1 25
