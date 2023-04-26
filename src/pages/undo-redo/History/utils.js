@@ -1,7 +1,3 @@
-// Simplified deep clone for the purpose of cloning ExcalidrawElement only
-// (doesn't clone Date, RegExp, Map, Set, Typed arrays etc.)
-//
-// Adapted from https://github.com/lukeed/klona
 export const deepCopyElement = (val, depth = 0) => {
   if (val == null || typeof val !== "object") {
     return val;
@@ -36,3 +32,6 @@ export const deepCopyElement = (val, depth = 0) => {
 
   return val;
 };
+
+
+
