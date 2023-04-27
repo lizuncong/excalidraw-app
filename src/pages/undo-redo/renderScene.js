@@ -1,6 +1,5 @@
-import { elements } from "./index";
 
-const renderElements = (ctx, appState) => {
+const renderElements = (ctx, appState, elements) => {
   elements.forEach((ele) => {
     ctx.save();
     ctx.beginPath();
@@ -20,11 +19,31 @@ const renderElements = (ctx, appState) => {
     ctx.restore();
   });
 };
-const renderScene = (canvas, appState) => {
+
+// let timerId;
+
+const renderScene = (canvas, appState, elements) => {
   const context = canvas.getContext("2d");
   context.clearRect(0, 0, canvas.width, canvas.height);
-  renderElements(context, appState);
-  localStorage.setItem("free-draw-elements", JSON.stringify(elements));
+  renderElements(context, appState, elements);
+
+  // if (timerId) {
+  //   clearTimeout(timerId);
+  // }
+
+  // timerId = setTimeout(() => {
+  //   console.log('开始记录....')
+  //   afterRenderSceneHook.forEach((cb) => {
+  //     cb(appState, elements);
+  //   });
+  // }, 300);
 };
 
 export default renderScene;
+
+// export const registerAfterRenderSceneHook = (cb) => {
+//   afterRenderSceneHook.push(cb);
+//   return () => {
+//     afterRenderSceneHook = afterRenderSceneHook.filter((h) => h !== cb);
+//   };
+// };

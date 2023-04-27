@@ -4,8 +4,8 @@ import styles from "./index.module.less";
 import renderScene from "./renderScene";
 import History from "./History";
 
-export const elements =
-  JSON.parse(localStorage.getItem("free-draw-elements")) || [];
+let elements = JSON.parse(localStorage.getItem("free-draw-elements")) || [];
+
 const appState = {
   offsetLeft: 0,
   offsetTop: 0,
@@ -14,7 +14,9 @@ const appState = {
   draggingElement: null,
 };
 const history = new History();
-console.log('history...', history)
+window.__history = history;
+
+console.log("history...", history);
 const Canvas = memo(() => {
   const canvasRef = useRef(null);
   const canvasContainer = useRef(null);
@@ -28,8 +30,8 @@ const Canvas = memo(() => {
     context.scale(window.devicePixelRatio, window.devicePixelRatio);
     appState.offsetLeft = offsetLeft;
     appState.offsetTop = offsetTop;
-    renderScene(canvas, appState);
-
+    renderScene(canvas, appState, elements);
+    history.record(appState, elements);
     // 防止双指滑动时切换页面
     const wrap = canvasContainer.current;
     const handleWheel = (e) => {
@@ -56,6 +58,7 @@ const Canvas = memo(() => {
     };
     const element = {
       x: pointerDownState.origin.x,
+      id: Math.floor(Math.random() * 2 ** 31),
       y: pointerDownState.origin.y,
       points: [[pointerDownState.origin.x, pointerDownState.origin.y]],
       strokeColor: "#000000",
@@ -63,6 +66,7 @@ const Canvas = memo(() => {
       fillStyle: "hachure",
       strokeWidth: 1,
       strokeStyle: rgb(),
+      versionNonce: Math.floor(Math.random() * 2 ** 31),
     };
     appState.draggingElement = element;
     elements.push(element);
@@ -81,10 +85,14 @@ const Canvas = memo(() => {
       const pointerCoords = viewportCoordsToSceneCoords(event, appState);
 
       appState.draggingElement.points.push([pointerCoords.x, pointerCoords.y]);
-      renderScene(canvasRef.current, appState);
+      appState.draggingElement.versionNonce = Math.floor(
+        Math.random() * 2 ** 31
+      );
+      renderScene(canvasRef.current, appState, elements);
     };
 
   const onPointerUpFromCanvasPointerDownHandler = (pointerDownState) => () => {
+    history.record(appState, elements);
     window.removeEventListener(
       "pointermove",
       pointerDownState.eventListeners.onMove
@@ -105,8 +113,30 @@ const Canvas = memo(() => {
           绘制canvas
         </canvas>
         <div className={styles.btnRow}>
-          <button>撤销</button>
-          <button>重做</button>
+          <button
+            onClick={() => {
+              const data = history.undoOnce();
+              console.log("撤销。。。", data);
+              if (data) {
+                elements = data.elements;
+                renderScene(canvasRef.current, appState, elements);
+              }
+            }}
+          >
+            撤销
+          </button>
+          <button
+            onClick={() => {
+              const data = history.redoOnce();
+              console.log("重做...", data);
+              if (data) {
+                elements = data.elements;
+                renderScene(canvasRef.current, appState, elements);
+              }
+            }}
+          >
+            重做
+          </button>
         </div>
       </div>
     </div>

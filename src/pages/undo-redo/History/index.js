@@ -1,56 +1,34 @@
 import { deepCopyElement } from "./utils";
 
-const clearAppStatePropertiesForHistory = (appState) => {
-  return {
-    selectedElementIds: appState.selectedElementIds,
-    selectedGroupIds: appState.selectedGroupIds,
-    viewBackgroundColor: appState.viewBackgroundColor,
-    editingLinearElement: appState.editingLinearElement,
-    editingGroupId: appState.editingGroupId,
-    name: appState.name,
-  };
-};
-
 class History {
   constructor() {
-    this.elementCache = new Map();
+    this.elementCache = {}; // { key: element}, key=`${element.id}-${element.versionNonce}`
     this.stateHistory = [];
     this.redoStack = [];
     this.lastEntry = null;
   }
   // appState只存储部分属性，并不是全部
+  // 从历史记录中取出一个快照
   hydrateHistoryEntry({ appState, elements }) {
     return {
       appState: JSON.parse(appState),
-      elements: elements.map((dehydratedExcalidrawElement) => {
-        const element = this.elementCache
-          .get(dehydratedExcalidrawElement.id)
-          ?.get(dehydratedExcalidrawElement.versionNonce);
+      elements: elements.map((key) => {
+        const element = this.elementCache[key];
         if (!element) {
-          throw new Error(
-            `Element not found: ${dehydratedExcalidrawElement.id}:${dehydratedExcalidrawElement.versionNonce}`
-          );
+          throw new Error(`Element not found: ${key}`);
         }
         return element;
       }),
     };
   }
-
+  // 生成一个快照
   dehydrateHistoryEntry({ appState, elements }) {
     return {
       appState: JSON.stringify(appState),
       elements: elements.map((element) => {
-        if (!this.elementCache.has(element.id)) {
-          this.elementCache.set(element.id, new Map());
-        }
-        const versions = this.elementCache.get(element.id);
-        if (!versions.has(element.versionNonce)) {
-          versions.set(element.versionNonce, deepCopyElement(element));
-        }
-        return {
-          id: element.id,
-          versionNonce: element.versionNonce,
-        };
+        const { id, versionNonce } = element;
+        this.elementCache[`${id}-${versionNonce}`] = deepCopyElement(element);
+        return `${element.id}-${element.versionNonce}`;
       }),
     };
   }
@@ -58,24 +36,14 @@ class History {
   // 将当前state和elements生成一个快照，格式：{ appState: string, elements: [{id, versionNonce}] }
   generateEntry = (appState, elements) =>
     this.dehydrateHistoryEntry({
-      appState: clearAppStatePropertiesForHistory(appState),
+      appState,
       elements,
     });
 
   pushEntry(appState, elements) {
     const newEntryDehydrated = this.generateEntry(appState, elements);
-    const newEntry = this.hydrateHistoryEntry(newEntryDehydrated);
-    console.log('push entry=====', newEntry)
-    if (newEntry) {
-      if (!this.shouldCreateEntry(newEntry)) {
-        return;
-      }
-      console.log('create new entry=====')
-      this.stateHistory.push(newEntryDehydrated);
-      this.lastEntry = newEntry;
-      // As a new entry was pushed, we invalidate the redo stack
-      this.clearRedoStack();
-    }
+    this.stateHistory.push(newEntryDehydrated);
+    this.clearRedoStack();
   }
 
   clearRedoStack() {
@@ -114,23 +82,10 @@ class History {
     return null;
   }
 
-  /**
-   * Updates history's `lastEntry` to latest app state. This is necessary
-   *  when doing undo/redo which itself doesn't commit to history, but updates
-   *  app state in a way that would break `shouldCreateEntry` which relies on
-   *  `lastEntry` to reflect last comittable history state.
-   * We can't update `lastEntry` from within history when calling undo/redo
-   *  because the action potentially mutates appState/elements before storing
-   *  it.
-   */
-  setCurrentState(appState, elements) {
-    this.lastEntry = this.hydrateHistoryEntry(
-      this.generateEntry(appState, elements)
-    );
-  }
-
   record(state, elements) {
+    console.log("开始记录。。。。");
     this.pushEntry(state, elements);
+    console.log("记录完成...", this);
   }
   clear() {
     this.stateHistory.length = 0;
@@ -138,55 +93,6 @@ class History {
     this.lastEntry = null;
     this.elementCache.clear();
   }
-
-  shouldCreateEntry(nextEntry) {
-    const { lastEntry } = this;
-
-    if (!lastEntry) {
-      return true;
-    }
-
-    if (nextEntry.elements.length !== lastEntry.elements.length) {
-      return true;
-    }
-
-    // loop from right to left as changes are likelier to happen on new elements
-    for (let i = nextEntry.elements.length - 1; i > -1; i--) {
-      const prev = nextEntry.elements[i];
-      const next = lastEntry.elements[i];
-      if (
-        !prev ||
-        !next ||
-        prev.id !== next.id ||
-        prev.versionNonce !== next.versionNonce
-      ) {
-        return true;
-      }
-    }
-
-    // note: this is safe because entry's appState is guaranteed no excess props
-    let key;
-    for (key in nextEntry.appState) {
-      if (key === "editingLinearElement") {
-        if (
-          nextEntry.appState[key]?.elementId ===
-          lastEntry.appState[key]?.elementId
-        ) {
-          continue;
-        }
-      }
-      if (key === "selectedElementIds" || key === "selectedGroupIds") {
-        continue;
-      }
-      if (nextEntry.appState[key] !== lastEntry.appState[key]) {
-        return true;
-      }
-    }
-
-    return false;
-  }
 }
 
 export default History;
-
-// 1 25
