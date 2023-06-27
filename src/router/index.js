@@ -2,6 +2,48 @@ import React from "react";
 import { createHashRouter } from "react-router-dom";
 import App from "../App";
 
+const DocPerf = React.lazy(() =>
+  import(/* webpackChunkName: "DocPerf" */ "@/pages/docs/perf")
+);
+const DocMemory = React.lazy(() =>
+  import(/* webpackChunkName: "DocMemory" */ "@/pages/docs/memory")
+);
+const DocScale = React.lazy(() =>
+  import(/* webpackChunkName: "DocScale" */ "@/pages/docs/scale")
+);
+const DocText = React.lazy(() =>
+  import(/* webpackChunkName: "DocText" */ "@/pages/docs/text")
+);
+const DocTranslate = React.lazy(() =>
+  import(/* webpackChunkName: "DocTranslate" */ "@/pages/docs/translate")
+);
+const DocDot = React.lazy(() =>
+  import(/* webpackChunkName: "DocDot" */ "@/pages/docs/dot")
+);
+const DocOffscreen = React.lazy(() =>
+  import(/* webpackChunkName: "DocOffscreen" */ "@/pages/docs/offscreen")
+);
+const DocMulti = React.lazy(() =>
+  import(/* webpackChunkName: "DocMulti" */ "@/pages/docs/multi")
+);
+const DocVisible = React.lazy(() =>
+  import(/* webpackChunkName: "DocVisible" */ "@/pages/docs/visible")
+);
+const DocBg = React.lazy(() =>
+  import(/* webpackChunkName: "DocBg" */ "@/pages/docs/bg")
+);
+const DocImg = React.lazy(() =>
+  import(/* webpackChunkName: "DocImg" */ "@/pages/docs/img")
+);
+const DocWorker = React.lazy(() =>
+  import(/* webpackChunkName: "DocWorker" */ "@/pages/docs/worker")
+);
+const DocOff = React.lazy(() =>
+  import(/* webpackChunkName: "DocOff" */ "@/pages/docs/off")
+);
+const DocEnd = React.lazy(() =>
+  import(/* webpackChunkName: "DocEnd" */ "@/pages/docs/end")
+);
 const Shapes = React.lazy(() =>
   import(/* webpackChunkName: "Shape" */ "@/pages/shapes")
 );
@@ -101,7 +143,9 @@ const SvgToImg = React.lazy(() =>
 );
 
 const SwitchRender = React.lazy(() =>
-  import(/* webpackChunkName: "SwitchRender" */ "@/pages/dom-render/switch-render")
+  import(
+    /* webpackChunkName: "SwitchRender" */ "@/pages/dom-render/switch-render"
+  )
 );
 
 const UndoRedo = React.lazy(() =>
@@ -334,6 +378,118 @@ const router = createHashRouter([
         element: (
           <React.Suspense fallback={<div>loading...</div>}>
             <UndoRedo />
+          </React.Suspense>
+        ),
+      },
+      {
+        path: "/doc/perf",
+        element: (
+          <React.Suspense fallback={<div>loading...</div>}>
+            <DocPerf />
+          </React.Suspense>
+        ),
+      },
+      {
+        path: "/doc/memory",
+        element: (
+          <React.Suspense fallback={<div>loading...</div>}>
+            <DocMemory />
+          </React.Suspense>
+        ),
+      },
+      {
+        path: "/doc/scale",
+        element: (
+          <React.Suspense fallback={<div>loading...</div>}>
+            <DocScale />
+          </React.Suspense>
+        ),
+      },
+      {
+        path: "/doc/text",
+        element: (
+          <React.Suspense fallback={<div>loading...</div>}>
+            <DocText />
+          </React.Suspense>
+        ),
+      },
+      {
+        path: "/doc/translate",
+        element: (
+          <React.Suspense fallback={<div>loading...</div>}>
+            <DocTranslate />
+          </React.Suspense>
+        ),
+      },
+      {
+        path: "/doc/dot",
+        element: (
+          <React.Suspense fallback={<div>loading...</div>}>
+            <DocDot />
+          </React.Suspense>
+        ),
+      },
+      {
+        path: "/doc/offscreen",
+        element: (
+          <React.Suspense fallback={<div>loading...</div>}>
+            <DocOffscreen />
+          </React.Suspense>
+        ),
+      },
+      {
+        path: "/doc/multi",
+        element: (
+          <React.Suspense fallback={<div>loading...</div>}>
+            <DocMulti />
+          </React.Suspense>
+        ),
+      },
+      {
+        path: "/doc/visible",
+        element: (
+          <React.Suspense fallback={<div>loading...</div>}>
+            <DocVisible />
+          </React.Suspense>
+        ),
+      },
+      {
+        path: "/doc/bg",
+        element: (
+          <React.Suspense fallback={<div>loading...</div>}>
+            <DocBg />
+          </React.Suspense>
+        ),
+      },
+      {
+        path: "/doc/img",
+        element: (
+          <React.Suspense fallback={<div>loading...</div>}>
+            <DocImg />
+          </React.Suspense>
+        ),
+      },
+      {
+        path: "/doc/worker",
+        element: (
+          <React.Suspense fallback={<div>loading...</div>}>
+            <DocWorker />
+          </React.Suspense>
+        ),
+      },
+      {
+        path: "/doc/off",
+        element: (
+          <React.Suspense fallback={<div>loading...</div>}>
+            <DocOff />
+          </React.Suspense>
+        ),
+      },
+      {
+        path: "/doc/end",
+        element: (
+          <React.Suspense fallback={<div>loading...</div>}>
+            <DocEnd />
           </React.Suspense>
         ),
       },
