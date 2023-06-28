@@ -98,6 +98,16 @@ const MENUS = [
     ],
   },
   {
+    label: "实践",
+    key: "canvas_practice",
+    children: [
+      {
+        label: <NavLink to="/practice/ipad">联想低端设备性能排查及优化</NavLink>,
+        key: "/practice/ipad",
+      },
+    ],
+  },
+  {
     label: "自由书写",
     key: "free-draw",
     children: [
