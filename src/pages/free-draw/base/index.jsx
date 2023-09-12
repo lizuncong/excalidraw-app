@@ -1,4 +1,4 @@
-import React, { memo, useRef, useEffect } from "react";
+import React, { memo, useState, useRef, useEffect } from "react";
 import { viewportCoordsToSceneCoords, rgb } from "@/util";
 import MarkDown from "@/components/markdown";
 import doc from "@doc/canvas进阶/自由绘制.md";
@@ -16,14 +16,22 @@ const appState = {
 const Canvas = memo(() => {
   const canvasRef = useRef(null);
   const canvasContainer = useRef(null);
+  const [scale, setScale] = useState(window.devicePixelRatio)
+  const [size, setSize] = useState({})
+  const resize = (canvas, scale) => {
+    const context = canvas.getContext("2d");
+    const { offsetWidth, offsetHeight } = canvas;
+    canvas.width = offsetWidth * scale;
+    canvas.height = offsetHeight * scale;
+    setSize({ width: canvas.width, height: canvas.height })
+    context.scale(scale, scale);
+  }
   useEffect(() => {
     // canvas分辨率矫正
     const canvas = canvasRef.current;
-    const context = canvas.getContext("2d");
-    const { offsetWidth, offsetHeight, offsetLeft, offsetTop } = canvas;
-    canvas.width = offsetWidth * window.devicePixelRatio;
-    canvas.height = offsetHeight * window.devicePixelRatio;
-    context.scale(window.devicePixelRatio, window.devicePixelRatio);
+    const { offsetLeft, offsetTop } = canvas;
+
+    resize(canvas, scale)
     appState.offsetLeft = offsetLeft;
     appState.offsetTop = offsetTop;
     renderScene(canvas, appState);
@@ -60,7 +68,7 @@ const Canvas = memo(() => {
       backgroundColor: "transparent",
       fillStyle: "hachure",
       strokeWidth: 1,
-      strokeStyle: rgb(),
+      strokeStyle: 'black',
     };
     appState.draggingElement = element;
     elements.push(element);
@@ -94,6 +102,22 @@ const Canvas = memo(() => {
   };
   return (
     <div className="free-draw">
+      <div>
+        <div>canvas宽度：{size.width} 高度：{size.height} 面积：{size.width * size.height}</div>
+        <div>
+          当前系数：
+          <input
+            type="number"
+            value={scale}
+            onChange={(e) => {
+              const v = Number(e.target.value)
+              elements.length = 0
+              setScale(v)
+              resize(canvasRef.current, v)
+            }}
+          />
+        </div>
+      </div>
       <div className="container" ref={canvasContainer}>
         <canvas
           ref={canvasRef}
