@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { memo, useState, useRef, useEffect } from "react";
-import { viewportCoordsToSceneCoords, rgb } from "@/util";
+import { viewportCoordsToSceneCoords } from "@/util";
 import MarkDown from "@/components/markdown";
 import doc from "@doc/canvas进阶/自由绘制.md";
 import "./index.less";
