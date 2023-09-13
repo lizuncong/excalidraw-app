@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { memo, useState, useRef, useEffect } from "react";
 import { viewportCoordsToSceneCoords, rgb } from "@/util";
 import MarkDown from "@/components/markdown";
