@@ -2,8 +2,15 @@ import React from "react";
 import { createHashRouter } from "react-router-dom";
 import App from "../App";
 
+const PracticeAndroid = React.lazy(() =>
+  import(
+    /* webpackChunkName: "PracticeAndroid" */ "@/pages/business-practice/android"
+  )
+);
 const PracticeIpad = React.lazy(() =>
-  import(/* webpackChunkName: "PracticeIpad" */ "@/pages/business-practice/ipad")
+  import(
+    /* webpackChunkName: "PracticeIpad" */ "@/pages/business-practice/ipad"
+  )
 );
 const DocPerf = React.lazy(() =>
   import(/* webpackChunkName: "DocPerf" */ "@/pages/docs/perf")
@@ -501,6 +508,14 @@ const router = createHashRouter([
         element: (
           <React.Suspense fallback={<div>loading...</div>}>
             <PracticeIpad />
+          </React.Suspense>
+        ),
+      },
+      {
+        path: "/practice/android",
+        element: (
+          <React.Suspense fallback={<div>loading...</div>}>
+            <PracticeAndroid />
           </React.Suspense>
         ),
       },

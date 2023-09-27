@@ -105,6 +105,10 @@ const MENUS = [
         label: <NavLink to="/practice/ipad">联想低端设备性能排查及优化</NavLink>,
         key: "/practice/ipad",
       },
+      {
+        label: <NavLink to="/practice/android">安卓白板加速优化</NavLink>,
+        key: "/practice/android",
+      },
     ],
   },
   {
