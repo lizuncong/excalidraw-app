@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { memo, useState, useRef, useEffect } from "react";
 import { viewportCoordsToSceneCoords } from "@/util";
 import MarkDown from "@/components/markdown";
@@ -18,6 +17,7 @@ const Canvas = memo(() => {
   const canvasRef = useRef(null);
   const canvasContainer = useRef(null);
   const [scale, setScale] = useState(window.devicePixelRatio)
+  const scaleRef = useRef(null);
   const [size, setSize] = useState({})
   const resize = (canvas, scale) => {
     const context = canvas.getContext("2d");
@@ -27,7 +27,9 @@ const Canvas = memo(() => {
     setSize({ width: canvas.width, height: canvas.height })
     context.scale(scale, scale);
   }
+  scaleRef.current = scale;
   useEffect(() => {
+    const scale = scaleRef.current;
     // canvas分辨率矫正
     const canvas = canvasRef.current;
     const { offsetLeft, offsetTop } = canvas;
@@ -49,7 +51,7 @@ const Canvas = memo(() => {
     return () => {
       wrap.removeEventListener("wheel", handleWheel);
     };
-  }, []);
+  }, [scaleRef]);
   const handleCanvasPointerDown = (event) => {
     const origin = viewportCoordsToSceneCoords(event, appState);
 
