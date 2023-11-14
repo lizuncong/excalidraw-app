@@ -12,6 +12,11 @@ const PracticeIpad = React.lazy(() =>
     /* webpackChunkName: "PracticeIpad" */ "@/pages/business-practice/ipad"
   )
 );
+const PracticeMemory= React.lazy(() =>
+  import(
+    /* webpackChunkName: "PracticeMemory" */ "@/pages/business-practice/memory"
+  )
+);
 const DocPerf = React.lazy(() =>
   import(/* webpackChunkName: "DocPerf" */ "@/pages/docs/perf")
 );
@@ -516,6 +521,14 @@ const router = createHashRouter([
         element: (
           <React.Suspense fallback={<div>loading...</div>}>
             <PracticeAndroid />
+          </React.Suspense>
+        ),
+      },
+      {
+        path: "/practice/memory",
+        element: (
+          <React.Suspense fallback={<div>loading...</div>}>
+            <PracticeMemory />
           </React.Suspense>
         ),
       },

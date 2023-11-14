@@ -109,6 +109,10 @@ const MENUS = [
         label: <NavLink to="/practice/android">安卓白板加速优化</NavLink>,
         key: "/practice/android",
       },
+      {
+        label: <NavLink to="/practice/memory">书写笔迹增加，导致安卓内存溢出问题排查及优化</NavLink>,
+        key: "/practice/memory",
+      },
     ],
   },
   {
