@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.c31e8db1.css",
-    "main.js": "/static/js/main.c0e8959e.js",
+    "main.js": "/static/js/main.24cce4b5.js",
     "PracticeAndroid.css": "/static/css/PracticeAndroid.8c0c633a.chunk.css",
     "PracticeAndroid.js": "/static/js/PracticeAndroid.dc8cef48.chunk.js",
     "PracticeIpad.css": "/static/css/PracticeIpad.8c0c633a.chunk.css",
@@ -38,6 +38,7 @@
     "DocEnd.js": "/static/js/DocEnd.4cbb2df2.chunk.js",
     "Shape.css": "/static/css/Shape.8c0c633a.chunk.css",
     "Shape.js": "/static/js/Shape.e97a7a7e.chunk.js",
+    "Eraser.js": "/static/js/Eraser.6e8eec53.chunk.js",
     "Style.css": "/static/css/Style.8c0c633a.chunk.css",
     "Style.js": "/static/js/Style.009d28c2.chunk.js",
     "Canvas.css": "/static/css/Canvas.58000b71.chunk.css",
@@ -275,7 +276,7 @@
     "static/media/点稀释.md": "/static/media/点稀释.31d6cfe0d16ae931b73c.md",
     "static/media/自由绘制.md": "/static/media/自由绘制.31d6cfe0d16ae931b73c.md",
     "main.c31e8db1.css.map": "/static/css/main.c31e8db1.css.map",
-    "main.c0e8959e.js.map": "/static/js/main.c0e8959e.js.map",
+    "main.24cce4b5.js.map": "/static/js/main.24cce4b5.js.map",
     "PracticeAndroid.8c0c633a.chunk.css.map": "/static/css/PracticeAndroid.8c0c633a.chunk.css.map",
     "PracticeAndroid.dc8cef48.chunk.js.map": "/static/js/PracticeAndroid.dc8cef48.chunk.js.map",
     "PracticeIpad.8c0c633a.chunk.css.map": "/static/css/PracticeIpad.8c0c633a.chunk.css.map",
@@ -312,6 +313,7 @@
     "DocEnd.4cbb2df2.chunk.js.map": "/static/js/DocEnd.4cbb2df2.chunk.js.map",
     "Shape.8c0c633a.chunk.css.map": "/static/css/Shape.8c0c633a.chunk.css.map",
     "Shape.e97a7a7e.chunk.js.map": "/static/js/Shape.e97a7a7e.chunk.js.map",
+    "Eraser.6e8eec53.chunk.js.map": "/static/js/Eraser.6e8eec53.chunk.js.map",
     "Style.8c0c633a.chunk.css.map": "/static/css/Style.8c0c633a.chunk.css.map",
     "Style.009d28c2.chunk.js.map": "/static/js/Style.009d28c2.chunk.js.map",
     "Canvas.58000b71.chunk.css.map": "/static/css/Canvas.58000b71.chunk.css.map",
@@ -373,6 +375,6 @@
   },
   "entrypoints": [
     "static/css/main.c31e8db1.css",
-    "static/js/main.c0e8959e.js"
+    "static/js/main.24cce4b5.js"
   ]
 }
