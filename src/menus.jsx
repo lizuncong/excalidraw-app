@@ -21,6 +21,10 @@ const MENUS = [
         label: <NavLink to="/base/maxsize">canvas最大尺寸限制</NavLink>,
         key: "/base/maxsize",
       },
+      {
+        label: <NavLink to="/base/eraser">橡皮擦</NavLink>,
+        key: "/base/eraser",
+      },
     ],
   },
   {

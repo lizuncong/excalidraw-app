@@ -62,6 +62,9 @@ const DocEnd = React.lazy(() =>
 const Shapes = React.lazy(() =>
   import(/* webpackChunkName: "Shape" */ "@/pages/shapes")
 );
+const Eraser = React.lazy(() =>
+  import(/* webpackChunkName: "Eraser" */ "@/pages/eraser")
+);
 
 const Style = React.lazy(() =>
   import(/* webpackChunkName: "Style" */ "@/pages/style")
@@ -185,6 +188,14 @@ const router = createHashRouter([
         element: (
           <React.Suspense fallback={<div>loading...</div>}>
             <Shapes />
+          </React.Suspense>
+        ),
+      },
+      {
+        path: "/base/eraser",
+        element: (
+          <React.Suspense fallback={<div>loading...</div>}>
+            <Eraser />
           </React.Suspense>
         ),
       },
